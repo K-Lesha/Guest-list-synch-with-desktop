@@ -7,23 +7,63 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		85F8194DF0F36B04A4266321 /* Pods_Guest_list_synch_with_desktop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D52A021128A9EC9AE584241D /* Pods_Guest_list_synch_with_desktop.framework */; };
 		8AF83E8F2906655100614257 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83E8E2906655100614257 /* AppDelegate.swift */; };
 		8AF83E912906655100614257 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83E902906655100614257 /* SceneDelegate.swift */; };
-		8AF83E932906655100614257 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83E922906655100614257 /* ViewController.swift */; };
+		8AF83E932906655100614257 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83E922906655100614257 /* AuthViewController.swift */; };
 		8AF83E962906655100614257 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AF83E942906655100614257 /* Main.storyboard */; };
 		8AF83E982906655300614257 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AF83E972906655300614257 /* Assets.xcassets */; };
 		8AF83E9B2906655300614257 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AF83E992906655300614257 /* LaunchScreen.storyboard */; };
+		8AF83EA32906666400614257 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8AF83EA22906666300614257 /* GoogleService-Info.plist */; };
+		8AF83EA829066B9E00614257 /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83EA729066B9E00614257 /* Appearance.swift */; };
+		8AF83EAA29066BBC00614257 /* LD Grotesk Condensed Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AF83EA929066BBC00614257 /* LD Grotesk Condensed Bold.ttf */; };
+		8AF83EAC29066BC700614257 /* Helvetica Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AF83EAB29066BC700614257 /* Helvetica Bold.ttf */; };
+		8AF83EAE29066BCE00614257 /* LD Grotesk Condensed Ultra Light Oblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AF83EAD29066BCE00614257 /* LD Grotesk Condensed Ultra Light Oblique.ttf */; };
+		8AF83EB329066D0400614257 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83EB229066D0400614257 /* NetworkService.swift */; };
+		8AF83EB529066D1700614257 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83EB429066D1700614257 /* FirebaseService.swift */; };
+		8AF83EBE29066F7A00614257 /* AuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83EBD29066F7A00614257 /* AuthPresenter.swift */; };
+		8AF83EC029066F9B00614257 /* AuthInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83EBF29066F9B00614257 /* AuthInteractor.swift */; };
+		8AF83EC229066FC600614257 /* SignInModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83EC129066FC600614257 /* SignInModalView.swift */; };
+		8AF83EC429066FFD00614257 /* PasswordModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83EC329066FFD00614257 /* PasswordModalView.swift */; };
+		8AF83EC62906704700614257 /* RegistrationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83EC52906704700614257 /* RegistrationModalView.swift */; };
+		8AF83ECE290670BE00614257 /* EventsListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83ECD290670BE00614257 /* EventsListInteractor.swift */; };
+		8AF83ED02906710900614257 /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83ECF2906710900614257 /* EventsListViewController.swift */; };
+		8AF83ED22906712600614257 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83ED12906712600614257 /* Router.swift */; };
+		8AF83ED42906713D00614257 /* AssemblyModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83ED32906713D00614257 /* AssemblyModuleBuilder.swift */; };
+		8AF83ED62906715000614257 /* AuthenticationSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83ED52906715000614257 /* AuthenticationSemaphore.swift */; };
+		8AF83ED82906870600614257 /* EventsListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83ED72906870600614257 /* EventsListPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		602EC839998C20EACDDCA890 /* Pods-Guest list synch with desktop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Guest list synch with desktop.debug.xcconfig"; path = "Target Support Files/Pods-Guest list synch with desktop/Pods-Guest list synch with desktop.debug.xcconfig"; sourceTree = "<group>"; };
 		8AF83E8B2906655100614257 /* Guest list synch with desktop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Guest list synch with desktop.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AF83E8E2906655100614257 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AF83E902906655100614257 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8AF83E922906655100614257 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8AF83E922906655100614257 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		8AF83E952906655100614257 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8AF83E972906655300614257 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8AF83E9A2906655300614257 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8AF83E9C2906655300614257 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8AF83EA22906666300614257 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8AF83EA729066B9E00614257 /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
+		8AF83EA929066BBC00614257 /* LD Grotesk Condensed Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LD Grotesk Condensed Bold.ttf"; sourceTree = "<group>"; };
+		8AF83EAB29066BC700614257 /* Helvetica Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Helvetica Bold.ttf"; sourceTree = "<group>"; };
+		8AF83EAD29066BCE00614257 /* LD Grotesk Condensed Ultra Light Oblique.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LD Grotesk Condensed Ultra Light Oblique.ttf"; sourceTree = "<group>"; };
+		8AF83EB229066D0400614257 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		8AF83EB429066D1700614257 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+		8AF83EBD29066F7A00614257 /* AuthPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPresenter.swift; sourceTree = "<group>"; };
+		8AF83EBF29066F9B00614257 /* AuthInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInteractor.swift; sourceTree = "<group>"; };
+		8AF83EC129066FC600614257 /* SignInModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModalView.swift; sourceTree = "<group>"; };
+		8AF83EC329066FFD00614257 /* PasswordModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordModalView.swift; sourceTree = "<group>"; };
+		8AF83EC52906704700614257 /* RegistrationModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationModalView.swift; sourceTree = "<group>"; };
+		8AF83ECD290670BE00614257 /* EventsListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListInteractor.swift; sourceTree = "<group>"; };
+		8AF83ECF2906710900614257 /* EventsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
+		8AF83ED12906712600614257 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		8AF83ED32906713D00614257 /* AssemblyModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssemblyModuleBuilder.swift; sourceTree = "<group>"; };
+		8AF83ED52906715000614257 /* AuthenticationSemaphore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationSemaphore.swift; sourceTree = "<group>"; };
+		8AF83ED72906870600614257 /* EventsListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListPresenter.swift; sourceTree = "<group>"; };
+		D52A021128A9EC9AE584241D /* Pods_Guest_list_synch_with_desktop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Guest_list_synch_with_desktop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5342747FC15514447282D14 /* Pods-Guest list synch with desktop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Guest list synch with desktop.release.xcconfig"; path = "Target Support Files/Pods-Guest list synch with desktop/Pods-Guest list synch with desktop.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85F8194DF0F36B04A4266321 /* Pods_Guest_list_synch_with_desktop.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +83,8 @@
 			children = (
 				8AF83E8D2906655100614257 /* Guest list synch with desktop */,
 				8AF83E8C2906655100614257 /* Products */,
+				96501F6EED8BA2CE67A7071B /* Pods */,
+				BC432582ECE1759BF0AC0B9B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,13 +101,144 @@
 			children = (
 				8AF83E8E2906655100614257 /* AppDelegate.swift */,
 				8AF83E902906655100614257 /* SceneDelegate.swift */,
-				8AF83E922906655100614257 /* ViewController.swift */,
-				8AF83E942906655100614257 /* Main.storyboard */,
-				8AF83E972906655300614257 /* Assets.xcassets */,
-				8AF83E992906655300614257 /* LaunchScreen.storyboard */,
+				8AF83ED12906712600614257 /* Router.swift */,
+				8AF83ED32906713D00614257 /* AssemblyModuleBuilder.swift */,
+				8AF83EB629066D7E00614257 /* Auth module */,
+				8AF83EC72906706000614257 /* EventsListModule */,
+				8AF83EB129066CF000614257 /* Firebase layer */,
+				8AF83EB029066CE900614257 /* Network layer */,
+				8AF83EA629066B8700614257 /* Appearance */,
+				8AF83EAF29066C2E00614257 /* Supporting files */,
 				8AF83E9C2906655300614257 /* Info.plist */,
 			);
 			path = "Guest list synch with desktop";
+			sourceTree = "<group>";
+		};
+		8AF83EA629066B8700614257 /* Appearance */ = {
+			isa = PBXGroup;
+			children = (
+				8AF83EA729066B9E00614257 /* Appearance.swift */,
+				8AF83EAB29066BC700614257 /* Helvetica Bold.ttf */,
+				8AF83EAD29066BCE00614257 /* LD Grotesk Condensed Ultra Light Oblique.ttf */,
+				8AF83EA929066BBC00614257 /* LD Grotesk Condensed Bold.ttf */,
+				8AF83E972906655300614257 /* Assets.xcassets */,
+			);
+			path = Appearance;
+			sourceTree = "<group>";
+		};
+		8AF83EAF29066C2E00614257 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				8AF83E942906655100614257 /* Main.storyboard */,
+				8AF83E992906655300614257 /* LaunchScreen.storyboard */,
+			);
+			path = "Supporting files";
+			sourceTree = "<group>";
+		};
+		8AF83EB029066CE900614257 /* Network layer */ = {
+			isa = PBXGroup;
+			children = (
+				8AF83EB229066D0400614257 /* NetworkService.swift */,
+			);
+			path = "Network layer";
+			sourceTree = "<group>";
+		};
+		8AF83EB129066CF000614257 /* Firebase layer */ = {
+			isa = PBXGroup;
+			children = (
+				8AF83EA22906666300614257 /* GoogleService-Info.plist */,
+				8AF83EB429066D1700614257 /* FirebaseService.swift */,
+			);
+			path = "Firebase layer";
+			sourceTree = "<group>";
+		};
+		8AF83EB629066D7E00614257 /* Auth module */ = {
+			isa = PBXGroup;
+			children = (
+				8AF83ED52906715000614257 /* AuthenticationSemaphore.swift */,
+				8AF83EB929066D9A00614257 /* View */,
+				8AF83EB829066D9400614257 /* Presentor */,
+				8AF83EB729066D8C00614257 /* Interactor */,
+			);
+			path = "Auth module";
+			sourceTree = "<group>";
+		};
+		8AF83EB729066D8C00614257 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				8AF83EBF29066F9B00614257 /* AuthInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		8AF83EB829066D9400614257 /* Presentor */ = {
+			isa = PBXGroup;
+			children = (
+				8AF83EBD29066F7A00614257 /* AuthPresenter.swift */,
+			);
+			path = Presentor;
+			sourceTree = "<group>";
+		};
+		8AF83EB929066D9A00614257 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8AF83E922906655100614257 /* AuthViewController.swift */,
+				8AF83EC129066FC600614257 /* SignInModalView.swift */,
+				8AF83EC329066FFD00614257 /* PasswordModalView.swift */,
+				8AF83EC52906704700614257 /* RegistrationModalView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8AF83EC72906706000614257 /* EventsListModule */ = {
+			isa = PBXGroup;
+			children = (
+				8AF83ECA2906707F00614257 /* View */,
+				8AF83EC92906707A00614257 /* Presenter */,
+				8AF83EC82906707400614257 /* Interactor */,
+			);
+			path = EventsListModule;
+			sourceTree = "<group>";
+		};
+		8AF83EC82906707400614257 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				8AF83ECD290670BE00614257 /* EventsListInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		8AF83EC92906707A00614257 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				8AF83ED72906870600614257 /* EventsListPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		8AF83ECA2906707F00614257 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8AF83ECF2906710900614257 /* EventsListViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		96501F6EED8BA2CE67A7071B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				602EC839998C20EACDDCA890 /* Pods-Guest list synch with desktop.debug.xcconfig */,
+				D5342747FC15514447282D14 /* Pods-Guest list synch with desktop.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		BC432582ECE1759BF0AC0B9B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D52A021128A9EC9AE584241D /* Pods_Guest_list_synch_with_desktop.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +248,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8AF83E9F2906655300614257 /* Build configuration list for PBXNativeTarget "Guest list synch with desktop" */;
 			buildPhases = (
+				AC0016EE6154241DD2A61882 /* [CP] Check Pods Manifest.lock */,
 				8AF83E872906655100614257 /* Sources */,
 				8AF83E882906655100614257 /* Frameworks */,
 				8AF83E892906655100614257 /* Resources */,
+				6B03C8F33748847FEF864F49 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -126,21 +302,81 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AF83E9B2906655300614257 /* LaunchScreen.storyboard in Resources */,
+				8AF83EAA29066BBC00614257 /* LD Grotesk Condensed Bold.ttf in Resources */,
+				8AF83EA32906666400614257 /* GoogleService-Info.plist in Resources */,
 				8AF83E982906655300614257 /* Assets.xcassets in Resources */,
+				8AF83EAC29066BC700614257 /* Helvetica Bold.ttf in Resources */,
 				8AF83E962906655100614257 /* Main.storyboard in Resources */,
+				8AF83EAE29066BCE00614257 /* LD Grotesk Condensed Ultra Light Oblique.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6B03C8F33748847FEF864F49 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Guest list synch with desktop/Pods-Guest list synch with desktop-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Guest list synch with desktop/Pods-Guest list synch with desktop-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Guest list synch with desktop/Pods-Guest list synch with desktop-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AC0016EE6154241DD2A61882 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Guest list synch with desktop-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8AF83E872906655100614257 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8AF83E932906655100614257 /* ViewController.swift in Sources */,
 				8AF83E8F2906655100614257 /* AppDelegate.swift in Sources */,
 				8AF83E912906655100614257 /* SceneDelegate.swift in Sources */,
+				8AF83EA829066B9E00614257 /* Appearance.swift in Sources */,
+				8AF83ED22906712600614257 /* Router.swift in Sources */,
+				8AF83ED42906713D00614257 /* AssemblyModuleBuilder.swift in Sources */,
+				8AF83EB329066D0400614257 /* NetworkService.swift in Sources */,
+				8AF83EB529066D1700614257 /* FirebaseService.swift in Sources */,
+				8AF83ED62906715000614257 /* AuthenticationSemaphore.swift in Sources */,
+				8AF83EBE29066F7A00614257 /* AuthPresenter.swift in Sources */,
+				8AF83E932906655100614257 /* AuthViewController.swift in Sources */,
+				8AF83EC229066FC600614257 /* SignInModalView.swift in Sources */,
+				8AF83EC429066FFD00614257 /* PasswordModalView.swift in Sources */,
+				8AF83EC62906704700614257 /* RegistrationModalView.swift in Sources */,
+				8AF83EC029066F9B00614257 /* AuthInteractor.swift in Sources */,
+				8AF83ECE290670BE00614257 /* EventsListInteractor.swift in Sources */,
+				8AF83ED82906870600614257 /* EventsListPresenter.swift in Sources */,
+				8AF83ED02906710900614257 /* EventsListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +518,7 @@
 		};
 		8AF83EA02906655300614257 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 602EC839998C20EACDDCA890 /* Pods-Guest list synch with desktop.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -310,6 +547,7 @@
 		};
 		8AF83EA12906655300614257 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D5342747FC15514447282D14 /* Pods-Guest list synch with desktop.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
