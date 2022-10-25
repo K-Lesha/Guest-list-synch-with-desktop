@@ -16,7 +16,7 @@ protocol RouterProtocol: AnyObject {
     init (navigationController: UINavigationController, assemblyBuilder: AssemblyBuilderProtocol)
     //METHODS
     func showAuthModule()
-    func showLoggedInModule(userUID: String)
+    func showEventsListModule(userUID: String)
     func popToRoot()
 }
 
@@ -32,11 +32,11 @@ class Router: RouterProtocol {
     //MARK: METHODS
     public func showAuthModule() {
         if let navigationController = navigationController {
-            guard let authViewController = assemblyBuilder?.createMainModule(router: self) else { return }
+            guard let authViewController = assemblyBuilder?.createAuthModule(router: self) else { return }
             navigationController.viewControllers = [authViewController]
         }
     }
-    public func showLoggedInModule(userUID: String) {
+    public func showEventsListModule(userUID: String) {
         if let navigationController = navigationController {
             guard let eventsListViewController = assemblyBuilder?.createSignInViewController(router: self, userUID: userUID) else { return }
             navigationController.viewControllers = [eventsListViewController]

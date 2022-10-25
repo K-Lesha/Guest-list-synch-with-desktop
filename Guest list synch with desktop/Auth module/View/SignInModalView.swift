@@ -171,7 +171,6 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
         emailTextField.text = ""
         emailTextField.placeholder = "email should be correct"
     }
-    //MARK: Button methods
     private func animateButton(button: UIButton) {
         //button animation
         if button == self.nextButton {
@@ -187,6 +186,7 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
             })
         }
     }
+    //MARK: Button methods
     @objc private func nextButtonTapped() {
         animateButton(button: self.nextButton)
         checkUserDataAndContinue()
@@ -240,12 +240,6 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
         }
     }
     //MARK: Other methods
-    private func isValidEmail(email: String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-
-        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailPred.evaluate(with: email)
-    }
     private func checkUserDataAndContinue() {
         guard let emailString = self.emailTextField.text else {
             showError()
@@ -254,18 +248,21 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
         if emailString.count >= 5, self.isValidEmail(email: emailString) {
             emailTextField.resignFirstResponder()
             presenter.email = emailString
-            countinueToPasswordViewController()
+            //next modal view
+            let viewControllerToPresent = PasswordModalViewController(initialHeight: 200, presenter: self.presenter)
+            presentBottomSheetInsideNavigationController(
+                viewController: viewControllerToPresent,
+                configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
         } else {
             showError()
             return
         }
     }
-    //MARK: NAVIGATION
-    private func countinueToPasswordViewController() {
-        let viewControllerToPresent = PasswordModalViewController(initialHeight: 200, presenter: self.presenter)
-        presentBottomSheetInsideNavigationController(
-            viewController: viewControllerToPresent,
-            configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
+    private func isValidEmail(email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
     }
     //MARK: Deinit
     deinit {

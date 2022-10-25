@@ -78,6 +78,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8A7E92F829074B35005E5B33 /* Profile module */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Profile module";
+			sourceTree = "<group>";
+		};
+		8A7E92FA29074B6D005E5B33 /* GuestList Module */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "GuestList Module";
+			sourceTree = "<group>";
+		};
+		8A7E92FC29074BCF005E5B33 /* GoogleSheets layer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "GoogleSheets layer";
+			sourceTree = "<group>";
+		};
+		8A7E92FD29074BEF005E5B33 /* Database layer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Database layer";
+			sourceTree = "<group>";
+		};
 		8AF83E822906655100614257 = {
 			isa = PBXGroup;
 			children = (
@@ -104,7 +132,11 @@
 				8AF83ED12906712600614257 /* Router.swift */,
 				8AF83ED32906713D00614257 /* AssemblyModuleBuilder.swift */,
 				8AF83EB629066D7E00614257 /* Auth module */,
-				8AF83EC72906706000614257 /* EventsListModule */,
+				8AF83EC72906706000614257 /* EventsList module */,
+				8A7E92FA29074B6D005E5B33 /* GuestList Module */,
+				8A7E92F829074B35005E5B33 /* Profile module */,
+				8A7E92FD29074BEF005E5B33 /* Database layer */,
+				8A7E92FC29074BCF005E5B33 /* GoogleSheets layer */,
 				8AF83EB129066CF000614257 /* Firebase layer */,
 				8AF83EB029066CE900614257 /* Network layer */,
 				8AF83EA629066B8700614257 /* Appearance */,
@@ -190,14 +222,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		8AF83EC72906706000614257 /* EventsListModule */ = {
+		8AF83EC72906706000614257 /* EventsList module */ = {
 			isa = PBXGroup;
 			children = (
 				8AF83ECA2906707F00614257 /* View */,
 				8AF83EC92906707A00614257 /* Presenter */,
 				8AF83EC82906707400614257 /* Interactor */,
 			);
-			path = EventsListModule;
+			path = "EventsList module";
 			sourceTree = "<group>";
 		};
 		8AF83EC82906707400614257 /* Interactor */ = {

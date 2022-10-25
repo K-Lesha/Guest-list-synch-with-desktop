@@ -156,23 +156,22 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
         forgotPasswordButton?.leftAnchor.constraint(equalTo: errorLabel?.leftAnchor ?? self.tryToLoginButton.leftAnchor, constant: 0).isActive = true
         forgotPasswordButton?.heightAnchor.constraint(equalToConstant: 35).isActive = true
         forgotPasswordButton?.widthAnchor.constraint(equalToConstant: 160).isActive = true
-
-        
     }
-    private func showAlert(_ trueOrNot: Bool) {
+    private func showAlert(_ success: Bool) {
         var alert = UIAlertController()
-        if trueOrNot {
+        if success {
             alert = UIAlertController(title: "Check your email", message: "there you can reset your pass", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default)
+            alert.addAction(okAction)
         } else {
-            alert = UIAlertController(title: "Can't reset the password", message: "there you can reset your pass", preferredStyle: .alert)
+            alert = UIAlertController(title: "Can't reset the password with this email", message: "something went wrong", preferredStyle: .alert)
+            let backToEmailAction = UIAlertAction(title: "Back to email", style: .default) { action in
+                self.dismiss(animated: true)
+            }
+            alert.addAction(backToEmailAction)
         }
-        let okAction = UIAlertAction(title: "OK", style: .default)
-        alert.addAction(okAction)
         self.present(alert, animated: true)
-
-        
     }
-    // MARK: Button methods
     private func animateButton(button: UIButton) {
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
             button.transform = .init(scaleX: 1.25, y: 1.25)
@@ -216,7 +215,15 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
         animateButton(button: tryToLoginButton)
         if checkPasswordTextFeild() {
             presenter.password = self.passwordTextField.text ?? ""
-            continueToLogginedInViewController()
+            presenter.tryToLoginWithFirebase { result in
+                switch result {
+                case .success(_):
+                    print("ok")
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.showLoginError()
+                }
+            }
         } else {
             return
         }
@@ -225,7 +232,13 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
         animateButton(button: createAccountButton)
         if checkPasswordTextFeild() {
             presenter.password = self.passwordTextField.text ?? ""
-            continueToRegistrationViewController()
+            //change view vize to normal
+            preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight)
+            //show next modal view
+            let viewControllerToPresent = RegistrationModalViewController(initialHeight: 200, presenter: self.presenter)
+            presentBottomSheetInsideNavigationController(
+                viewController: viewControllerToPresent,
+                configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
         } else {
             return
         }
@@ -250,28 +263,6 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
                 self.showAlert(true)
             case .failure(_):
                 self.showAlert(false)
-            }
-            
-        }
-    }
-    //MARK: NAVIGATION
-    private func continueToRegistrationViewController() {
-        //change view vize to normal
-        preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight)
-        //show next modal view
-        let viewControllerToPresent = RegistrationModalViewController(initialHeight: 200, presenter: self.presenter)
-        presentBottomSheetInsideNavigationController(
-            viewController: viewControllerToPresent,
-            configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
-    }
-    private func continueToLogginedInViewController() {
-        presenter.tryToLoginWithFirebase { result in
-            switch result {
-            case .success(_):
-                print("ok")
-            case .failure(let error):
-                print(error.localizedDescription)
-                self.showLoginError()
             }
         }
     }

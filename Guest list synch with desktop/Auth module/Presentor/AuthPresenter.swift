@@ -64,10 +64,10 @@ class AuthPresenter: AuthPresenterProtocol {
         self.interactor.downloadImage(urlString: urlString, completionBlock: completion)
     }
     internal func tryToRegisterWithFirebase(completion: @escaping (Result<String, FireBaseError>) -> ()) {
-        self.interactor.tryToRegister(userName: self.userName, email: self.email, password: self.password, completion: completion)
+        self.interactor.tryToRegisterWithFirebase(userName: self.userName, email: self.email, password: self.password, completion: completion)
     }
     internal func tryToLoginWithFirebase(completion: @escaping (Result<String, FireBaseError>) -> ()) {
-        self.interactor.tryToLogIn(email: self.email, password: self.password, completion: completion)
+        self.interactor.tryToLogInWithFirebase(email: self.email, password: self.password, completion: completion)
     }
     internal func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         self.interactor.tryToLoginWithFacebook(viewController: viewController, completion: completion)
@@ -77,7 +77,7 @@ class AuthPresenter: AuthPresenterProtocol {
         return self.interactor.checkInternetConnection()
     }
     internal func restorePasswordWithFirebase(completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
-        self.interactor.restorePassword(email: self.email, completion: completion)
+        self.interactor.restorePasswordWithFirebase(email: self.email, completion: completion)
     }
     internal func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         interactor.tryToLoginWithGoogle(viewController: viewController, completion: completion)
