@@ -195,7 +195,7 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
         presenter.tryToLoginWithFacebook(viewController: self) { result in
             switch result {
             case .success(_):
-                print("facebook signIn succesfull")
+                self.dismiss(animated: true)
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -205,7 +205,7 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
         presenter.tryToLoginWithGoogle(viewController: self) { result in
             switch result {
             case .success(_):
-                print("google signIn succesfull")
+                self.dismiss(animated: true)
             case .failure(let error):
                 print(error.localizedDescription)
             }

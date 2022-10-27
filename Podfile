@@ -9,6 +9,8 @@ target 'Guest list synch with desktop' do
   pod 'FirebaseDatabase'
   pod 'FBSDKLoginKit'
   pod 'GoogleSignIn'
+  pod 'GoogleAPIClientForREST/Sheets'
+  pod 'GoogleAPIClientForREST/Drive'
   # Pods for Guest list synch with desktop
 
 end

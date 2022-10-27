@@ -8,71 +8,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "C62B55F3-CCFF-4A29-A263-84C2A3C14455"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "tryToRegisterWithFirebase(userName:email:password:completion:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "C62B55F3-CCFF-4A29-A263-84C2A3C14455 - 837d0b99e6417da4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Guest_list_synch_with_desktop.FirebaseService.tryToRegister(userName: Swift.String, email: Swift.String, password: Swift.String, completion: (Swift.Result&lt;Swift.String, Guest_list_synch_with_desktop.FireBaseError&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "Guest list synch with desktop"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alexey/Desktop/Stack/My%20apps/Guest%20list%20synch%20with%20desktop/Guest%20list%20synch%20with%20desktop/Firebase%20layer/FirebaseService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "45"
-                  endingLineNumber = "45"
-                  offsetFromSymbolStart = "168">
-               </Location>
-               <Location
-                  uuid = "C62B55F3-CCFF-4A29-A263-84C2A3C14455 - 4405bd97e63403cc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRAuthDataResult&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Guest_list_synch_with_desktop.FirebaseService.tryToRegister(userName: Swift.String, email: Swift.String, password: Swift.String, completion: (Swift.Result&lt;Swift.String, Guest_list_synch_with_desktop.FireBaseError&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "Guest list synch with desktop"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alexey/Desktop/Stack/My%20apps/Guest%20list%20synch%20with%20desktop/Guest%20list%20synch%20with%20desktop/Firebase%20layer/FirebaseService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "46"
-                  endingLineNumber = "46"
-                  offsetFromSymbolStart = "293">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B6BC45E0-55A3-4B75-A2ED-597789044DF1"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "tryToRegisterWithFirebase(userName:email:password:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "FFD40EDF-CD72-4A8F-AB76-B35F482409FC"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
@@ -82,52 +18,36 @@
             endingLineNumber = "62"
             landmarkName = "tryToRegisterWithFirebase(userName:email:password:completion:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2F688E4D-AC7F-43B6-AF43-D9F0205730AF"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
-            landmarkName = "tryToRegisterWithFirebase(userName:email:password:completion:)"
-            landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "2F688E4D-AC7F-43B6-AF43-D9F0205730AF - 4405bd97e6340336"
+                  uuid = "C62B55F3-CCFF-4A29-A263-84C2A3C14455 - f828ad7a7100753f"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRAuthDataResult&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Guest_list_synch_with_desktop.FirebaseService.tryToRegister(userName: Swift.String, email: Swift.String, password: Swift.String, completion: (Swift.Result&lt;Swift.String, Guest_list_synch_with_desktop.FireBaseError&gt;) -&gt; ()) -&gt; ()"
+                  symbolName = "Guest_list_synch_with_desktop.FirebaseService.tryToRegisterWithFirebase(userName: Swift.String, email: Swift.String, password: Swift.String, completion: (Swift.Result&lt;Swift.String, Guest_list_synch_with_desktop.FireBaseError&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "Guest list synch with desktop"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/alexey/Desktop/Stack/My%20apps/Guest%20list%20synch%20with%20desktop/Guest%20list%20synch%20with%20desktop/Firebase%20layer/FirebaseService.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "52"
-                  endingLineNumber = "52"
-                  offsetFromSymbolStart = "718">
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "168">
                </Location>
                <Location
-                  uuid = "2F688E4D-AC7F-43B6-AF43-D9F0205730AF - 4405bd97e6340336"
+                  uuid = "C62B55F3-CCFF-4A29-A263-84C2A3C14455 - 4eea15ea3a61ceea"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRAuthDataResult&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Guest_list_synch_with_desktop.FirebaseService.tryToRegister(userName: Swift.String, email: Swift.String, password: Swift.String, completion: (Swift.Result&lt;Swift.String, Guest_list_synch_with_desktop.FireBaseError&gt;) -&gt; ()) -&gt; ()"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRAuthDataResult&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Guest_list_synch_with_desktop.FirebaseService.tryToRegisterWithFirebase(userName: Swift.String, email: Swift.String, password: Swift.String, completion: (Swift.Result&lt;Swift.String, Guest_list_synch_with_desktop.FireBaseError&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "Guest list synch with desktop"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/alexey/Desktop/Stack/My%20apps/Guest%20list%20synch%20with%20desktop/Guest%20list%20synch%20with%20desktop/Firebase%20layer/FirebaseService.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "52"
-                  endingLineNumber = "52"
-                  offsetFromSymbolStart = "753">
+                  startingLineNumber = "60"
+                  endingLineNumber = "60"
+                  offsetFromSymbolStart = "299">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -135,8 +55,24 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8136CB6D-662D-424F-AC83-CE7C17A9DC26"
-            shouldBeEnabled = "Yes"
+            uuid = "B6BC45E0-55A3-4B75-A2ED-597789044DF1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "tryToRegisterWithFirebase(userName:email:password:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FFD40EDF-CD72-4A8F-AB76-B35F482409FC"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
@@ -151,15 +87,79 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3ED7B491-DDAA-429F-8EA7-DC9AA5A11380"
-            shouldBeEnabled = "Yes"
+            uuid = "2F688E4D-AC7F-43B6-AF43-D9F0205730AF"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "tryToRegisterWithFirebase(userName:email:password:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "2F688E4D-AC7F-43B6-AF43-D9F0205730AF - 4eea15ea3a61cdb4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRAuthDataResult&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Guest_list_synch_with_desktop.FirebaseService.tryToRegisterWithFirebase(userName: Swift.String, email: Swift.String, password: Swift.String, completion: (Swift.Result&lt;Swift.String, Guest_list_synch_with_desktop.FireBaseError&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Guest list synch with desktop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexey/Desktop/Stack/My%20apps/Guest%20list%20synch%20with%20desktop/Guest%20list%20synch%20with%20desktop/Firebase%20layer/FirebaseService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "66"
+                  endingLineNumber = "66"
+                  offsetFromSymbolStart = "724">
+               </Location>
+               <Location
+                  uuid = "2F688E4D-AC7F-43B6-AF43-D9F0205730AF - 4eea15ea3a61cdb4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRAuthDataResult&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Guest_list_synch_with_desktop.FirebaseService.tryToRegisterWithFirebase(userName: Swift.String, email: Swift.String, password: Swift.String, completion: (Swift.Result&lt;Swift.String, Guest_list_synch_with_desktop.FireBaseError&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Guest list synch with desktop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexey/Desktop/Stack/My%20apps/Guest%20list%20synch%20with%20desktop/Guest%20list%20synch%20with%20desktop/Firebase%20layer/FirebaseService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "66"
+                  endingLineNumber = "66"
+                  offsetFromSymbolStart = "759">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8136CB6D-662D-424F-AC83-CE7C17A9DC26"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "tryToRegisterWithFirebase(userName:email:password:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3ED7B491-DDAA-429F-8EA7-DC9AA5A11380"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
             landmarkName = "tryToRegisterWithFirebase(userName:email:password:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -168,16 +168,384 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "FDC44E04-8C50-41B0-A69E-5965AF44D0B2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "FirebaseService"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FF959703-C457-40D4-B009-42CBD82E2254"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "FirebaseService"
-            landmarkType = "3">
+            startingLineNumber = "247"
+            endingLineNumber = "247"
+            landmarkName = "requestScopes(viewController:googleUser:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B79EEA08-83BE-4278-80E5-0DF439492311"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
+            landmarkName = "requestScopes(viewController:googleUser:completionHandler:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B79EEA08-83BE-4278-80E5-0DF439492311 - 5b93f1e5dd0a690f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Guest_list_synch_with_desktop.FirebaseService.requestScopes(viewController: Guest_list_synch_with_desktop.SignInViewProtocol, googleUser: __C.GIDGoogleUser, completionHandler: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "Guest list synch with desktop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexey/Desktop/Stack/My%20apps/Guest%20list%20synch%20with%20desktop/Guest%20list%20synch%20with%20desktop/Firebase%20layer/FirebaseService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "250"
+                  endingLineNumber = "250"
+                  offsetFromSymbolStart = "825">
+               </Location>
+               <Location
+                  uuid = "B79EEA08-83BE-4278-80E5-0DF439492311 - 9a177aef65e6c339"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.GIDGoogleUser&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Guest_list_synch_with_desktop.FirebaseService.requestScopes(viewController: Guest_list_synch_with_desktop.SignInViewProtocol, googleUser: __C.GIDGoogleUser, completionHandler: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "Guest list synch with desktop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexey/Desktop/Stack/My%20apps/Guest%20list%20synch%20with%20desktop/Guest%20list%20synch%20with%20desktop/Firebase%20layer/FirebaseService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "251"
+                  endingLineNumber = "251"
+                  offsetFromSymbolStart = "183">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "78D9FFE3-0898-4D72-8764-1CA6EC6EC561"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "252"
+            endingLineNumber = "252"
+            landmarkName = "requestScopes(viewController:googleUser:completionHandler:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "78D9FFE3-0898-4D72-8764-1CA6EC6EC561 - 9a177aef65e6c31e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.GIDGoogleUser&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Guest_list_synch_with_desktop.FirebaseService.requestScopes(viewController: Guest_list_synch_with_desktop.SignInViewProtocol, googleUser: __C.GIDGoogleUser, completionHandler: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "Guest list synch with desktop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexey/Desktop/Stack/My%20apps/Guest%20list%20synch%20with%20desktop/Guest%20list%20synch%20with%20desktop/Firebase%20layer/FirebaseService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "252"
+                  endingLineNumber = "252"
+                  offsetFromSymbolStart = "256">
+               </Location>
+               <Location
+                  uuid = "78D9FFE3-0898-4D72-8764-1CA6EC6EC561 - 22f34d8cc3947cec"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.GIDAuthentication&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 (Swift.Optional&lt;__C.GIDGoogleUser&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Guest_list_synch_with_desktop.FirebaseService.requestScopes(viewController: Guest_list_synch_with_desktop.SignInViewProtocol, googleUser: __C.GIDGoogleUser, completionHandler: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "Guest list synch with desktop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexey/Desktop/Stack/My%20apps/Guest%20list%20synch%20with%20desktop/Guest%20list%20synch%20with%20desktop/Firebase%20layer/FirebaseService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "253"
+                  endingLineNumber = "253"
+                  offsetFromSymbolStart = "221">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "29991DDF-5D50-482E-AE7C-89B2E61D743B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
+            landmarkName = "requestScopes(viewController:googleUser:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BD3EE292-F66E-4280-A17B-6D3162933847"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "251"
+            endingLineNumber = "251"
+            landmarkName = "requestScopes(viewController:googleUser:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C2E2345C-F1B7-4BB4-A5EB-0A8821A8093C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "261"
+            endingLineNumber = "261"
+            landmarkName = "requestScopes(viewController:googleUser:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "78D62E13-50B9-4269-BF21-E10445A3CCDB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
+            landmarkName = "requestScopes(viewController:googleUser:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AB18234B-FC8D-46A9-9C8C-F687BB0ED751"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "266"
+            endingLineNumber = "266"
+            landmarkName = "requestScopes(viewController:googleUser:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "563A6C96-EDD6-402D-8DBE-6E9F6E0C64DD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "254"
+            endingLineNumber = "254"
+            landmarkName = "requestScopes(viewController:googleUser:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0BC6641E-991B-40C3-8249-F9FF99870711"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
+            landmarkName = "requestScopes(viewController:googleUser:completionHandler:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "0BC6641E-991B-40C3-8249-F9FF99870711 - 5b93f1e5dd0a690f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Guest_list_synch_with_desktop.FirebaseService.requestScopes(viewController: Guest_list_synch_with_desktop.SignInViewProtocol, googleUser: __C.GIDGoogleUser, completionHandler: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "Guest list synch with desktop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexey/Desktop/Stack/My%20apps/Guest%20list%20synch%20with%20desktop/Guest%20list%20synch%20with%20desktop/Firebase%20layer/FirebaseService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "250"
+                  endingLineNumber = "250"
+                  offsetFromSymbolStart = "825">
+               </Location>
+               <Location
+                  uuid = "0BC6641E-991B-40C3-8249-F9FF99870711 - 9a177aef65e6c339"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.GIDGoogleUser&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Guest_list_synch_with_desktop.FirebaseService.requestScopes(viewController: Guest_list_synch_with_desktop.SignInViewProtocol, googleUser: __C.GIDGoogleUser, completionHandler: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "Guest list synch with desktop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexey/Desktop/Stack/My%20apps/Guest%20list%20synch%20with%20desktop/Guest%20list%20synch%20with%20desktop/Firebase%20layer/FirebaseService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "251"
+                  endingLineNumber = "251"
+                  offsetFromSymbolStart = "183">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8E27AA78-35F0-4603-8C42-7393DA9A0518"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
+            landmarkName = "requestScopes(viewController:googleUser:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5A2ABC12-6E3B-46A9-8EAF-8AF6396BAA48"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "246"
+            endingLineNumber = "246"
+            landmarkName = "requestScopes(viewController:googleUser:completionHandler:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5A2ABC12-6E3B-46A9-8EAF-8AF6396BAA48 - 5b93f1e5dd0a6a83"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Guest_list_synch_with_desktop.FirebaseService.requestScopes(viewController: Guest_list_synch_with_desktop.SignInViewProtocol, googleUser: __C.GIDGoogleUser, completionHandler: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "Guest list synch with desktop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexey/Desktop/Stack/My%20apps/Guest%20list%20synch%20with%20desktop/Guest%20list%20synch%20with%20desktop/Firebase%20layer/FirebaseService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "246"
+                  endingLineNumber = "246"
+                  offsetFromSymbolStart = "210">
+               </Location>
+               <Location
+                  uuid = "5A2ABC12-6E3B-46A9-8EAF-8AF6396BAA48 - 5b93f1e5dd0a6a83"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Guest_list_synch_with_desktop.FirebaseService.requestScopes(viewController: Guest_list_synch_with_desktop.SignInViewProtocol, googleUser: __C.GIDGoogleUser, completionHandler: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "Guest list synch with desktop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexey/Desktop/Stack/My%20apps/Guest%20list%20synch%20with%20desktop/Guest%20list%20synch%20with%20desktop/Firebase%20layer/FirebaseService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "246"
+                  endingLineNumber = "246"
+                  offsetFromSymbolStart = "271">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0A1948C5-9405-4D2E-A0CC-244CA001289E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Firebase layer/FirebaseService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
+            landmarkName = "tryToLoginWithGoogle(viewController:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "0A1948C5-9405-4D2E-A0CC-244CA001289E - 8ee12acbffdb42c0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.GIDGoogleUser&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Guest_list_synch_with_desktop.FirebaseService.tryToLoginWithGoogle(viewController: Guest_list_synch_with_desktop.SignInViewProtocol, completion: (Swift.Result&lt;Swift.String, Guest_list_synch_with_desktop.FireBaseError&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Guest list synch with desktop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexey/Desktop/Stack/My%20apps/Guest%20list%20synch%20with%20desktop/Guest%20list%20synch%20with%20desktop/Firebase%20layer/FirebaseService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "234"
+                  endingLineNumber = "234"
+                  offsetFromSymbolStart = "1354">
+               </Location>
+               <Location
+                  uuid = "0A1948C5-9405-4D2E-A0CC-244CA001289E - 5c463378c151c0c8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Bool) -&gt; () in closure #1 (Swift.Optional&lt;__C.GIDGoogleUser&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Guest_list_synch_with_desktop.FirebaseService.tryToLoginWithGoogle(viewController: Guest_list_synch_with_desktop.SignInViewProtocol, completion: (Swift.Result&lt;Swift.String, Guest_list_synch_with_desktop.FireBaseError&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Guest list synch with desktop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexey/Desktop/Stack/My%20apps/Guest%20list%20synch%20with%20desktop/Guest%20list%20synch%20with%20desktop/Firebase%20layer/FirebaseService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "235"
+                  endingLineNumber = "235"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

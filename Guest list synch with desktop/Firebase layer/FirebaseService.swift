@@ -11,6 +11,9 @@ import FirebaseCore
 import FirebaseDatabase
 import FBSDKLoginKit
 import GoogleSignIn
+import GTMSessionFetcher
+import GoogleAPIClientForREST
+
 
 protocol FirebaseServiceProtocol: AnyObject {
     //METHODS
@@ -45,6 +48,7 @@ enum FireBaseError: String, Error {
     case firebaseWithFacebookSignInError
     //Google errors
     case googleLoginError
+    case googleWithFirebaseLoginError
 }
 //MARK: Firebase Service
 class FirebaseService: FirebaseServiceProtocol {
@@ -82,6 +86,16 @@ class FirebaseService: FirebaseServiceProtocol {
     public func logOutWithFirebase() {
         do {
             try firebase.signOut()
+            //facebook log out
+            let login = LoginManager()
+            login.logOut()
+            let cookies = HTTPCookieStorage.shared
+            let facebookCookies = cookies.cookies(for: URL(string: "https://facebook.com/")!)
+                for cookie in facebookCookies! {
+                    cookies.deleteCookie(cookie )
+                }
+            //google log out
+            GIDSignIn.sharedInstance.signOut()
         } catch {
             print("can't log out")
         }
@@ -166,6 +180,7 @@ class FirebaseService: FirebaseServiceProtocol {
                         completion(.failure(.firebaseWithFacebookSignInError))
                         return
                     }
+                    completion(.success("success"))
                     // in succesfull case SceneDelegate listener will change the app state
                     //in sucsessfull case save new user or update facebook user data to database
                     self.database.child(result?.user.uid ?? "facebookWrongID").updateChildValues(["userName": self.firebase.currentUser?.displayName ?? "facebookWrongName", "email": self.firebase.currentUser?.email ?? "facebookWrongMail", "active": "yes", "signInProvider": "facebook"])
@@ -178,7 +193,6 @@ class FirebaseService: FirebaseServiceProtocol {
             for userInfo in providerData {
                 switch userInfo.providerID {
                 case "facebook.com":
-                    print("FacebookLogin")
                     return true
                 default:
                     return false
@@ -188,8 +202,11 @@ class FirebaseService: FirebaseServiceProtocol {
         return false
     }
     //MARK: - GOOGLE
-    public func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
+    private let service = GTLRSheetsService()
+    internal func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        print(FirebaseApp.app()?.options.clientID)
+        
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController as! UIViewController) { user, error in
             if error != nil {
@@ -205,13 +222,54 @@ class FirebaseService: FirebaseServiceProtocol {
             //firebase sign in or log in with google credential
             self.firebase.signIn(with: credential) { result, error in
                 if error != nil {
-                    completion(.failure(.googleLoginError))
+                    completion(.failure(.googleWithFirebaseLoginError))
                 }
+
+                //requestScopes for work with the spreadshits
                 // in succesfull case SceneDelegate listener will change the app state
                 //in sucsessfull case save new user or update facebook user data to database
                 self.database.child(result?.user.uid ?? "googleWrongID").updateChildValues(["userName": self.firebase.currentUser?.displayName ?? "googleWrongName", "email": self.firebase.currentUser?.email ?? "googleWrongMail", "active": "yes", "signInProvider": "google"])
                 return
             }
+            self.requestScopes(viewController: viewController, googleUser: user!) { success in
+                if success == true {
+                    print("request scopes = success")
+                    completion(.success("success"))
+                } else {
+                    print("request scopes = false")
+                    completion(.failure(.googleWithFirebaseLoginError))
+                }
+            }
+        }
+    }
+    public func requestScopes(viewController: SignInViewProtocol, googleUser: GIDGoogleUser, completionHandler: @escaping (Bool) -> Void) {
+        let grantedScopes = googleUser.grantedScopes
+        if grantedScopes == nil || !grantedScopes!.contains(GoogleSpreadsheetsService.grantedScopes) {
+            let additionalScopes = GoogleSpreadsheetsService.additionalScopes
+
+            GIDSignIn.sharedInstance.addScopes(additionalScopes, presenting: viewController as! UIViewController) { user, scopeError in
+                if scopeError == nil {
+                    user?.authentication.do { authentication, err in
+                        if err == nil {
+                            guard let authentication = authentication else { return }
+                            // Get the access token to attach it to a REST or gRPC request.
+                           // let accessToken = authentication.accessToken
+                            let authorizer = authentication.fetcherAuthorizer()
+                            self.service.authorizer = authorizer
+                            completionHandler(true)
+                        } else {
+                            print("Error with auth: \(String(describing: err?.localizedDescription))")
+                            completionHandler(false)
+                        }
+                    }
+                } else {
+                    completionHandler(false)
+                    print("Error with adding scopes: \(String(describing: scopeError?.localizedDescription))")
+                }
+            }
+        } else {
+            print("Already contains the scopes!")
+            completionHandler(true)
         }
     }
     public func checkUserLoginnedWithGoogle() -> Bool {

@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		85F8194DF0F36B04A4266321 /* Pods_Guest_list_synch_with_desktop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D52A021128A9EC9AE584241D /* Pods_Guest_list_synch_with_desktop.framework */; };
+		8A7E93002907F429005E5B33 /* EventEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7E92FF2907F429005E5B33 /* EventEntity.swift */; };
+		8A7E93022907F458005E5B33 /* GuestEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7E93012907F458005E5B33 /* GuestEntity.swift */; };
+		8A7E93042907F66D005E5B33 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7E93032907F66D005E5B33 /* EventTableViewCell.swift */; };
+		8A7E93072907F78B005E5B33 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 8A7E93062907F78B005E5B33 /* BottomSheet */; };
+		8A7E9309290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7E9308290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift */; };
 		8AF83E8F2906655100614257 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83E8E2906655100614257 /* AppDelegate.swift */; };
 		8AF83E912906655100614257 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83E902906655100614257 /* SceneDelegate.swift */; };
 		8AF83E932906655100614257 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83E922906655100614257 /* AuthViewController.swift */; };
@@ -36,6 +41,10 @@
 
 /* Begin PBXFileReference section */
 		602EC839998C20EACDDCA890 /* Pods-Guest list synch with desktop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Guest list synch with desktop.debug.xcconfig"; path = "Target Support Files/Pods-Guest list synch with desktop/Pods-Guest list synch with desktop.debug.xcconfig"; sourceTree = "<group>"; };
+		8A7E92FF2907F429005E5B33 /* EventEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntity.swift; sourceTree = "<group>"; };
+		8A7E93012907F458005E5B33 /* GuestEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestEntity.swift; sourceTree = "<group>"; };
+		8A7E93032907F66D005E5B33 /* EventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
+		8A7E9308290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSpreadsheetsService.swift; sourceTree = "<group>"; };
 		8AF83E8B2906655100614257 /* Guest list synch with desktop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Guest list synch with desktop.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AF83E8E2906655100614257 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AF83E902906655100614257 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +81,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				85F8194DF0F36B04A4266321 /* Pods_Guest_list_synch_with_desktop.framework in Frameworks */,
+				8A7E93072907F78B005E5B33 /* BottomSheet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +98,7 @@
 		8A7E92FA29074B6D005E5B33 /* GuestList Module */ = {
 			isa = PBXGroup;
 			children = (
+				8A7E93012907F458005E5B33 /* GuestEntity.swift */,
 			);
 			path = "GuestList Module";
 			sourceTree = "<group>";
@@ -95,6 +106,7 @@
 		8A7E92FC29074BCF005E5B33 /* GoogleSheets layer */ = {
 			isa = PBXGroup;
 			children = (
+				8A7E9308290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift */,
 			);
 			path = "GoogleSheets layer";
 			sourceTree = "<group>";
@@ -104,6 +116,14 @@
 			children = (
 			);
 			path = "Database layer";
+			sourceTree = "<group>";
+		};
+		8A7E92FE2907F40F005E5B33 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				8A7E92FF2907F429005E5B33 /* EventEntity.swift */,
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 		8AF83E822906655100614257 = {
@@ -225,6 +245,7 @@
 		8AF83EC72906706000614257 /* EventsList module */ = {
 			isa = PBXGroup;
 			children = (
+				8A7E92FE2907F40F005E5B33 /* Entity */,
 				8AF83ECA2906707F00614257 /* View */,
 				8AF83EC92906707A00614257 /* Presenter */,
 				8AF83EC82906707400614257 /* Interactor */,
@@ -252,6 +273,7 @@
 			isa = PBXGroup;
 			children = (
 				8AF83ECF2906710900614257 /* EventsListViewController.swift */,
+				8A7E93032907F66D005E5B33 /* EventTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -291,6 +313,9 @@
 			dependencies = (
 			);
 			name = "Guest list synch with desktop";
+			packageProductDependencies = (
+				8A7E93062907F78B005E5B33 /* BottomSheet */,
+			);
 			productName = "Guest list synch with desktop";
 			productReference = 8AF83E8B2906655100614257 /* Guest list synch with desktop.app */;
 			productType = "com.apple.product-type.application";
@@ -319,6 +344,9 @@
 				Base,
 			);
 			mainGroup = 8AF83E822906655100614257;
+			packageReferences = (
+				8A7E93052907F78B005E5B33 /* XCRemoteSwiftPackageReference "BottomSheet" */,
+			);
 			productRefGroup = 8AF83E8C2906655100614257 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -400,13 +428,17 @@
 				8AF83EB329066D0400614257 /* NetworkService.swift in Sources */,
 				8AF83EB529066D1700614257 /* FirebaseService.swift in Sources */,
 				8AF83ED62906715000614257 /* AuthenticationSemaphore.swift in Sources */,
+				8A7E93042907F66D005E5B33 /* EventTableViewCell.swift in Sources */,
 				8AF83EBE29066F7A00614257 /* AuthPresenter.swift in Sources */,
 				8AF83E932906655100614257 /* AuthViewController.swift in Sources */,
+				8A7E93002907F429005E5B33 /* EventEntity.swift in Sources */,
 				8AF83EC229066FC600614257 /* SignInModalView.swift in Sources */,
 				8AF83EC429066FFD00614257 /* PasswordModalView.swift in Sources */,
+				8A7E93022907F458005E5B33 /* GuestEntity.swift in Sources */,
 				8AF83EC62906704700614257 /* RegistrationModalView.swift in Sources */,
 				8AF83EC029066F9B00614257 /* AuthInteractor.swift in Sources */,
 				8AF83ECE290670BE00614257 /* EventsListInteractor.swift in Sources */,
+				8A7E9309290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift in Sources */,
 				8AF83ED82906870600614257 /* EventsListPresenter.swift in Sources */,
 				8AF83ED02906710900614257 /* EventsListViewController.swift in Sources */,
 			);
@@ -628,6 +660,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8A7E93052907F78B005E5B33 /* XCRemoteSwiftPackageReference "BottomSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/joomcode/BottomSheet";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8A7E93062907F78B005E5B33 /* BottomSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8A7E93052907F78B005E5B33 /* XCRemoteSwiftPackageReference "BottomSheet" */;
+			productName = BottomSheet;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8AF83E832906655100614257 /* Project object */;
 }

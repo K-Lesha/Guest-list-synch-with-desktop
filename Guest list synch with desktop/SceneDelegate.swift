@@ -8,6 +8,11 @@
 import UIKit
 import FirebaseAuth
 
+
+import GoogleSignIn
+import GTMSessionFetcher
+import GoogleAPIClientForREST
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -20,12 +25,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         
-        FirebaseService().logOutWithFirebase()
+//        FirebaseService().logOutWithFirebase()
         
         let navigationController = UINavigationController()
         let firebaseService = FirebaseService()
         let networkService = NetworkService()
         let assemblyBuilder = AssemblyModuleBuilder(networkService: networkService, firebaseService: firebaseService)
+
         
         print("Auth check: is user loginned?")
         Auth.auth().addStateDidChangeListener { auth, user in
@@ -34,10 +40,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
                 router.showAuthModule()
             } else {
-                print("user != nil, logged in module initialization")
+                print("user != nil, eventsList module initialization")
                 guard let user = user else {
                     fatalError("failed")
                 }
+                //Google restorePreviousSignIn
+                GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
+                    if error != nil || user == nil {
+                        print("googleUser == nil, need to authenteticate user with google")
+//                        let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
+//                        router.showAuthModule()
+                    } else {
+                        print("googleUser != nil, eventsList module module initialization")
+//                        let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
+//                        router.showEventsListModule(userUID: "33")
+                    }
+                  }
+
                 let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
                 router.showEventsListModule(userUID: user.uid)
             }
