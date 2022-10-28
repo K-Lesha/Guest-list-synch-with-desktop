@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		85F8194DF0F36B04A4266321 /* Pods_Guest_list_synch_with_desktop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D52A021128A9EC9AE584241D /* Pods_Guest_list_synch_with_desktop.framework */; };
+		8A54CE2B290C177900ADAB45 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE2A290C177900ADAB45 /* UserEntity.swift */; };
+		8A54CE2E290C3E2F00ADAB45 /* SupportingUserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */; };
+		8A54CE32290C893D00ADAB45 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE31290C893D00ADAB45 /* RealmService.swift */; };
+		8A54CE34290C894F00ADAB45 /* FirebaseDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE33290C894F00ADAB45 /* FirebaseDatabaseService.swift */; };
 		8A7E93002907F429005E5B33 /* EventEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7E92FF2907F429005E5B33 /* EventEntity.swift */; };
 		8A7E93022907F458005E5B33 /* GuestEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7E93012907F458005E5B33 /* GuestEntity.swift */; };
 		8A7E93042907F66D005E5B33 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7E93032907F66D005E5B33 /* EventTableViewCell.swift */; };
@@ -41,6 +45,10 @@
 
 /* Begin PBXFileReference section */
 		602EC839998C20EACDDCA890 /* Pods-Guest list synch with desktop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Guest list synch with desktop.debug.xcconfig"; path = "Target Support Files/Pods-Guest list synch with desktop/Pods-Guest list synch with desktop.debug.xcconfig"; sourceTree = "<group>"; };
+		8A54CE2A290C177900ADAB45 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
+		8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportingUserEntity.swift; sourceTree = "<group>"; };
+		8A54CE31290C893D00ADAB45 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
+		8A54CE33290C894F00ADAB45 /* FirebaseDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDatabaseService.swift; sourceTree = "<group>"; };
 		8A7E92FF2907F429005E5B33 /* EventEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntity.swift; sourceTree = "<group>"; };
 		8A7E93012907F458005E5B33 /* GuestEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestEntity.swift; sourceTree = "<group>"; };
 		8A7E93032907F66D005E5B33 /* EventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
@@ -88,9 +96,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8A54CE29290C176900ADAB45 /* UserEntity */ = {
+			isa = PBXGroup;
+			children = (
+				8A54CE2A290C177900ADAB45 /* UserEntity.swift */,
+				8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */,
+			);
+			path = UserEntity;
+			sourceTree = "<group>";
+		};
+		8A54CE2F290C892500ADAB45 /* FirebaseDatabaseServise */ = {
+			isa = PBXGroup;
+			children = (
+				8A54CE33290C894F00ADAB45 /* FirebaseDatabaseService.swift */,
+			);
+			path = FirebaseDatabaseServise;
+			sourceTree = "<group>";
+		};
+		8A54CE30290C892C00ADAB45 /* RealmService */ = {
+			isa = PBXGroup;
+			children = (
+				8A54CE31290C893D00ADAB45 /* RealmService.swift */,
+			);
+			path = RealmService;
+			sourceTree = "<group>";
+		};
 		8A7E92F829074B35005E5B33 /* Profile module */ = {
 			isa = PBXGroup;
 			children = (
+				8A54CE29290C176900ADAB45 /* UserEntity */,
 			);
 			path = "Profile module";
 			sourceTree = "<group>";
@@ -114,6 +148,8 @@
 		8A7E92FD29074BEF005E5B33 /* Database layer */ = {
 			isa = PBXGroup;
 			children = (
+				8A54CE30290C892C00ADAB45 /* RealmService */,
+				8A54CE2F290C892500ADAB45 /* FirebaseDatabaseServise */,
 			);
 			path = "Database layer";
 			sourceTree = "<group>";
@@ -427,11 +463,15 @@
 				8AF83ED42906713D00614257 /* AssemblyModuleBuilder.swift in Sources */,
 				8AF83EB329066D0400614257 /* NetworkService.swift in Sources */,
 				8AF83EB529066D1700614257 /* FirebaseService.swift in Sources */,
+				8A54CE32290C893D00ADAB45 /* RealmService.swift in Sources */,
 				8AF83ED62906715000614257 /* AuthenticationSemaphore.swift in Sources */,
 				8A7E93042907F66D005E5B33 /* EventTableViewCell.swift in Sources */,
 				8AF83EBE29066F7A00614257 /* AuthPresenter.swift in Sources */,
+				8A54CE34290C894F00ADAB45 /* FirebaseDatabaseService.swift in Sources */,
 				8AF83E932906655100614257 /* AuthViewController.swift in Sources */,
+				8A54CE2B290C177900ADAB45 /* UserEntity.swift in Sources */,
 				8A7E93002907F429005E5B33 /* EventEntity.swift in Sources */,
+				8A54CE2E290C3E2F00ADAB45 /* SupportingUserEntity.swift in Sources */,
 				8AF83EC229066FC600614257 /* SignInModalView.swift in Sources */,
 				8AF83EC429066FFD00614257 /* PasswordModalView.swift in Sources */,
 				8A7E93022907F458005E5B33 /* GuestEntity.swift in Sources */,

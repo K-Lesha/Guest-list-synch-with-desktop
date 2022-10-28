@@ -15,7 +15,7 @@ protocol AssemblyBuilderProtocol {
     init(networkService: NetworkServiceProtocol, firebaseService: FirebaseServiceProtocol)
     //METHODS
     func createAuthModule(router: RouterProtocol) -> UIViewController
-    func createSignInViewController(router: RouterProtocol, userUID: String) -> UIViewController
+    func createEventsListViewController(router: RouterProtocol) -> UIViewController
 }
 
 class AssemblyModuleBuilder: AssemblyBuilderProtocol {
@@ -35,10 +35,10 @@ class AssemblyModuleBuilder: AssemblyBuilderProtocol {
         view.presenter = presenter
         return view
     }
-    internal func createSignInViewController(router: RouterProtocol, userUID: String) -> UIViewController {
+    internal func createEventsListViewController(router: RouterProtocol) -> UIViewController {
         let view = EventsListViewController()
-        let interactor = EventsListInteractor(networkService: self.networkService, firebaseService: self.firebaseService)
-        let presenter = EventsListPresenter(view: view, interactor: interactor, router: router, userUID: userUID)
+        let interactor = EventsListInteractor(networkService: self.networkService)
+        let presenter = EventsListPresenter(view: view, interactor: interactor, router: router)
         view.presenter = presenter
         return view
     }

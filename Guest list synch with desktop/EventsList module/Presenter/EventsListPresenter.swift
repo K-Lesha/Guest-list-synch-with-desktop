@@ -13,11 +13,11 @@ protocol EventsListPresenterProtocol: AnyObject {
     var view: EventsListViewControllerProtocol! {get set}
     var interactor: EventsListInteractorProtocol! {get set}
     var router: RouterProtocol! {get set}
-    init(view: EventsListViewControllerProtocol, interactor: EventsListInteractorProtocol, router: RouterProtocol, userUID: String)
+    init(view: EventsListViewControllerProtocol, interactor: EventsListInteractorProtocol, router: RouterProtocol)
     //TEMP DATA
     
     // METHODS
-    
+    func setDataToTheView(completionHandler: @escaping (Result<[EventEntity], EventListInteractorError>) -> Void)
     
 }
 
@@ -28,18 +28,14 @@ class EventsListPresenter: EventsListPresenterProtocol {
     internal weak var router: RouterProtocol!
     internal var interactor: EventsListInteractorProtocol!
     internal var userUID: String!
-    required init(view: EventsListViewControllerProtocol, interactor: EventsListInteractorProtocol, router: RouterProtocol, userUID: String) {
+    required init(view: EventsListViewControllerProtocol, interactor: EventsListInteractorProtocol, router: RouterProtocol) {
         self.view = view
         self.interactor = interactor
         self.router = router
-        self.userUID = userUID
     }
-    //MARK: TEMP DATA
 
-    
-    
     //MARK: METHODS
-    
-    
-    
+    func setDataToTheView(completionHandler: @escaping (Result<[EventEntity], EventListInteractorError>) -> Void) {
+        interactor.readOneEventData(completionHandler: completionHandler)
+    }
 }

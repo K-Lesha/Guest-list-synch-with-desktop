@@ -18,22 +18,23 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
     
     //MARK: VIPER protocol
     internal var presenter: EventsListPresenterProtocol!
+    var spreadsheetsService = GoogleSpreadsheetsService()
     
     //MARK: View properties
-    var eventsList: [EventEntity] = [EventEntity(eventName: "testEvent"), EventEntity(eventName: "testEvent2"), EventEntity(eventName: "testEvent3")]
+    var eventsList = [EventEntity]()
     let utils = Utils()
-    let sheetsService = GoogleSpreadsheetsService()
     
     //MARK: OUTLETS
+    internal var currentEventsButton: UIButton!
+    internal var pastEventsButton: UIButton!
+    internal var profileButton: UIButton!
     internal var eventsTableView: UITableView!
-    internal var sheetsButton: UIButton!
-    
+    internal var addEventButton: UIButton!
     
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        
     }
     
     //MARK: METHODS
@@ -41,6 +42,46 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
     private func setupViews() {
         //setup@self.view
         self.view.backgroundColor = .white
+        
+        //setup@currentEventsButton
+        currentEventsButton = UIButton()
+        currentEventsButton.setTitle("Current", for: .normal)
+        currentEventsButton.backgroundColor = .black
+        currentEventsButton.addTarget(self, action: #selector(currentEventsButtonPressed), for: .touchUpInside)
+        self.navigationController?.view.addSubview(currentEventsButton)
+        //constraints@currentEventsButton
+        currentEventsButton.translatesAutoresizingMaskIntoConstraints = false
+        currentEventsButton.leftAnchor.constraint(equalTo: self.navigationController!.view.leftAnchor, constant: 20).isActive = true
+        currentEventsButton.topAnchor.constraint(equalTo: self.navigationController!.view.topAnchor, constant: 50).isActive = true
+        currentEventsButton.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        currentEventsButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        //setup@pastEventsButton
+        pastEventsButton = UIButton()
+        pastEventsButton.setTitle("Past", for: .normal)
+        pastEventsButton.backgroundColor = .black
+        pastEventsButton.addTarget(self, action: #selector(pastEventsButtonPressed), for: .touchUpInside)
+        self.navigationController?.view.addSubview(pastEventsButton)
+        //constraints@pastEventsButton
+        pastEventsButton.translatesAutoresizingMaskIntoConstraints = false
+        pastEventsButton.leftAnchor.constraint(equalTo: currentEventsButton.rightAnchor, constant: 7).isActive = true
+        pastEventsButton.topAnchor.constraint(equalTo: currentEventsButton.topAnchor).isActive = true
+        pastEventsButton.widthAnchor.constraint(equalTo: currentEventsButton.widthAnchor).isActive = true
+        pastEventsButton.heightAnchor.constraint(equalTo: currentEventsButton.heightAnchor).isActive = true
+
+        
+        //setup@profileButton
+        profileButton = UIButton()
+        profileButton.setTitle("👧", for: .normal)
+        profileButton.backgroundColor = .black
+        profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
+        self.navigationController?.view.addSubview(profileButton)
+        //constraints@profileButton
+        profileButton.translatesAutoresizingMaskIntoConstraints = false
+        profileButton.rightAnchor.constraint(equalTo: self.navigationController!.view.rightAnchor, constant: -20).isActive = true
+        profileButton.topAnchor.constraint(equalTo: currentEventsButton.topAnchor).isActive = true
+        profileButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        profileButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         //setup@eventsTableView
         eventsTableView = UITableView()
@@ -55,31 +96,34 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
         eventsTableView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         eventsTableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         eventsTableView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        eventsTableView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -150).isActive = true
+        eventsTableView.heightAnchor.constraint(equalTo: self.view.heightAnchor).isActive = true
+        
+        // download events and set them to view
+        setOneEventToTableView()
         
         //setup@sheetsButton
-        sheetsButton = UIButton()
-        self.view.addSubview(sheetsButton)
-        sheetsButton.setTitle("LOAD SHEETS", for: .normal)
-        sheetsButton.backgroundColor = .black
-        sheetsButton.addTarget(self, action: #selector(showSpreadsheetsController), for: .touchUpInside)
+        addEventButton = UIButton()
+        self.view.addSubview(addEventButton)
+        addEventButton.setTitle("+", for: .normal)
+        addEventButton.backgroundColor = .black
+        addEventButton.addTarget(self, action: #selector(addEventButtonPressed), for: .touchUpInside)
         //constraints@sheetsButton
-        sheetsButton.translatesAutoresizingMaskIntoConstraints = false
-        sheetsButton.topAnchor.constraint(equalTo: eventsTableView.bottomAnchor, constant: 10).isActive = true
-        sheetsButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        sheetsButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        sheetsButton.centerXAnchor.constraint(equalTo: eventsTableView.centerXAnchor).isActive = true
+        addEventButton.translatesAutoresizingMaskIntoConstraints = false
+        addEventButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -50).isActive = true
+        addEventButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        addEventButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        addEventButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20).isActive = true
     }
-    
-    
-    //MARK: Button methods
-    @objc func showSpreadsheetsController() {
-        print("readData")
-        sheetsService.readData(range: .oneEventData) { (string) in
-            self.utils.showAlert(title: "", message: string, vc: self)
+    func setOneEventToTableView() {
+        self.presenter.setDataToTheView { result in
+            switch result {
+            case .success(let oneEventInArray):
+                self.eventsList = oneEventInArray
+                self.eventsTableView.reloadData()
+            case .failure(let error):
+                print (error.localizedDescription)
+            }
         }
-        
-        
         //        print("appendData")
         //        appendData { (string) in
         //            self.utils.showAlert(title: "", message: string, vc: self)
@@ -96,6 +140,24 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
         //        }
     }
     
+    //MARK: Button methods
+    @objc func addEventButtonPressed() {
+        
+    }
+    
+    @objc func currentEventsButtonPressed() {
+        
+    }
+    
+    @objc func pastEventsButtonPressed() {
+        
+    }
+    @objc func profileButtonPressed() {
+        
+    }
+    
+
+    
     //MARK: Deinit
     deinit {
         print("EventsListViewController was deinited")
@@ -110,16 +172,17 @@ extension EventsListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "event", for: indexPath) as! EventTableViewCell
         cell.eventNameLabel.text = self.eventsList[indexPath.row].eventName
+        cell.venueLabel.text = self.eventsList[indexPath.row].eventVenue
+        cell.eventDateAndTimeLabel.text = "\(self.eventsList[indexPath.row].eventDate ?? ""), \(self.eventsList[indexPath.row].eventTime ?? "")"
+        cell.guestsAmountLabel.text = "57"
         return cell
     }
-    
-    
 }
 
 
 
 class Utils {
-    
+
     func showAlert(title : String, message: String, vc: UIViewController) {
         let alert = UIAlertController(
             title: title,

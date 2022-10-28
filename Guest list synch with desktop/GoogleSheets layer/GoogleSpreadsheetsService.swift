@@ -12,12 +12,15 @@ import GoogleAPIClientForREST
 
 protocol GoogleSpreadsheetsServiceProtocol {
     
-    
+    func readOneEventData(range: SheetsRange, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void)
 }
 
 enum SheetsRange: String {
-    case oneEventData = "A1:B14"
-    case guestsData = "A16:N"
+    case oneEventData = "A1:A16"
+    case guestsData = "A19:N"
+}
+enum SheetsError: Error {
+    case error
 }
 
 class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
@@ -31,17 +34,49 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
         sheetService.authorizer = GIDSignIn.sharedInstance.currentUser?.authentication.fetcherAuthorizer()
         driveService.apiKey = self.apiKey
         driveService.authorizer = GIDSignIn.sharedInstance.currentUser?.authentication.fetcherAuthorizer()
-
     }
     
     let apiKey = "AIzaSyDmUVpnjFI_cKazeKORNk37o-MV_prH970"
     static let grantedScopes = "https://www.googleapis.com/auth/spreadsheets"
     static let additionalScopes = ["https://www.googleapis.com/auth/spreadsheets",
                             "https://www.googleapis.com/auth/drive.file"]
-    var sheetID = "1OlZ7J45qI3zE9ViWcpgc5ZCmhPWdpgh8rlABjTy3dWk"
+    var sheetID = "nil"
 
     
     //MARK: Spreadsheets methods
+    func readOneEventData(range: SheetsRange, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void) {
+        print("Getting sheet data...")
+        sheetID = FirebaseService.logginnedUser!.eventsIdList[0]
+        let spreadsheetId = self.sheetID
+        let range = range.rawValue
+        let query = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: spreadsheetId, range:range)
+        
+        sheetService.executeQuery(query) { (ticket, result, error) in
+            if let error {
+                completionHandler(.failure(.error))
+                return
+            }
+            guard let result = result as? GTLRSheets_ValueRange else {
+                completionHandler(.failure(.error))
+                return
+            }
+            
+            var stringRows = result.values! as! [[String]]
+            
+            if stringRows.isEmpty {
+                completionHandler(.failure(.error))
+                return
+            }
+            completionHandler(.success(stringRows))
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
     func appendData(completionHandler: @escaping (String) -> Void) {
 
         let spreadsheetId = self.sheetID
@@ -86,38 +121,7 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
                     }
                 }
     }
-    func readData(range: SheetsRange, completionHandler: @escaping (String) -> Void) {
-        print("Getting sheet data...")
-    
-        let spreadsheetId = self.sheetID
-        let range = range.rawValue
-        let query = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: spreadsheetId, range:range)
-        
-        sheetService.executeQuery(query) { (ticket, result, error) in
-            if let error = error {
-                print(error)
-                completionHandler("Failed to read data:\(error.localizedDescription)")
-                return
-            }
-            guard let result = result as? GTLRSheets_ValueRange else {
-                return
-            }
-            
-            let rows = result.values!
-            var stringRows = rows as! [[String]]
-            
-            for row in stringRows {
-                stringRows.append(row)
-                print(row)
-                }
-            if rows.isEmpty {
-                print("No data found.")
-                return
-            }
-            completionHandler("Success!")
-            print("Number of rows in sheet: \(rows.count)")
-        }
-    }
+
 
     func readSheets(completionHandler: @escaping (String) -> Void ) {
         print("func findSpreadNameAndSheets executing...")

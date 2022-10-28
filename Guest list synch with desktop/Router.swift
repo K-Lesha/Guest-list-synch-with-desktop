@@ -38,7 +38,7 @@ class Router: RouterProtocol {
     }
     public func showEventsListModule(userUID: String) {
         if let navigationController = navigationController {
-            guard let eventsListViewController = assemblyBuilder?.createSignInViewController(router: self, userUID: userUID) else { return }
+            guard let eventsListViewController = assemblyBuilder?.createEventsListViewController(router: self) else { return }
             navigationController.viewControllers = [eventsListViewController]
         }
     }

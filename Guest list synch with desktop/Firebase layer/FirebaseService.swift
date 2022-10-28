@@ -26,12 +26,8 @@ protocol FirebaseServiceProtocol: AnyObject {
     func tryToDeleteAccountWithFirebase(completion: @escaping (Result<Bool, FireBaseError>) -> ())
     //Facebook methods
     func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ())
-    func checkUserLoginnedWithFacebook() -> Bool
     //Google methods
     func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ())
-    func checkUserLoginnedWithGoogle() -> Bool
-    //Firebase database methods
-    func findUsernameWithFirebaseDatabase(completion: @escaping (String) -> ())
 }
 //MARK: Firebase errors
 enum FireBaseError: String, Error {
@@ -55,47 +51,67 @@ class FirebaseService: FirebaseServiceProtocol {
     //MARK: Firebase properties
     private let database = Database.database(url: "https://guest-list-295cc-default-rtdb.europe-west1.firebasedatabase.app/").reference().child("users")
     private let firebase = Auth.auth()
+    static var logginnedUser: UserEntity? = nil
+    private var lastDatabaseSnapshot: DataSnapshot? = nil
     
     //MARK: METHODS
     //MARK: - FIREBASE
-    public func tryToRegisterWithFirebase(userName: String, email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ()) {
+    public func tryToRegisterWithFirebase(userName: String,
+                                          email: String,
+                                          password: String,
+                                          completion: @escaping (Result<String, FireBaseError>) -> ()) {
         firebase.createUser(withEmail: email, password: password) { result, error in
             print("FirebaseService: tryToSignIn", Thread.current)
             if error != nil {
                 completion(.failure(.registrationError))
                 return
             }
-            
             if let result {
                 print(result.user.uid)
-                self.database.child(result.user.uid).updateChildValues(["userName": userName, "email": email, "active": "yes", "signInProvider": "firebase"])
+                self.saveNewUserToTheDatabase(userUID: result.user.uid,
+                                              name: userName,
+                                              email: email,
+                                              signInProvider: "Firebase")
                 completion(.success(result.user.uid))
             }
         }
         // in succesfull case SceneDelegate listener will change the state of app
     }
-    public func tryToLogInWithFirebase(email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ()) {
+    public func tryToLogInWithFirebase(email: String,
+                                       password: String,
+                                       completion: @escaping (Result<String, FireBaseError>) -> ()) {
         firebase.signIn(withEmail: email, password: password) {result, error in
             guard error == nil else {
                 completion(.failure(.loginError))
                 return
             }
+            guard let user = result?.user else {
+                completion(.failure(.loginError))
+                return
+            }
             // in succesfull case SceneDelegate listener will change the state of app
+            self.updateDatabaseSnapshot {
+                self.addUserEntityFromDatabaseToApp(user: user)
+            }
         }
     }
     public func logOutWithFirebase() {
         do {
+            //firebase logout
             try firebase.signOut()
             //facebook log out
-            let login = LoginManager()
-            login.logOut()
+            LoginManager().logOut()
             let cookies = HTTPCookieStorage.shared
             let facebookCookies = cookies.cookies(for: URL(string: "https://facebook.com/")!)
-                for cookie in facebookCookies! {
-                    cookies.deleteCookie(cookie )
-                }
+            for cookie in facebookCookies! {
+                cookies.deleteCookie(cookie)
+            }
             //google log out
             GIDSignIn.sharedInstance.signOut()
+            let googleCookies = cookies.cookies(for: URL(string: "https://google.com/")!)
+            for cookie in googleCookies! {
+                cookies.deleteCookie(cookie)
+            }
         } catch {
             print("can't log out")
         }
@@ -105,7 +121,6 @@ class FirebaseService: FirebaseServiceProtocol {
             print("email, is wrong")
             return completion(.failure(.wrongEmail))
         }
-        
         //password confirmation with firebase
         let user = firebase.currentUser
         let credential = EmailAuthProvider.credential(withEmail: email, password: password)
@@ -183,29 +198,30 @@ class FirebaseService: FirebaseServiceProtocol {
                     completion(.success("success"))
                     // in succesfull case SceneDelegate listener will change the app state
                     //in sucsessfull case save new user or update facebook user data to database
-                    self.database.child(result?.user.uid ?? "facebookWrongID").updateChildValues(["userName": self.firebase.currentUser?.displayName ?? "facebookWrongName", "email": self.firebase.currentUser?.email ?? "facebookWrongMail", "active": "yes", "signInProvider": "facebook"])
+                    self.saveNewUserToTheDatabase(userUID: result?.user.uid ?? "facebookWrongID",
+                                                  name: self.firebase.currentUser?.displayName ?? "facebookWrongName",
+                                                  email: self.firebase.currentUser?.email ?? "facebookWrongMail",
+                                                  signInProvider: "FacebookAuth")
                 }
             }
         }
     }
-    public func checkUserLoginnedWithFacebook() -> Bool {
-        if let providerData = firebase.currentUser?.providerData {
-            for userInfo in providerData {
-                switch userInfo.providerID {
-                case "facebook.com":
-                    return true
-                default:
-                    return false
-                }
-            }
-        }
-        return false
-    }
+    //    public func checkUserLoginnedWithFacebook() -> Bool {
+    //        if let providerData = firebase.currentUser?.providerData {
+    //            for userInfo in providerData {
+    //                switch userInfo.providerID {
+    //                case "facebook.com":
+    //                    return true
+    //                default:
+    //                    return false
+    //                }
+    //            }
+    //        }
+    //        return false
+    //    }
     //MARK: - GOOGLE
-    private let service = GTLRSheetsService()
     internal func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-        print(FirebaseApp.app()?.options.clientID)
         
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController as! UIViewController) { user, error in
@@ -224,13 +240,14 @@ class FirebaseService: FirebaseServiceProtocol {
                 if error != nil {
                     completion(.failure(.googleWithFirebaseLoginError))
                 }
-
-                //requestScopes for work with the spreadshits
                 // in succesfull case SceneDelegate listener will change the app state
-                //in sucsessfull case save new user or update facebook user data to database
-                self.database.child(result?.user.uid ?? "googleWrongID").updateChildValues(["userName": self.firebase.currentUser?.displayName ?? "googleWrongName", "email": self.firebase.currentUser?.email ?? "googleWrongMail", "active": "yes", "signInProvider": "google"])
-                return
+                //in sucsessfull case save new user or update google user data to database
+                self.saveNewUserToTheDatabase(userUID: result?.user.uid ?? "googleWrongID",
+                                              name: self.firebase.currentUser?.displayName ?? "googleWrongName",
+                                              email: self.firebase.currentUser?.email ?? "googleWrongMail",
+                                              signInProvider: "GoogleSignIn")
             }
+            //requestScopes for work with the spreadshits
             self.requestScopes(viewController: viewController, googleUser: user!) { success in
                 if success == true {
                     print("request scopes = success")
@@ -242,18 +259,19 @@ class FirebaseService: FirebaseServiceProtocol {
             }
         }
     }
+    private let service = GTLRSheetsService()
     public func requestScopes(viewController: SignInViewProtocol, googleUser: GIDGoogleUser, completionHandler: @escaping (Bool) -> Void) {
         let grantedScopes = googleUser.grantedScopes
         if grantedScopes == nil || !grantedScopes!.contains(GoogleSpreadsheetsService.grantedScopes) {
             let additionalScopes = GoogleSpreadsheetsService.additionalScopes
-
+            
             GIDSignIn.sharedInstance.addScopes(additionalScopes, presenting: viewController as! UIViewController) { user, scopeError in
                 if scopeError == nil {
                     user?.authentication.do { authentication, err in
                         if err == nil {
                             guard let authentication = authentication else { return }
                             // Get the access token to attach it to a REST or gRPC request.
-                           // let accessToken = authentication.accessToken
+                            // let accessToken = authentication.accessToken
                             let authorizer = authentication.fetcherAuthorizer()
                             self.service.authorizer = authorizer
                             completionHandler(true)
@@ -276,17 +294,123 @@ class FirebaseService: FirebaseServiceProtocol {
         return false
     }
     //MARK: - FIREBASE DATABASE METHODS
-    public func findUsernameWithFirebaseDatabase(completion: @escaping (String) -> ()) {
-        guard let user = firebase.currentUser else {
+    private func updateDatabaseSnapshot(completion: @escaping () -> ()) {
+        guard firebase.currentUser != nil else {
             return
         }
         database.queryOrderedByKey().observeSingleEvent(of: .value) { snapshot in
-            let usersDictionary = snapshot.value as? NSDictionary
-            let userData = usersDictionary?.object(forKey: user.uid) as? NSDictionary
-            let userName = userData?.object(forKey: "userName") as? String
-            guard let userName else { return }
-            completion(userName)
+            self.lastDatabaseSnapshot = snapshot
+            completion()
         }
+        
+    }
+    private func saveNewUserToTheDatabase(userUID: String, name: String, email: String, signInProvider: String) {
+        self.updateDatabaseSnapshot() {
+            //find user in database
+            guard let userDatabaseSnapshot = self.lastDatabaseSnapshot else {return}
+            let usersDictionary = userDatabaseSnapshot.value as? NSDictionary
+            let userData = usersDictionary?.object(forKey: userUID) as? NSDictionary
+            
+            //if user exists
+            if userData != nil {
+                self.addUserEntityFromDatabaseToApp(user: self.firebase.currentUser!)
+                
+            } else {
+                self.database.child(userUID).updateChildValues(["payedEvents": 0,
+                                                                "eventsIdList": ["1OlZ7J45qI3zE9ViWcpgc5ZCmhPWdpgh8rlABjTy3dWk"] as! NSArray,
+                                                                "accessLevelInt": 0,
+                                                                "coorganizersUIDs": [""] as! NSArray,
+                                                                "headOrganizersUIDs": [""] as! NSArray,
+                                                                "hostessesUIDs": [""] as! NSArray,
+                                                                "name": name,
+                                                                "surname": "surname",
+                                                                "email": email,
+                                                                "active": "true",
+                                                                "agency": "noagency",
+                                                                "avatarLinkString": "",
+                                                                "registrationDate": Date().formatted(date: .complete, time: .complete),
+                                                                "signInProvider": signInProvider])
+                self.updateDatabaseSnapshot {
+                    self.addUserEntityFromDatabaseToApp(user: self.firebase.currentUser!)
+                }
+            }
+        }
+    }
+    
+    func addUserEntityFromDatabaseToApp(user: User) {
+        //find user in database
+        guard let userDatabaseSnapshot = self.lastDatabaseSnapshot else {return}
+        let usersDictionary = userDatabaseSnapshot.value as? NSDictionary
+        let userData = usersDictionary?.object(forKey: user.uid) as? NSDictionary
+        // find all the userData in Snapshot
+        let payedEvents = userData?.object(forKey: "payedEvents") as! Int
+        let eventsIdList = userData?.object(forKey: "eventsIdList") as! Array<String>
+        let accessLevelInt = userData?.object(forKey: "accessLevelInt") as! Int
+        let accessLevel = UserTypes(rawValue: accessLevelInt)!
+        let coorganizersUIDs = (userData?.object(forKey: "coorganizersUIDs") as? [String])
+        let coorganizers = self.initSupportingUsers(uids: coorganizersUIDs)
+        let headOrganizersUIDs = userData?.object(forKey: "headOrganizersUIDs") as? [String]
+        let headOrganizers = self.initSupportingUsers(uids: headOrganizersUIDs)
+        let hostessesUIDs = userData?.object(forKey: "hostessesUIDs") as? [String]
+        let hostesses = self.initSupportingUsers(uids: hostessesUIDs)
+        
+        let delegatedEventIdList = self.initDelegatedEvents(users: [coorganizers, headOrganizers, hostesses])
+        
+        let name = userData?.object(forKey: "name") as! String
+        let surname = userData?.object(forKey: "surname") as! String
+        let email = userData?.object(forKey: "email") as! String
+        let active = userData?.object(forKey: "active") as! String
+        let agency = userData?.object(forKey: "agency") as! String
+        let avatarLinkString = userData?.object(forKey: "avatarLinkString") as! String
+        let registrationDate = userData?.object(forKey: "registrationDate") as! String
+        let signInProvider = userData?.object(forKey: "signInProvider") as! String
+        
+        let user = UserEntity(uid: user.uid,
+                              payedEvents: payedEvents,
+                              eventsIdList: eventsIdList,
+                              delegatedEventIdList: delegatedEventIdList,
+                              accessLevel: accessLevel,
+                              coorganizers: coorganizers,
+                              headOrganizers: headOrganizers,
+                              hostesses: hostesses,
+                              name: name,
+                              surname: surname,
+                              email: email,
+                              active: active.bool!,
+                              agency: agency,
+                              avatarLinkString: avatarLinkString,
+                              registrationDate: registrationDate,
+                              signInProvider: signInProvider)
+        
+        FirebaseService.logginnedUser = user
+    }
+    func initSupportingUsers(uids: [String]?) -> [SupportingUserEntity]? {
+        return nil
+    }
+    func initDelegatedEvents(users: [[SupportingUserEntity]?]) -> [String]? {
+        return nil
+    }
+    func deleteUserEntityFromApp() {
+        
+    }
+    func deleteUserEntityFromDatabase() {
+        
+    }
+    func getAllTheEventsFromTheDatabase() {
+        
     }
 }
 
+
+extension String {
+    var bool: Bool? {
+        switch self.lowercased() {
+        case "true", "t", "yes", "y":
+            return true
+        case "false", "f", "no", "n", "":
+            return false
+        default:
+            return nil
+        }
+    }
+}

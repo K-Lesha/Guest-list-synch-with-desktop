@@ -9,15 +9,14 @@ import Foundation
 
 struct EventEntity {
     var eventName: String
+    var eventClient: String?
+    var eventVenue: String?
     var eventDate: String?
     var eventTime: String?
-    var eventVenue: String?
-    var eventColor: String?
-    var eventLogoURLString: String?
-    var freshEvent: Bool?
-    var eventGuests: [GuestEntity]?
-    
-    init(eventName: String) {
-        self.eventName = eventName
+    var freshEvent: Bool {
+        return true
     }
+    var eventUniqueIdentifier: String
+    var initedByUserUID: String?
+    var initedByUserName: String?
 }
