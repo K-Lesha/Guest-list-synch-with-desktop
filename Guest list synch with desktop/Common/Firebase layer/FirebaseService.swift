@@ -21,8 +21,8 @@ protocol FirebaseServiceProtocol: AnyObject {
     func tryToLogInWithFirebase(email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ())
     func restorePasswordWithFirebase(email: String, completion: @escaping (Result<Bool, FireBaseError>) -> ())
     func logOutWithFirebase()
-    func reauthenticateAndDeleteUserWithFirebase(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ())
-    func tryToDeleteAccountWithFirebase(completion: @escaping (Result<Bool, FireBaseError>) -> ())
+//    func reauthenticateAndDeleteUserWithFirebase(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ())
+//    func tryToDeleteAccountWithFirebase(completion: @escaping (Result<Bool, FireBaseError>) -> ())
     //Facebook methods
     func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ())
     //Google methods
@@ -88,9 +88,7 @@ class FirebaseService: FirebaseServiceProtocol {
                 return
             }
             completion(.success(user.uid))
-            self.database.updateDatabaseSnapshot {
-                self.setupUserToTheApp(user: user)
-            }
+            self.setupUserToTheApp(user: user)
         }
     }
     public func setupUserToTheApp(user: User) {
@@ -117,48 +115,48 @@ class FirebaseService: FirebaseServiceProtocol {
             print("can't log out")
         }
     }
-    public func reauthenticateAndDeleteUserWithFirebase(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
-        guard let email = firebase.currentUser?.email else {
-            print("email, is wrong")
-            return completion(.failure(.wrongEmail))
-        }
-        //password confirmation with firebase
-        let user = firebase.currentUser
-        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
-        user?.reauthenticate(with: credential) { result, error in
-            if error != nil {
-                print("Firebase service: logging in with email: \(email) and password: \(password) is failed")
-                completion (.failure(.loginError))
-            }
-            if result != nil {
-                //deleting
-                self.tryToDeleteAccountWithFirebase() { deletionResult in
-                    switch deletionResult {
-                    case .success(_):
-                        break
-                        // in succesfull case SceneDelegate listener will change the state of app
-                    case .failure(let error):
-                        completion(.failure(error))
-                    }
-                }
-            }
-        }
-    }
-    public func tryToDeleteAccountWithFirebase(completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
-        guard let user = firebase.currentUser else {
-            completion(.failure(.noSuchUserFindet))
-            return
-        }
-        user.delete { error in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(.failure(.deletingError))
-            } else {
-                completion(.success(true))
-                self.database.updateValues(userUID: user.uid, key: "active", value: "false")
-            }
-        }
-    }
+//    public func reauthenticateAndDeleteUserWithFirebase(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
+//        guard let email = firebase.currentUser?.email else {
+//            print("email, is wrong")
+//            return completion(.failure(.wrongEmail))
+//        }
+//        //password confirmation with firebase
+//        let user = firebase.currentUser
+//        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+//        user?.reauthenticate(with: credential) { result, error in
+//            if error != nil {
+//                print("Firebase service: logging in with email: \(email) and password: \(password) is failed")
+//                completion (.failure(.loginError))
+//            }
+//            if result != nil {
+//                //deleting
+//                self.tryToDeleteAccountWithFirebase() { deletionResult in
+//                    switch deletionResult {
+//                    case .success(_):
+//                        break
+//                        // in succesfull case SceneDelegate listener will change the state of app
+//                    case .failure(let error):
+//                        completion(.failure(error))
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    public func tryToDeleteAccountWithFirebase(completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
+//        guard let user = firebase.currentUser else {
+//            completion(.failure(.noSuchUserFindet))
+//            return
+//        }
+//        user.delete { error in
+//            if let error = error {
+//                print(error.localizedDescription)
+//                completion(.failure(.deletingError))
+//            } else {
+//                completion(.success(true))
+//                self.database.updateValues(userUID: user.uid, key: "active", value: "false")
+//            }
+//        }
+//    }
     public func restorePasswordWithFirebase(email: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
         firebase.sendPasswordReset(withEmail: email) { error in
             if error != nil {

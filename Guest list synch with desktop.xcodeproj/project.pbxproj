@@ -25,6 +25,9 @@
 		8A0E9B8E2910210200DBF883 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B8D2910210200DBF883 /* ProfileViewController.swift */; };
 		8A0E9B902910212800DBF883 /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B8F2910212800DBF883 /* ProfilePresenter.swift */; };
 		8A0E9B922910214200DBF883 /* ProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B912910214200DBF883 /* ProfileInteractor.swift */; };
+		8A0E9B992911983E00DBF883 /* GuestlistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B982911983D00DBF883 /* GuestlistViewController.swift */; };
+		8A0E9B9B2911985D00DBF883 /* GuestlistPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B9A2911985D00DBF883 /* GuestlistPresenter.swift */; };
+		8A0E9B9D2911986F00DBF883 /* GuestlistInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B9C2911986F00DBF883 /* GuestlistInteractor.swift */; };
 		8A54CE2B290C177900ADAB45 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE2A290C177900ADAB45 /* UserEntity.swift */; };
 		8A54CE2E290C3E2F00ADAB45 /* SupportingUserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */; };
 		8A54CE32290C893D00ADAB45 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE31290C893D00ADAB45 /* RealmService.swift */; };
@@ -66,6 +69,9 @@
 		8A0E9B8D2910210200DBF883 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		8A0E9B8F2910212800DBF883 /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
 		8A0E9B912910214200DBF883 /* ProfileInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInteractor.swift; sourceTree = "<group>"; };
+		8A0E9B982911983D00DBF883 /* GuestlistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestlistViewController.swift; sourceTree = "<group>"; };
+		8A0E9B9A2911985D00DBF883 /* GuestlistPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestlistPresenter.swift; sourceTree = "<group>"; };
+		8A0E9B9C2911986F00DBF883 /* GuestlistInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestlistInteractor.swift; sourceTree = "<group>"; };
 		8A54CE2A290C177900ADAB45 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportingUserEntity.swift; sourceTree = "<group>"; };
 		8A54CE31290C893D00ADAB45 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
@@ -130,9 +136,9 @@
 			isa = PBXGroup;
 			children = (
 				8A0E9B7429101F9E00DBF883 /* AuthViewController.swift */,
+				8A0E9B7529101F9F00DBF883 /* SignInModalView.swift */,
 				8A0E9B7729101FA000DBF883 /* PasswordModalView.swift */,
 				8A0E9B7629101F9F00DBF883 /* RegistrationModalView.swift */,
-				8A0E9B7529101F9F00DBF883 /* SignInModalView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -157,7 +163,6 @@
 			isa = PBXGroup;
 			children = (
 				8A0E9B7C29101FD400DBF883 /* EventsListSemaphore.swift */,
-				8A0E9B5D29101E2400DBF883 /* Entity */,
 				8A0E9B5C29101E1F00DBF883 /* Interactor */,
 				8A0E9B5B29101E1B00DBF883 /* Presenter */,
 				8A0E9B5A29101E1700DBF883 /* View */,
@@ -190,18 +195,20 @@
 			path = Interactor;
 			sourceTree = "<group>";
 		};
-		8A0E9B5D29101E2400DBF883 /* Entity */ = {
+		8A0E9B5D29101E2400DBF883 /* EventEntity */ = {
 			isa = PBXGroup;
 			children = (
 				8A0E9B7E29101FDA00DBF883 /* EventEntity.swift */,
 			);
-			path = Entity;
+			path = EventEntity;
 			sourceTree = "<group>";
 		};
 		8A0E9B6A29101E5000DBF883 /* GuestsListModule */ = {
 			isa = PBXGroup;
 			children = (
-				8A0E9B882910200300DBF883 /* GuestEntity.swift */,
+				8A0E9B972911981E00DBF883 /* Interactor */,
+				8A0E9B962911981700DBF883 /* Presenter */,
+				8A0E9B952911980C00DBF883 /* View */,
 			);
 			path = GuestsListModule;
 			sourceTree = "<group>";
@@ -240,6 +247,48 @@
 			path = Interactor;
 			sourceTree = "<group>";
 		};
+		8A0E9B9329102CF000DBF883 /* GuestEntity */ = {
+			isa = PBXGroup;
+			children = (
+				8A0E9B882910200300DBF883 /* GuestEntity.swift */,
+			);
+			path = GuestEntity;
+			sourceTree = "<group>";
+		};
+		8A0E9B9429102CFE00DBF883 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				8A0E9B9329102CF000DBF883 /* GuestEntity */,
+				8A0E9B5D29101E2400DBF883 /* EventEntity */,
+				8A54CE29290C176900ADAB45 /* UserEntity */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		8A0E9B952911980C00DBF883 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8A0E9B982911983D00DBF883 /* GuestlistViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8A0E9B962911981700DBF883 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				8A0E9B9A2911985D00DBF883 /* GuestlistPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		8A0E9B972911981E00DBF883 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				8A0E9B9C2911986F00DBF883 /* GuestlistInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
 		8A54CE29290C176900ADAB45 /* UserEntity */ = {
 			isa = PBXGroup;
 			children = (
@@ -249,35 +298,19 @@
 			path = UserEntity;
 			sourceTree = "<group>";
 		};
-		8A54CE2F290C892500ADAB45 /* FirebaseDatabaseServise */ = {
-			isa = PBXGroup;
-			children = (
-				8A54CE33290C894F00ADAB45 /* FirebaseDatabaseService.swift */,
-			);
-			path = FirebaseDatabaseServise;
-			sourceTree = "<group>";
-		};
-		8A54CE30290C892C00ADAB45 /* RealmService */ = {
-			isa = PBXGroup;
-			children = (
-				8A54CE31290C893D00ADAB45 /* RealmService.swift */,
-			);
-			path = RealmService;
-			sourceTree = "<group>";
-		};
-		8A7E92FC29074BCF005E5B33 /* GoogleSheets layer */ = {
+		8A7E92FC29074BCF005E5B33 /* GoogleSpreadsheets layer */ = {
 			isa = PBXGroup;
 			children = (
 				8A7E9308290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift */,
 			);
-			path = "GoogleSheets layer";
+			path = "GoogleSpreadsheets layer";
 			sourceTree = "<group>";
 		};
 		8A7E92FD29074BEF005E5B33 /* Database layer */ = {
 			isa = PBXGroup;
 			children = (
-				8A54CE30290C892C00ADAB45 /* RealmService */,
-				8A54CE2F290C892500ADAB45 /* FirebaseDatabaseServise */,
+				8A54CE33290C894F00ADAB45 /* FirebaseDatabaseService.swift */,
+				8A54CE31290C893D00ADAB45 /* RealmService.swift */,
 			);
 			path = "Database layer";
 			sourceTree = "<group>";
@@ -289,6 +322,7 @@
 				8AF83E902906655100614257 /* SceneDelegate.swift */,
 				8AF83ED12906712600614257 /* Router.swift */,
 				8AF83ED32906713D00614257 /* AssemblyModuleBuilder.swift */,
+				8A0E9B9429102CFE00DBF883 /* Entities */,
 				8AF83EA629066B8700614257 /* Appearance */,
 				8AF83EAF29066C2E00614257 /* Supporting files */,
 			);
@@ -299,7 +333,7 @@
 			isa = PBXGroup;
 			children = (
 				8A7E92FD29074BEF005E5B33 /* Database layer */,
-				8A7E92FC29074BCF005E5B33 /* GoogleSheets layer */,
+				8A7E92FC29074BCF005E5B33 /* GoogleSpreadsheets layer */,
 				8AF83EB129066CF000614257 /* Firebase layer */,
 				8AF83EB029066CE900614257 /* Network layer */,
 			);
@@ -367,7 +401,6 @@
 		8AF83EB129066CF000614257 /* Firebase layer */ = {
 			isa = PBXGroup;
 			children = (
-				8A54CE29290C176900ADAB45 /* UserEntity */,
 				8AF83EA22906666300614257 /* GoogleService-Info.plist */,
 				8AF83EB429066D1700614257 /* FirebaseService.swift */,
 			);
@@ -528,12 +561,14 @@
 				8A0E9B922910214200DBF883 /* ProfileInteractor.swift in Sources */,
 				8A0E9B892910200300DBF883 /* GuestEntity.swift in Sources */,
 				8A0E9B902910212800DBF883 /* ProfilePresenter.swift in Sources */,
+				8A0E9B9B2911985D00DBF883 /* GuestlistPresenter.swift in Sources */,
 				8A0E9B8129101FE100DBF883 /* EventsListInteractor.swift in Sources */,
 				8AF83ED22906712600614257 /* Router.swift in Sources */,
 				8A0E9B7129101F8200DBF883 /* AuthInteractor.swift in Sources */,
 				8AF83ED42906713D00614257 /* AssemblyModuleBuilder.swift in Sources */,
 				8A0E9B7829101FA000DBF883 /* AuthViewController.swift in Sources */,
 				8AF83EB329066D0400614257 /* NetworkService.swift in Sources */,
+				8A0E9B9D2911986F00DBF883 /* GuestlistInteractor.swift in Sources */,
 				8A0E9B7929101FA000DBF883 /* SignInModalView.swift in Sources */,
 				8AF83EB529066D1700614257 /* FirebaseService.swift in Sources */,
 				8A54CE32290C893D00ADAB45 /* RealmService.swift in Sources */,
@@ -541,6 +576,7 @@
 				8A54CE34290C894F00ADAB45 /* FirebaseDatabaseService.swift in Sources */,
 				8A0E9B7F29101FDA00DBF883 /* EventEntity.swift in Sources */,
 				8A54CE2B290C177900ADAB45 /* UserEntity.swift in Sources */,
+				8A0E9B992911983E00DBF883 /* GuestlistViewController.swift in Sources */,
 				8A0E9B8629101FEF00DBF883 /* EventsListViewController.swift in Sources */,
 				8A0E9B7D29101FD400DBF883 /* EventsListSemaphore.swift in Sources */,
 				8A54CE2E290C3E2F00ADAB45 /* SupportingUserEntity.swift in Sources */,

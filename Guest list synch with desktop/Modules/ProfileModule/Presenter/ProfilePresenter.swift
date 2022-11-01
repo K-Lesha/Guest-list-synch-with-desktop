@@ -36,8 +36,4 @@ class ProfilePresenter: ProfilePresenterProtocol {
         router.showAuthModule()
     }
     
-    
-    
-    
-    
 }

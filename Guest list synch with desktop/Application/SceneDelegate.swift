@@ -56,7 +56,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
             firebaseService.setupUserToTheApp(user: user)
             let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
-            router.showEventsListModule(userUID: user.uid)
+            router.showEventsListModule()
         }
         
 

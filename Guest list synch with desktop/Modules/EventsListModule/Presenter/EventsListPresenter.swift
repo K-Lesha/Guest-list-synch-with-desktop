@@ -14,12 +14,12 @@ protocol EventsListPresenterProtocol: AnyObject {
     var interactor: EventsListInteractorProtocol! {get set}
     var router: RouterProtocol! {get set}
     init(view: EventsListViewControllerProtocol, interactor: EventsListInteractorProtocol, router: RouterProtocol)
-    //TEMP DATA
-    
+    //Properties
+    var eventsList: [EventEntity] {get set}
     // METHODS
-    func setDataToTheView(completionHandler: @escaping (Result<[EventEntity], EventListInteractorError>) -> Void)
+    func setDataToTheView()
     func showProfile()
-    
+    func showEventGuestlist(eventID: String)
 }
 
 //MARK: Presenter
@@ -34,12 +34,27 @@ class EventsListPresenter: EventsListPresenterProtocol {
         self.interactor = interactor
         self.router = router
     }
-
+    
+    //MARK: Properties
+    var eventsList: [EventEntity] = [EventEntity]()
+    
     //MARK: METHODS
-    func setDataToTheView(completionHandler: @escaping (Result<[EventEntity], EventListInteractorError>) -> Void) {
-        interactor.readOneEventData(completionHandler: completionHandler)
+    func setDataToTheView() {
+        self.interactor.readAllTheEvents { result in
+            switch result {
+            case .success(let eventsArray):
+                self.eventsList = eventsArray
+                self.view.reloadData()
+            case .failure(let error):
+                print (error.localizedDescription)
+                self.view.showError()
+            }
+        }
     }
     func showProfile() {
         router.showProfileModule()
+    }
+    func showEventGuestlist(eventID: String) {
+        router.showGuestslistModule(eventID: eventID)
     }
 }

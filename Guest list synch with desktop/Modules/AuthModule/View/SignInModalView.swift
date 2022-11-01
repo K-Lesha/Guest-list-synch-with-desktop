@@ -195,9 +195,9 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
     @objc private func facebookButtonTapped() {
         presenter.tryToLoginWithFacebook(viewController: self) { result in
             switch result {
-            case .success(let userUID):
+            case .success(_):
                 self.dismiss(animated: true)
-                self.presenter.showEventsListModule(userUID: userUID)
+                self.presenter.showEventsListModule()
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -206,9 +206,9 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
     @objc func googleButtonTapped() {
         presenter.tryToLoginWithGoogle(viewController: self) { result in
             switch result {
-            case .success(let userUID):
+            case .success(_):
                 self.dismiss(animated: true)
-                self.presenter.showEventsListModule(userUID: userUID)
+                self.presenter.showEventsListModule()
             case .failure(let error):
                 print(error.localizedDescription)
             }

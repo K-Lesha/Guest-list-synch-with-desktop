@@ -26,7 +26,7 @@ protocol AuthPresenterProtocol: AnyObject {
     func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ())
     func checkInternetConnection() -> Bool
     func restorePasswordWithFirebase(completion: @escaping (Result<Bool, FireBaseError>) -> ())
-    func showEventsListModule(userUID: String)
+    func showEventsListModule()
 }
 
 //MARK: Presenter
@@ -73,7 +73,6 @@ class AuthPresenter: AuthPresenterProtocol {
     internal func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         self.interactor.tryToLoginWithFacebook(viewController: viewController, completion: completion)
     }
-
     internal func checkInternetConnection() -> Bool {
         return self.interactor.checkInternetConnection()
     }
@@ -83,8 +82,8 @@ class AuthPresenter: AuthPresenterProtocol {
     internal func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         interactor.tryToLoginWithGoogle(viewController: viewController, completion: completion)
     }
-    internal func showEventsListModule(userUID: String) {
-        router.showEventsListModule(userUID: userUID)
+    internal func showEventsListModule() {
+        router.showEventsListModule()
     }
 
 }

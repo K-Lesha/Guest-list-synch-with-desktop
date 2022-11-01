@@ -62,9 +62,7 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
                                                                 "avatarLinkString": "",
                                                                 "registrationDate": Date().formatted(date: .complete, time: .complete),
                                                                 "signInProvider": signInProvider])
-                self.updateDatabaseSnapshot {
-                    self.setupUserToTheApp(user: self.firebase.currentUser!)
-                }
+                self.setupUserToTheApp(user: self.firebase.currentUser!)
             }
         }
     }

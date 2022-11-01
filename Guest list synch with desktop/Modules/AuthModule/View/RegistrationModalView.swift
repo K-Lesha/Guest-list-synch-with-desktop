@@ -276,8 +276,8 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
         // try to registrer
         presenter.tryToRegisterWithFirebase() { result in
             switch result {
-            case .success(let userUID):
-                self.presenter.showEventsListModule(userUID: userUID)
+            case .success(_):
+                self.presenter.showEventsListModule()
                 self.dismiss(animated: true)
             case.failure(_):
                 self.showRegistrationError()

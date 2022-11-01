@@ -34,8 +34,7 @@ class EventTableViewCell: UITableViewCell {
     }
     //MARK: - METHODS
     func setupViews() {
-        //setup@contenView
-        contentView.backgroundColor = .white
+        print(Thread.current)
         
         //setup@eventNameLabel
         eventNameLabel = UILabel()
@@ -107,5 +106,11 @@ class EventTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        //setup@contenView
+        if selected {
+            contentView.backgroundColor = .green
+        } else {
+            contentView.backgroundColor = .white
+        }
     }
 }

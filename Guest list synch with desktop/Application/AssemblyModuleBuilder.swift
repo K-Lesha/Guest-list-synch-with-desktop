@@ -17,23 +17,22 @@ protocol AssemblyBuilderProtocol {
     //METHODS
     func createAuthModule(router: RouterProtocol) -> UIViewController
     func createEventsListModule(router: RouterProtocol) -> UIViewController
+    func createGuestslistModule(router: RouterProtocol, eventID: String) -> UIViewController
     func createProfileModule(router: RouterProtocol) -> UIViewController
 }
 
 class AssemblyModuleBuilder: AssemblyBuilderProtocol {
-    //MARK: Builder properties
+    //MARK: -Builder properties
     internal var networkService: NetworkServiceProtocol!
     internal var firebaseService: FirebaseServiceProtocol!
     internal var firebaseDatabase: FirebaseDatabaseProtocol!
-    required init(networkService: NetworkServiceProtocol,
-                  firebaseService: FirebaseServiceProtocol,
-                  firebaseDatabase: FirebaseDatabaseProtocol) {
+    required init(networkService: NetworkServiceProtocol, firebaseService: FirebaseServiceProtocol, firebaseDatabase: FirebaseDatabaseProtocol) {
         self.networkService = networkService
         self.firebaseService = firebaseService
         self.firebaseDatabase = firebaseDatabase
     }
     
-    //MARK: METHODS
+    //MARK: -METHODS
     internal func createAuthModule(router: RouterProtocol) -> UIViewController {
         let view = AuthViewController()
         let interactor = AuthInteractor(networkService: self.networkService, firebaseService: self.firebaseService)
@@ -43,8 +42,15 @@ class AssemblyModuleBuilder: AssemblyBuilderProtocol {
     }
     internal func createEventsListModule(router: RouterProtocol) -> UIViewController {
         let view = EventsListViewController()
-        let interactor = EventsListInteractor(networkService: self.networkService)
+        let interactor = EventsListInteractor()
         let presenter = EventsListPresenter(view: view, interactor: interactor, router: router)
+        view.presenter = presenter
+        return view
+    }
+    internal func createGuestslistModule(router: RouterProtocol, eventID: String) -> UIViewController {
+        let view = GuestlistViewController()
+        let interactor = GuestListInteractor()
+        let presenter = GuestlistPresenter(view: view, interactor: interactor, router: router, eventID: eventID)
         view.presenter = presenter
         return view
     }
@@ -55,5 +61,4 @@ class AssemblyModuleBuilder: AssemblyBuilderProtocol {
         view.presenter = presenter
         return view
     }
-
 }

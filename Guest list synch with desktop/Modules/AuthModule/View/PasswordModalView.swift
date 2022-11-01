@@ -222,8 +222,8 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
             presenter.password = self.passwordTextField.text ?? ""
             presenter.tryToLoginWithFirebase { result in
                 switch result {
-                case .success(let userUID):
-                    self.presenter.showEventsListModule(userUID: userUID)
+                case .success(_):
+                    self.presenter.showEventsListModule()
                     self.dismissPasswordAndSignInViews()
                 case .failure(let error):
                     print(error.localizedDescription)

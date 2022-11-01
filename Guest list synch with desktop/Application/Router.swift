@@ -16,13 +16,14 @@ protocol RouterProtocol: AnyObject {
     init (navigationController: UINavigationController, assemblyBuilder: AssemblyBuilderProtocol)
     //METHODS
     func showAuthModule()
-    func showEventsListModule(userUID: String)
+    func showEventsListModule()
     func showProfileModule()
-    func popToRoot()
+    func showGuestslistModule(eventID: String)
+    func popOneController()
 }
 
 class Router: RouterProtocol {
-    //MARK: Router properties
+    //MARK: -Router properties
     internal var navigationController: UINavigationController!
     internal var assemblyBuilder: AssemblyBuilderProtocol!
     
@@ -30,14 +31,14 @@ class Router: RouterProtocol {
         self.navigationController = navigationController
         self.assemblyBuilder = assemblyBuilder
     }
-    //MARK: METHODS
+    //MARK: -METHODS
     public func showAuthModule() {
         if let navigationController = navigationController {
             guard let authViewController = assemblyBuilder?.createAuthModule(router: self) else { return }
             navigationController.viewControllers = [authViewController]
         }
     }
-    public func showEventsListModule(userUID: String) {
+    public func showEventsListModule() {
         if let navigationController = navigationController {
             guard let eventsListViewController = assemblyBuilder?.createEventsListModule(router: self) else { return }
             navigationController.viewControllers = [eventsListViewController]
@@ -49,9 +50,15 @@ class Router: RouterProtocol {
             navigationController.pushViewController(eventsListViewController, animated: true)
         }
     }
-    public func popToRoot() {
+    public func showGuestslistModule(eventID: String) {
         if let navigationController = navigationController {
-            navigationController.popToRootViewController(animated: true)
+            guard let eventsListViewController = assemblyBuilder?.createGuestslistModule(router: self, eventID: eventID) else { return }
+            navigationController.pushViewController(eventsListViewController, animated: true)
+        }
+    }
+    public func popOneController() {
+        if let navigationController = navigationController {
+            navigationController.popViewController(animated: true)
         }
     }
 }

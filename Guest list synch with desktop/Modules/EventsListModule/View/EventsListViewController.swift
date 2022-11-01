@@ -12,6 +12,8 @@ protocol EventsListViewControllerProtocol: AnyObject {
     //VIPER protocol
     var presenter: EventsListPresenterProtocol! {get set}
     //Methods
+    func reloadData()
+    func showError()
 }
 //MARK: View
 class EventsListViewController: UIViewController, EventsListViewControllerProtocol {
@@ -19,15 +21,13 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
     //MARK: -VIPER protocol
     internal var presenter: EventsListPresenterProtocol!
     
-    //MARK: -View properties
-    var eventsList = [EventEntity]()
-    
     //MARK: -OUTLETS
-    internal var currentEventsButton: UIButton!
-    internal var pastEventsButton: UIButton!
-    internal var profileButton: UIButton!
-    internal var eventsTableView: UITableView!
-    internal var addEventButton: UIButton!
+    private var allEventsButton: UIButton!
+    private var currentEventsButton: UIButton!
+    private var pastEventsButton: UIButton!
+    private var profileButton: UIButton!
+    private var eventsTableView: UITableView!
+    private var addEventButton: UIButton!
     
     //MARK: -viewDidLoad
     override func viewDidLoad() {
@@ -41,20 +41,22 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
         //setup@self.view
         self.view.backgroundColor = .white
         
+        
+        //setup@allEventsButton
+        allEventsButton = UIButton()
+        allEventsButton.setTitle("All events", for: .normal)
+        allEventsButton.backgroundColor = .black
+        allEventsButton.addTarget(self, action: #selector(allEventsButtonPressed), for: .touchUpInside)
+        let allEventsBarButtomItem = UIBarButtonItem(customView: allEventsButton)
+        self.navigationItem.leftBarButtonItems = [allEventsBarButtomItem]
+        
         //setup@currentEventsButton
         currentEventsButton = UIButton()
         currentEventsButton.setTitle("Current", for: .normal)
         currentEventsButton.backgroundColor = .black
         currentEventsButton.addTarget(self, action: #selector(currentEventsButtonPressed), for: .touchUpInside)
         let currentEventsBarButtomItem = UIBarButtonItem(customView: currentEventsButton)
-        self.navigationItem.leftBarButtonItems = [currentEventsBarButtomItem]
-//        self.navigationController?.navigationItem.leftBarButtonItem = currentEventsBarButtomItem
-        //constraints@currentEventsButton
-        currentEventsButton.translatesAutoresizingMaskIntoConstraints = false
-//        currentEventsButton.leftAnchor.constraint(equalTo: self.navigationController!.view.leftAnchor, constant: 20).isActive = true
-//        currentEventsButton.topAnchor.constraint(equalTo: self.navigationController!.view.topAnchor, constant: 50).isActive = true
-//        currentEventsButton.widthAnchor.constraint(equalToConstant: 90).isActive = true
-//        currentEventsButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        self.navigationItem.leftBarButtonItems?.append(currentEventsBarButtomItem)
         
         //setup@pastEventsButton
         pastEventsButton = UIButton()
@@ -63,13 +65,6 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
         pastEventsButton.addTarget(self, action: #selector(pastEventsButtonPressed), for: .touchUpInside)
         let pastEventsButtonBarButtomItem = UIBarButtonItem(customView: pastEventsButton)
         self.navigationItem.leftBarButtonItems?.append(pastEventsButtonBarButtomItem)
-        //constraints@pastEventsButton
-//        pastEventsButton.translatesAutoresizingMaskIntoConstraints = false
-//        pastEventsButton.leftAnchor.constraint(equalTo: currentEventsButton.rightAnchor, constant: 7).isActive = true
-//        pastEventsButton.topAnchor.constraint(equalTo: currentEventsButton.topAnchor).isActive = true
-//        pastEventsButton.widthAnchor.constraint(equalTo: currentEventsButton.widthAnchor).isActive = true
-//        pastEventsButton.heightAnchor.constraint(equalTo: currentEventsButton.heightAnchor).isActive = true
-
         
         //setup@profileButton
         profileButton = UIButton()
@@ -78,12 +73,6 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
         profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
         let profileButtonBarButtomItem = UIBarButtonItem(customView: profileButton)
         self.navigationItem.rightBarButtonItem = profileButtonBarButtomItem
-        //constraints@profileButton
-//        profileButton.translatesAutoresizingMaskIntoConstraints = false
-//        profileButton.rightAnchor.constraint(equalTo: self.navigationController!.view.rightAnchor, constant: -20).isActive = true
-//        profileButton.topAnchor.constraint(equalTo: currentEventsButton.topAnchor).isActive = true
-//        profileButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-//        profileButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         //setup@eventsTableView
         eventsTableView = UITableView()
@@ -99,9 +88,8 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
         eventsTableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         eventsTableView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         eventsTableView.heightAnchor.constraint(equalTo: self.view.heightAnchor).isActive = true
-        
-        // download events and set them to view
-        setOneEventToTableView()
+        // download@all_the_user_events_and_set_them_to_view
+        self.presenter.setDataToTheView()
         
         //setup@sheetsButton
         addEventButton = UIButton()
@@ -116,34 +104,24 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
         addEventButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         addEventButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20).isActive = true
     }
-    func setOneEventToTableView() {
-        self.presenter.setDataToTheView { result in
-            switch result {
-            case .success(let oneEventInArray):
-                self.eventsList = oneEventInArray
-                self.eventsTableView.reloadData()
-            case .failure(let error):
-                print (error.localizedDescription)
-            }
+    
+    func reloadData() {
+        DispatchQueue.main.async {
+            self.eventsTableView.reloadData()
         }
-        //        print("appendData")
-        //        appendData { (string) in
-        //            self.utils.showAlert(title: "", message: string, vc: self)
-        //        }
-        
-        //                print("readSheets")
-        //        readSheets { (string) in
-        //            self.utils.showAlert(title: "", message: string, vc: self)
-        //        }
-        
-        //        print("sendDataToCell")
-        //        sendDataToCell { (string) in
-        //            self.utils.showAlert(title: "", message: string, vc: self)
-        //        }
+    }
+    
+    func showError() {
+        DispatchQueue.main.async {
+            
+        }
     }
     
     //MARK: Button methods
     @objc func addEventButtonPressed() {
+        
+    }
+    @objc func allEventsButtonPressed() {
         
     }
     
@@ -166,15 +144,19 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
 
 extension EventsListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.eventsList.count
+        return self.presenter.eventsList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "event", for: indexPath) as! EventTableViewCell
-        cell.eventNameLabel.text = self.eventsList[indexPath.row].eventName
-        cell.venueLabel.text = self.eventsList[indexPath.row].eventVenue
-        cell.eventDateAndTimeLabel.text = "\(self.eventsList[indexPath.row].eventDate ?? ""), \(self.eventsList[indexPath.row].eventTime ?? "")"
-        cell.guestsAmountLabel.text = "57"
+        cell.eventNameLabel.text = self.presenter.eventsList[indexPath.row].eventName
+        cell.venueLabel.text = self.presenter.eventsList[indexPath.row].eventVenue
+        cell.eventDateAndTimeLabel.text = "\(self.presenter.eventsList[indexPath.row].eventDate ), \(self.presenter.eventsList[indexPath.row].eventTime)"
+        cell.guestsAmountLabel.text = self.presenter.eventsList[indexPath.row].totalGuest
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presenter.showEventGuestlist(eventID: self.presenter.eventsList[indexPath.row].eventUniqueIdentifier)
     }
 }
