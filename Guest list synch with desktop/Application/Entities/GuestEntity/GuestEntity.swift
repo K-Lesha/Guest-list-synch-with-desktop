@@ -8,5 +8,17 @@
 import Foundation
 
 struct GuestEntity {
+    //MARK: PROPERTIES
     var guestName: String
+    var guestSurname: String
+    
+    //MARK: - INIT
+    init() {
+        guestName = "empty_name"
+        guestSurname = "empty_surname"
+    }
+    init(guestName: String, guestSurname: String) {
+        self.guestName = guestName
+        self.guestSurname = guestSurname
+    }
 }

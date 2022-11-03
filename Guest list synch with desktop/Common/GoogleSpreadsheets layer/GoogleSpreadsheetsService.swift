@@ -12,12 +12,14 @@ import GoogleAPIClientForREST
 
 protocol GoogleSpreadsheetsServiceProtocol {
     //Methods
-    func readOneEventData(range: SheetsRange, eventID: String, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void)
+    func readSpreadsheetsData(range: SheetsRange, eventID: String, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void)
+    func appendData(spreadsheetID: String, range: SheetsRange, data: [String], completion: @escaping (String) -> Void)
 }
 
 enum SheetsRange: String {
     case oneEventData = "A1:A23"
-    case guestsData = "A26:N"
+    case guestsDataForReading = "B27:N"
+    case guestsDataForAdding = "A27:N"
 }
 enum SheetsError: Error {
     case error
@@ -43,7 +45,7 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
                             "https://www.googleapis.com/auth/drive.file"]
     
     //MARK: Spreadsheets methods
-    func readOneEventData(range: SheetsRange, eventID: String, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void) {
+    func readSpreadsheetsData(range: SheetsRange, eventID: String, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void) {
         print("Getting sheet data...")
         let query = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: eventID, range:range.rawValue)
         sheetService.executeQuery(query) { (ticket, result, error) in
@@ -56,7 +58,7 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
                 completionHandler(.failure(.error))
                 return
             }
-            var stringRows = result.values! as! [[String]]
+            let stringRows = result.values! as! [[String]]
             
             if stringRows.isEmpty {
                 completionHandler(.failure(.dataIsEmpty))
@@ -65,36 +67,25 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
             completionHandler(.success(stringRows))
         }
     }
+
     
-    
-    
-    
-    
-    
-    
-//    func appendData(completionHandler: @escaping (String) -> Void) {
-//
-//        let spreadsheetId = self.sheetID
-//        let range = "A1:Q"
-//        let rangeToAppend = GTLRSheets_ValueRange.init();
-//        let data = ["this", "is","a","test"]
-//
-//        rangeToAppend.values = [data]
-//
-//        let query = GTLRSheetsQuery_SpreadsheetsValuesAppend.query(withObject: rangeToAppend, spreadsheetId: spreadsheetId, range: range)
-//            query.valueInputOption = "USER_ENTERED"
-//
-//            sheetService.executeQuery(query) { (ticket, result, error) in
-//                if let error = error {
-//                    print("Error in appending data: \(error)")
-//                    completionHandler("Error in sending data:\n\(error.localizedDescription)")
-//                } else {
-//                    print("Data sent: \(data)")
-//                    completionHandler("Success!")
-//                }
-//            }
-//        }
-//
+    func appendData(spreadsheetID: String, range: SheetsRange, data: [String], completion: @escaping (String) -> Void) {
+        let rangeToAppend = GTLRSheets_ValueRange.init();
+        rangeToAppend.values = [data]
+
+        let query = GTLRSheetsQuery_SpreadsheetsValuesAppend.query(withObject: rangeToAppend, spreadsheetId: spreadsheetID, range: range.rawValue)
+            query.valueInputOption = "USER_ENTERED"
+            sheetService.executeQuery(query) { (ticket, result, error) in
+                if let error = error {
+                    print("Error in appending data: \(error)")
+                    completion("Error in sending data:\n\(error.localizedDescription)")
+                } else {
+                    print("Data sent: \(data)")
+                    completion("Success!")
+                }
+            }
+        }
+
 //    func sendDataToCell(completionHandler: @escaping (String) -> Void) {
 //
 //            let spreadsheetId = self.sheetID

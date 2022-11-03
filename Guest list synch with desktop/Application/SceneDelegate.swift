@@ -46,13 +46,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 fatalError("failed")
             }
             //Google restorePreviousSignIn
-//            GIDSignIn.sharedInstance.restorePreviousSignIn { googleUser, error in
-//                if error != nil || googleUser == nil {
-//                    print("googleUser == nil, need to authenteticate user with google")
-//                } else {
-//                    print("googleUser != nil")
-//                }
-//            }
+            GIDSignIn.sharedInstance.restorePreviousSignIn { googleUser, error in
+                if error != nil || googleUser == nil {
+                    print("googleUser == nil, need to authenteticate user with google")
+                } else {
+                    print("googleUser != nil")
+                }
+            }
             firebaseService.setupUserToTheApp(user: user)
             let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
             router.showEventsListModule()

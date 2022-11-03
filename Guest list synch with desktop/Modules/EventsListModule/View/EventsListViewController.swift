@@ -34,6 +34,10 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
         super.viewDidLoad()
         setupViews()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.presenter.setDataToTheView()
+    }
     
     //MARK: -METHODS
     //MARK: View methods
@@ -87,9 +91,7 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
         eventsTableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         eventsTableView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         eventsTableView.heightAnchor.constraint(equalTo: self.view.heightAnchor).isActive = true
-        // download@all_the_user_events_and_set_them_to_view
-        self.presenter.setDataToTheView()
-        
+            
         //setup@addEventButton
         addEventButton = UIButton()
         self.view.addSubview(addEventButton)

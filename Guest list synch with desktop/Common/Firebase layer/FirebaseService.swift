@@ -253,49 +253,49 @@ class FirebaseService: FirebaseServiceProtocol {
                                                        email: self.firebase.currentUser?.email ?? "googleWrongMail",
                                                        signInProvider: "GoogleSignIn")
                 //requestScopes for work with the private spreadshits
-                self.requestScopes(viewController: viewController, googleUser: user!) { success in
-                    if success == true {
-                        print("request scopes = success")
-                        completion(.success("success"))
-                    } else {
-                        print("request scopes = false")
-                        completion(.failure(.googleWithFirebaseLoginError))
-                    }
-                }
+//                self.requestScopes(viewController: viewController, googleUser: user!) { success in
+//                    if success == true {
+//                        print("request scopes = success")
+//                        completion(.success("success"))
+//                    } else {
+//                        print("request scopes = false")
+//                        completion(.failure(.googleWithFirebaseLoginError))
+//                    }
+//                }
             }
         }
     }
-    private let service = GTLRSheetsService()
-    public func requestScopes(viewController: SignInViewProtocol, googleUser: GIDGoogleUser, completionHandler: @escaping (Bool) -> Void) {
-        let grantedScopes = googleUser.grantedScopes
-        if grantedScopes == nil || !grantedScopes!.contains(GoogleSpreadsheetsService.grantedScopes) {
-            let additionalScopes = GoogleSpreadsheetsService.additionalScopes
-            
-            GIDSignIn.sharedInstance.addScopes(additionalScopes, presenting: viewController as! UIViewController) { user, scopeError in
-                if scopeError == nil {
-                    user?.authentication.do { authentication, err in
-                        if err == nil {
-                            guard let authentication = authentication else { return }
-                            // Get the access token to attach it to a REST or gRPC request.
-                            // let accessToken = authentication.accessToken
-                            let authorizer = authentication.fetcherAuthorizer()
-                            self.service.authorizer = authorizer
-                            completionHandler(true)
-                        } else {
-                            print("Error with auth: \(String(describing: err?.localizedDescription))")
-                            completionHandler(false)
-                        }
-                    }
-                } else {
-                    completionHandler(false)
-                    print("Error with adding scopes: \(String(describing: scopeError?.localizedDescription))")
-                }
-            }
-        } else {
-            print("Already contains the scopes!")
-            completionHandler(true)
-        }
-    }
+//    private let service = GTLRSheetsService()
+//    public func requestScopes(viewController: SignInViewProtocol, googleUser: GIDGoogleUser, completionHandler: @escaping (Bool) -> Void) {
+//        let grantedScopes = googleUser.grantedScopes
+//        if grantedScopes == nil || !grantedScopes!.contains(GoogleSpreadsheetsService.grantedScopes) {
+//            let additionalScopes = GoogleSpreadsheetsService.additionalScopes
+//
+//            GIDSignIn.sharedInstance.addScopes(additionalScopes, presenting: viewController as! UIViewController) { user, scopeError in
+//                if scopeError == nil {
+//                    user?.authentication.do { authentication, err in
+//                        if err == nil {
+//                            guard let authentication = authentication else { return }
+//                            // Get the access token to attach it to a REST or gRPC request.
+//                            // let accessToken = authentication.accessToken
+//                            let authorizer = authentication.fetcherAuthorizer()
+//                            self.service.authorizer = authorizer
+//                            completionHandler(true)
+//                        } else {
+//                            print("Error with auth: \(String(describing: err?.localizedDescription))")
+//                            completionHandler(false)
+//                        }
+//                    }
+//                } else {
+//                    completionHandler(false)
+//                    print("Error with adding scopes: \(String(describing: scopeError?.localizedDescription))")
+//                }
+//            }
+//        } else {
+//            print("Already contains the scopes!")
+//            completionHandler(true)
+//        }
+//    }
     public func checkUserLoginnedWithGoogle() -> Bool {
         return false
     }

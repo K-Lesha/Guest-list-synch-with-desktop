@@ -9,10 +9,9 @@ import UIKit
 
 protocol EventTableViewCellProtocol {
     //Methods
-    func showGuestListForEvent()
 }
 
-class EventTableViewCell: UITableViewCell {
+class EventTableViewCell: UITableViewCell, EventTableViewCellProtocol {
     
     //MARK: - OUTLETS
     internal var eventNameLabel: UILabel!

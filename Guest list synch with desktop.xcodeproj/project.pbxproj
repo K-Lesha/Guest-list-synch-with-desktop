@@ -29,7 +29,6 @@
 		8A0E9B9B2911985D00DBF883 /* GuestlistPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B9A2911985D00DBF883 /* GuestlistPresenter.swift */; };
 		8A0E9B9D2911986F00DBF883 /* GuestlistInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B9C2911986F00DBF883 /* GuestlistInteractor.swift */; };
 		8A0E9B9F2912A05B00DBF883 /* GuestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B9E2912A05A00DBF883 /* GuestTableViewCell.swift */; };
-		8A0E9BA12912AA4200DBF883 /* GuestsStaticticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9BA02912AA4200DBF883 /* GuestsStaticticViewController.swift */; };
 		8A54CE2B290C177900ADAB45 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE2A290C177900ADAB45 /* UserEntity.swift */; };
 		8A54CE2E290C3E2F00ADAB45 /* SupportingUserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */; };
 		8A54CE32290C893D00ADAB45 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE31290C893D00ADAB45 /* RealmService.swift */; };
@@ -75,7 +74,6 @@
 		8A0E9B9A2911985D00DBF883 /* GuestlistPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestlistPresenter.swift; sourceTree = "<group>"; };
 		8A0E9B9C2911986F00DBF883 /* GuestlistInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestlistInteractor.swift; sourceTree = "<group>"; };
 		8A0E9B9E2912A05A00DBF883 /* GuestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestTableViewCell.swift; sourceTree = "<group>"; };
-		8A0E9BA02912AA4200DBF883 /* GuestsStaticticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestsStaticticViewController.swift; sourceTree = "<group>"; };
 		8A54CE2A290C177900ADAB45 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportingUserEntity.swift; sourceTree = "<group>"; };
 		8A54CE31290C893D00ADAB45 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
@@ -119,7 +117,10 @@
 			children = (
 				8A0E9B4729101D8A00DBF883 /* AuthModule */,
 				8A0E9B5929101E0C00DBF883 /* EventsListModule */,
+				8A1AD3742914049C00312DD8 /* AddModifyEventModule */,
 				8A0E9B6A29101E5000DBF883 /* GuestsListModule */,
+				8A1AD3722914047A00312DD8 /* OneGuestModule */,
+				8A1AD3732914048900312DD8 /* AddModifyOneGuestModule */,
 				8A0E9B6D29101E6400DBF883 /* ProfileModule */,
 			);
 			path = Modules;
@@ -274,7 +275,6 @@
 			children = (
 				8A0E9B982911983D00DBF883 /* GuestlistViewController.swift */,
 				8A0E9B9E2912A05A00DBF883 /* GuestTableViewCell.swift */,
-				8A0E9BA02912AA4200DBF883 /* GuestsStaticticViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -293,6 +293,83 @@
 				8A0E9B9C2911986F00DBF883 /* GuestlistInteractor.swift */,
 			);
 			path = Interactor;
+			sourceTree = "<group>";
+		};
+		8A1AD3722914047A00312DD8 /* OneGuestModule */ = {
+			isa = PBXGroup;
+			children = (
+				8A1AD37A291404CA00312DD8 /* Interactor */,
+				8A1AD379291404C300312DD8 /* Presenter */,
+				8A1AD378291404BE00312DD8 /* View */,
+			);
+			path = OneGuestModule;
+			sourceTree = "<group>";
+		};
+		8A1AD3732914048900312DD8 /* AddModifyOneGuestModule */ = {
+			isa = PBXGroup;
+			children = (
+				8A1AD37B291405A500312DD8 /* New Group */,
+			);
+			path = AddModifyOneGuestModule;
+			sourceTree = "<group>";
+		};
+		8A1AD3742914049C00312DD8 /* AddModifyEventModule */ = {
+			isa = PBXGroup;
+			children = (
+				8A1AD377291404B200312DD8 /* Interactor */,
+				8A1AD376291404AD00312DD8 /* Presenter */,
+				8A1AD375291404A900312DD8 /* View */,
+			);
+			path = AddModifyEventModule;
+			sourceTree = "<group>";
+		};
+		8A1AD375291404A900312DD8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8A1AD376291404AD00312DD8 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		8A1AD377291404B200312DD8 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		8A1AD378291404BE00312DD8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8A1AD379291404C300312DD8 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		8A1AD37A291404CA00312DD8 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		8A1AD37B291405A500312DD8 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		8A54CE29290C176900ADAB45 /* UserEntity */ = {
@@ -571,7 +648,6 @@
 				8A0E9B8129101FE100DBF883 /* EventsListInteractor.swift in Sources */,
 				8AF83ED22906712600614257 /* Router.swift in Sources */,
 				8A0E9B7129101F8200DBF883 /* AuthInteractor.swift in Sources */,
-				8A0E9BA12912AA4200DBF883 /* GuestsStaticticViewController.swift in Sources */,
 				8AF83ED42906713D00614257 /* AssemblyModuleBuilder.swift in Sources */,
 				8A0E9B7829101FA000DBF883 /* AuthViewController.swift in Sources */,
 				8A0E9B9F2912A05B00DBF883 /* GuestTableViewCell.swift in Sources */,
