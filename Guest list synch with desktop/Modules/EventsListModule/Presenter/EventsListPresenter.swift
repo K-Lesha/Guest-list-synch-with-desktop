@@ -19,7 +19,7 @@ protocol EventsListPresenterProtocol: AnyObject {
     // METHODS
     func setDataToTheView()
     func showProfile()
-    func showEventGuestlist(event: EventEntity)
+    func showEventGuestlist(eventID: String)
 }
 
 //MARK: Presenter
@@ -54,7 +54,7 @@ class EventsListPresenter: EventsListPresenterProtocol {
     func showProfile() {
         router.showProfileModule()
     }
-    func showEventGuestlist(event: EventEntity) {
-        router.showGuestslistModule(event: event)
+    func showEventGuestlist(eventID: String) {
+        router.showGuestslistModule(eventID: eventID)
     }
 }

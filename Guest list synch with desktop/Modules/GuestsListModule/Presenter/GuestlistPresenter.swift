@@ -13,32 +13,38 @@ protocol GuestlistPresenterProtocol: AnyObject {
     var guestlistView: GuestlistViewProtocol! {get set}
     var interactor: GuestlistInteractorProtocol! {get set}
     var router: RouterProtocol! {get set}
-    init(guestlistView: GuestlistViewProtocol, interactor: GuestlistInteractorProtocol, router: RouterProtocol, event: EventEntity)
+    init(guestlistView: GuestlistViewProtocol, interactor: GuestlistInteractorProtocol, router: RouterProtocol, eventID: String)
     // Properties
-    var event: EventEntity! {get set}
+    var eventID: String! {get set}
     var guestlist: [GuestEntity] {get set}
     // METHODS
     func setGuestsToTheTable()
     func popToTheEventsList()
     func showGuest(guest: GuestEntity)
-    func addNewGuest(guest: GuestEntity)
+    func addNewGuest()
+    func signInWithGoogle()
 }
 
 //MARK: Presenter
 class GuestlistPresenter: GuestlistPresenterProtocol {
+
+    
+    
     //MARK: VIPER protocol
     internal weak var guestlistView: GuestlistViewProtocol!
     internal var router: RouterProtocol!
     internal var interactor: GuestlistInteractorProtocol!
     internal var userUID: String!
-    required init(guestlistView: GuestlistViewProtocol, interactor: GuestlistInteractorProtocol, router: RouterProtocol, event: EventEntity) {
+    
+    //MARK: -INIT
+    required init(guestlistView: GuestlistViewProtocol, interactor: GuestlistInteractorProtocol, router: RouterProtocol, eventID: String) {
         self.guestlistView = guestlistView
         self.interactor = interactor
         self.router = router
-        self.event = event
+        self.eventID = eventID
     }
     //MARK: Properties
-    var event: EventEntity!
+    var eventID: String!
     var guestlist: [GuestEntity] = [GuestEntity]() {
         didSet {
             self.guestlistView.reloadData()
@@ -48,28 +54,17 @@ class GuestlistPresenter: GuestlistPresenterProtocol {
 
     //MARK: -METHODS
     func setGuestsToTheTable() {
-        interactor.readEventGuests(eventID: self.event.eventUniqueIdentifier) { result in
+        interactor.readEventGuests(eventID: eventID) { result in
             switch result {
             case .success(let guestlist):
                 self.guestlist = guestlist
             case .failure(let error):
                 print(error.localizedDescription)
-                self.guestlistView.showError()
+                self.guestlistView.showReadGuestsError()
             }
         }
     }
-    func addNewGuest(guest: GuestEntity) {
-        interactor.addNewGuest(eventID: self.event.eventUniqueIdentifier, guest: guest) { result in
-            switch result {
-            case .success(_):
-                print("guest added to google sheets")
-                self.setGuestsToTheTable()
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
-
+    
     
     
     func popToTheEventsList() {
@@ -78,6 +73,24 @@ class GuestlistPresenter: GuestlistPresenterProtocol {
     func showGuest(guest: GuestEntity) {
 //        router.showGuestModule(guest: guest)
     }
-    
-    
+    func addNewGuest() {
+        interactor.checkGoogleSignIn() { result in
+            switch result {
+            case true:
+                self.router.showAddModifyGuestModule(state: .addGuest, guest: nil, eventID: self.eventID)
+            case false:
+                self.guestlistView.addGuestGoogleSignInError()
+            }
+        }
+    }
+    func signInWithGoogle() {
+        interactor.tryToLoginWithGoogle(viewController: guestlistView) { result in
+            switch result {
+            case true:
+                self.addNewGuest()
+            case false:
+                self.guestlistView.addGuestGoogleSignInError()
+            }
+        }
+    }
 }

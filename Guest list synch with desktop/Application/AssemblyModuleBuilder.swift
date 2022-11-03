@@ -17,8 +17,13 @@ protocol AssemblyBuilderProtocol {
     //METHODS
     func createAuthModule(router: RouterProtocol) -> UIViewController
     func createEventsListModule(router: RouterProtocol) -> UIViewController
-    func createGuestslistModule(router: RouterProtocol, event: EventEntity) -> UIViewController
+    func createGuestslistModule(router: RouterProtocol,
+                                eventID: String) -> UIViewController
     func createProfileModule(router: RouterProtocol) -> UIViewController
+    func createAddModifyOneGuestModule(router: RouterProtocol,
+                                       state: AddModifyOneGuestPresenterState,
+                                       guest: GuestEntity?,
+                                       eventID: String) -> UIViewController
 }
 
 class AssemblyModuleBuilder: AssemblyBuilderProtocol {
@@ -47,10 +52,11 @@ class AssemblyModuleBuilder: AssemblyBuilderProtocol {
         view.presenter = presenter
         return view
     }
-    internal func createGuestslistModule(router: RouterProtocol, event: EventEntity) -> UIViewController {
+    internal func createGuestslistModule(router: RouterProtocol,
+                                         eventID: String) -> UIViewController {
         let guestListView = GuestlistViewController()
-        let interactor = GuestListInteractor()
-        let presenter = GuestlistPresenter(guestlistView: guestListView, interactor: interactor, router: router, event: event)
+        let interactor = GuestListInteractor(firebaseService: self.firebaseService)
+        let presenter = GuestlistPresenter(guestlistView: guestListView, interactor: interactor, router: router, eventID: eventID)
         guestListView.presenter = presenter
         return guestListView
     }
@@ -58,6 +64,16 @@ class AssemblyModuleBuilder: AssemblyBuilderProtocol {
         let view = ProfileViewController()
         let interactor = ProfileInteractor(firebaseService: self.firebaseService, firebaseDatabase: self.firebaseDatabase)
         let presenter = ProfilePresenter(view: view, interactor: interactor, router: router)
+        view.presenter = presenter
+        return view
+    }
+    func createAddModifyOneGuestModule(router: RouterProtocol,
+                                       state: AddModifyOneGuestPresenterState,
+                                       guest: GuestEntity?,
+                                       eventID: String) -> UIViewController {
+        let view = AddModifyGuestViewController(nibName: "AddModifyGuestViewController", bundle: nil)
+        let interactor = AddModifyGuestInteractor(networkService: self.networkService)
+        let presenter = AddModifyGuestPresenter(view: view, interactor: interactor, router: router, state: state, guest: guest, eventID: eventID)
         view.presenter = presenter
         return view
     }

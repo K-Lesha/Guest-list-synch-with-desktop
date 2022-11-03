@@ -40,9 +40,8 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
     }
     
     let apiKey = "AIzaSyDmUVpnjFI_cKazeKORNk37o-MV_prH970"
-    static let grantedScopes = "https://www.googleapis.com/auth/spreadsheets"
-    static let additionalScopes = ["https://www.googleapis.com/auth/spreadsheets",
-                            "https://www.googleapis.com/auth/drive.file"]
+    static let grantedScopes = "https://www.googleapis.com/auth/drive.file"
+    static let additionalScopes = ["https://www.googleapis.com/auth/drive.file"]
     
     //MARK: Spreadsheets methods
     func readSpreadsheetsData(range: SheetsRange, eventID: String, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void) {

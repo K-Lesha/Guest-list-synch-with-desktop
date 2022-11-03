@@ -29,12 +29,18 @@
 		8A0E9B9B2911985D00DBF883 /* GuestlistPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B9A2911985D00DBF883 /* GuestlistPresenter.swift */; };
 		8A0E9B9D2911986F00DBF883 /* GuestlistInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B9C2911986F00DBF883 /* GuestlistInteractor.swift */; };
 		8A0E9B9F2912A05B00DBF883 /* GuestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B9E2912A05A00DBF883 /* GuestTableViewCell.swift */; };
+		8A1AD3812914061200312DD8 /* AddModifyOneGuestPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1AD3802914061200312DD8 /* AddModifyOneGuestPresenter.swift */; };
+		8A1AD3832914061F00312DD8 /* AddModifyOneGuestInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1AD3822914061F00312DD8 /* AddModifyOneGuestInteractor.swift */; };
+		8A4F444E2914159400594A3C /* AddModifyGuestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F444C2914159400594A3C /* AddModifyGuestViewController.swift */; };
+		8A4F444F2914159400594A3C /* AddModifyGuestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A4F444D2914159400594A3C /* AddModifyGuestViewController.xib */; };
 		8A54CE2B290C177900ADAB45 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE2A290C177900ADAB45 /* UserEntity.swift */; };
 		8A54CE2E290C3E2F00ADAB45 /* SupportingUserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */; };
 		8A54CE32290C893D00ADAB45 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE31290C893D00ADAB45 /* RealmService.swift */; };
 		8A54CE34290C894F00ADAB45 /* FirebaseDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE33290C894F00ADAB45 /* FirebaseDatabaseService.swift */; };
 		8A7E93072907F78B005E5B33 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 8A7E93062907F78B005E5B33 /* BottomSheet */; };
 		8A7E9309290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7E9308290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift */; };
+		8ACB2D34291447BC009AE476 /* AlertsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB2D33291447BC009AE476 /* AlertsFactory.swift */; };
+		8ACB2D3629146C71009AE476 /* guest-list-295cc-5476f0517864.json in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB2D3529146C70009AE476 /* guest-list-295cc-5476f0517864.json */; };
 		8AF83E8F2906655100614257 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83E8E2906655100614257 /* AppDelegate.swift */; };
 		8AF83E912906655100614257 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83E902906655100614257 /* SceneDelegate.swift */; };
 		8AF83E962906655100614257 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AF83E942906655100614257 /* Main.storyboard */; };
@@ -74,11 +80,17 @@
 		8A0E9B9A2911985D00DBF883 /* GuestlistPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestlistPresenter.swift; sourceTree = "<group>"; };
 		8A0E9B9C2911986F00DBF883 /* GuestlistInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestlistInteractor.swift; sourceTree = "<group>"; };
 		8A0E9B9E2912A05A00DBF883 /* GuestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestTableViewCell.swift; sourceTree = "<group>"; };
+		8A1AD3802914061200312DD8 /* AddModifyOneGuestPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModifyOneGuestPresenter.swift; sourceTree = "<group>"; };
+		8A1AD3822914061F00312DD8 /* AddModifyOneGuestInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModifyOneGuestInteractor.swift; sourceTree = "<group>"; };
+		8A4F444C2914159400594A3C /* AddModifyGuestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModifyGuestViewController.swift; sourceTree = "<group>"; };
+		8A4F444D2914159400594A3C /* AddModifyGuestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddModifyGuestViewController.xib; sourceTree = "<group>"; };
 		8A54CE2A290C177900ADAB45 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportingUserEntity.swift; sourceTree = "<group>"; };
 		8A54CE31290C893D00ADAB45 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		8A54CE33290C894F00ADAB45 /* FirebaseDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDatabaseService.swift; sourceTree = "<group>"; };
 		8A7E9308290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSpreadsheetsService.swift; sourceTree = "<group>"; };
+		8ACB2D33291447BC009AE476 /* AlertsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsFactory.swift; sourceTree = "<group>"; };
+		8ACB2D3529146C70009AE476 /* guest-list-295cc-5476f0517864.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "guest-list-295cc-5476f0517864.json"; sourceTree = "<group>"; };
 		8AF83E8B2906655100614257 /* Guest list synch with desktop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Guest list synch with desktop.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AF83E8E2906655100614257 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AF83E902906655100614257 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -308,7 +320,9 @@
 		8A1AD3732914048900312DD8 /* AddModifyOneGuestModule */ = {
 			isa = PBXGroup;
 			children = (
-				8A1AD37B291405A500312DD8 /* New Group */,
+				8A1AD38429140F2E00312DD8 /* Interactor */,
+				8A1AD38529140F3700312DD8 /* Presenter */,
+				8A1AD38629140F4000312DD8 /* View */,
 			);
 			path = AddModifyOneGuestModule;
 			sourceTree = "<group>";
@@ -365,11 +379,29 @@
 			path = Interactor;
 			sourceTree = "<group>";
 		};
-		8A1AD37B291405A500312DD8 /* New Group */ = {
+		8A1AD38429140F2E00312DD8 /* Interactor */ = {
 			isa = PBXGroup;
 			children = (
+				8A1AD3822914061F00312DD8 /* AddModifyOneGuestInteractor.swift */,
 			);
-			path = "New Group";
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		8A1AD38529140F3700312DD8 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				8A1AD3802914061200312DD8 /* AddModifyOneGuestPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		8A1AD38629140F4000312DD8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8A4F444C2914159400594A3C /* AddModifyGuestViewController.swift */,
+				8A4F444D2914159400594A3C /* AddModifyGuestViewController.xib */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		8A54CE29290C176900ADAB45 /* UserEntity */ = {
@@ -398,6 +430,14 @@
 			path = "Database layer";
 			sourceTree = "<group>";
 		};
+		8ACB2D32291447AC009AE476 /* Alerts factory */ = {
+			isa = PBXGroup;
+			children = (
+				8ACB2D33291447BC009AE476 /* AlertsFactory.swift */,
+			);
+			path = "Alerts factory";
+			sourceTree = "<group>";
+		};
 		8AE77638291019770048584C /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,6 +455,7 @@
 		8AE77639291019E10048584C /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				8ACB2D32291447AC009AE476 /* Alerts factory */,
 				8A7E92FD29074BEF005E5B33 /* Database layer */,
 				8A7E92FC29074BCF005E5B33 /* GoogleSpreadsheets layer */,
 				8AF83EB129066CF000614257 /* Firebase layer */,
@@ -485,6 +526,7 @@
 			isa = PBXGroup;
 			children = (
 				8AF83EA22906666300614257 /* GoogleService-Info.plist */,
+				8ACB2D3529146C70009AE476 /* guest-list-295cc-5476f0517864.json */,
 				8AF83EB429066D1700614257 /* FirebaseService.swift */,
 			);
 			path = "Firebase layer";
@@ -574,7 +616,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AF83E9B2906655300614257 /* LaunchScreen.storyboard in Resources */,
+				8ACB2D3629146C71009AE476 /* guest-list-295cc-5476f0517864.json in Resources */,
 				8AF83EAA29066BBC00614257 /* LD Grotesk Condensed Bold.ttf in Resources */,
+				8A4F444F2914159400594A3C /* AddModifyGuestViewController.xib in Resources */,
 				8AF83EA32906666400614257 /* GoogleService-Info.plist in Resources */,
 				8AF83E982906655300614257 /* Assets.xcassets in Resources */,
 				8AF83EAC29066BC700614257 /* Helvetica Bold.ttf in Resources */,
@@ -635,6 +679,7 @@
 				8A0E9B7329101F9700DBF883 /* AuthPresenter.swift in Sources */,
 				8AF83E8F2906655100614257 /* AppDelegate.swift in Sources */,
 				8AF83E912906655100614257 /* SceneDelegate.swift in Sources */,
+				8A4F444E2914159400594A3C /* AddModifyGuestViewController.swift in Sources */,
 				8A0E9B8729101FEF00DBF883 /* EventTableViewCell.swift in Sources */,
 				8A0E9B7B29101FA000DBF883 /* PasswordModalView.swift in Sources */,
 				8A0E9B8329101FE800DBF883 /* EventsListPresenter.swift in Sources */,
@@ -650,6 +695,7 @@
 				8A0E9B7129101F8200DBF883 /* AuthInteractor.swift in Sources */,
 				8AF83ED42906713D00614257 /* AssemblyModuleBuilder.swift in Sources */,
 				8A0E9B7829101FA000DBF883 /* AuthViewController.swift in Sources */,
+				8ACB2D34291447BC009AE476 /* AlertsFactory.swift in Sources */,
 				8A0E9B9F2912A05B00DBF883 /* GuestTableViewCell.swift in Sources */,
 				8AF83EB329066D0400614257 /* NetworkService.swift in Sources */,
 				8A0E9B9D2911986F00DBF883 /* GuestlistInteractor.swift in Sources */,
@@ -658,8 +704,10 @@
 				8A54CE32290C893D00ADAB45 /* RealmService.swift in Sources */,
 				8A0E9B7A29101FA000DBF883 /* RegistrationModalView.swift in Sources */,
 				8A54CE34290C894F00ADAB45 /* FirebaseDatabaseService.swift in Sources */,
+				8A1AD3812914061200312DD8 /* AddModifyOneGuestPresenter.swift in Sources */,
 				8A0E9B7F29101FDA00DBF883 /* EventEntity.swift in Sources */,
 				8A54CE2B290C177900ADAB45 /* UserEntity.swift in Sources */,
+				8A1AD3832914061F00312DD8 /* AddModifyOneGuestInteractor.swift in Sources */,
 				8A0E9B992911983E00DBF883 /* GuestlistViewController.swift in Sources */,
 				8A0E9B8629101FEF00DBF883 /* EventsListViewController.swift in Sources */,
 				8A0E9B7D29101FD400DBF883 /* EventsListSemaphore.swift in Sources */,

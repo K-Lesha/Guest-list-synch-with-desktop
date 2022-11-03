@@ -52,6 +52,6 @@ class AuthInteractor: AuthInteractorProtocol {
         firebaseService.restorePasswordWithFirebase(email: email, completion: completion)
     }
     internal func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
-        firebaseService.tryToLoginWithGoogle(viewController: viewController, completion: completion)
+        firebaseService.tryToSignInWith(viewController: viewController, completion: completion)
     }
 }

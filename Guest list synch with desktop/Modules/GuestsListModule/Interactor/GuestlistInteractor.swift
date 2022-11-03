@@ -10,9 +10,13 @@ import Foundation
 protocol GuestlistInteractorProtocol {
     //VIPER protocol
     var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol {get set}
+    var firebaseService: FirebaseServiceProtocol! {get set}
+    //init
+    init(firebaseService: FirebaseServiceProtocol)
     //Spreadsheet methods
     func readEventGuests(eventID: String, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void)
-    func addNewGuest(eventID: String, guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ())
+    func checkGoogleSignIn(completion: @escaping (Bool) -> ())
+    func tryToLoginWithGoogle(viewController: GuestlistViewProtocol, completion: @escaping (Bool) -> ())
 }
 
 enum GuestlistInteractorError: Error {
@@ -23,10 +27,18 @@ enum GuestlistInteractorError: Error {
 }
 
 class GuestListInteractor: GuestlistInteractorProtocol {
+
+    
     
     //MARK: -VIPER protocol
     internal var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
+    internal var firebaseService: FirebaseServiceProtocol!
     
+    //MARK: INIT
+    required init(firebaseService: FirebaseServiceProtocol) {
+        self.firebaseService = firebaseService
+    }
+
     //MARK: -Spreadsheets methods
     func readEventGuests(eventID: String, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void) {
         // temp properties
@@ -77,14 +89,12 @@ class GuestListInteractor: GuestlistInteractorProtocol {
         }
         return oneGuest
     }
-    
-    func addNewGuest(eventID: String, guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ()) {
-        self.spreadsheetsServise.appendData(spreadsheetID: eventID, range: .guestsDataForAdding, data: ["n",guest.guestName, guest.guestSurname]) { string in
-            print(string)
-            completion(.success(true))
-        }
-        
-        
-        
+    func checkGoogleSignIn(completion: @escaping (Bool) -> ()) {
+        firebaseService.checkSignInWithGoogle(completion: completion)
     }
+    func tryToLoginWithGoogle(viewController: GuestlistViewProtocol, completion: @escaping (Bool) -> ()) {
+        firebaseService.tryToLoginWithGoogle(viewController: viewController, completion: completion)
+    }
+
+
 }

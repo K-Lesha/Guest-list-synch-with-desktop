@@ -12,7 +12,9 @@ protocol GuestlistViewProtocol: AnyObject {
     var presenter: GuestlistPresenterProtocol! {get set}
     //Methods
     func reloadData()
-    func showError()
+    func showReadGuestsError()
+    func addGuestGoogleSignInError()
+    func signInWithGoogleError()
 }
 //MARK: View
 class GuestlistViewController: UIViewController, GuestlistViewProtocol {
@@ -29,8 +31,9 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
 //    private var searchTextField: UITextField!
     private var guestListTableView: UITableView!
     private var addGuestButton: UIButton!
+
     
-    //MARK: -viewDidLoad
+    //MARK: -viewDidLoad, -viewWillAppear
     override func viewDidLoad() {
         super.viewDidLoad()
         print("GuestlistViewController")
@@ -44,8 +47,7 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
     //MARK: -View methods
     func setupViews() {
         // setup@self.view
-        self.title = "Guestlist"
-        self.navigationItem.title = presenter.event.eventName
+        self.navigationItem.title = "temp name"
 
         //setup@backButton
         backButton = UIButton()
@@ -115,8 +117,8 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
             self.guestListTableView.reloadData()
         }
     }
-    func showError() {
-        print("GuestlistVC showError")
+    func showReadGuestsError() {
+        print("GuestlistVC showReadGuestsError")
 
     }
     
@@ -134,8 +136,22 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
     }
 
     @objc func addGuestButtonPressed() {
-        print("для добавления гостя в гугл таблицы вам нужно авторизоваться через гугл профиль")
-        
+        presenter.addNewGuest()
+    }
+    func addGuestGoogleSignInError() {
+        AlertsFactory.shared.showAlert(title: "",
+                                       message: "Чтобы добавлять гостей из приложение в Google таблицы, нужно авторизоваться с помощью Google",
+                                       viewController: self,
+                                       okAlertTitle: "Войти",
+                                       secondAlertTitle: "Отмена", okCompletion: {
+            self.presenter.signInWithGoogle()
+        },
+                                       canselCompletion: nil)
+    }
+    func signInWithGoogleError() {
+        AlertsFactory.shared.showAlert(title: "Ошибка", message: "По какой-то причине не удалось войти в Google-аккаунт", viewController: self,  okAlertTitle: "Попробовать снова", secondAlertTitle: "Отмена", okCompletion: {
+            self.presenter.signInWithGoogle()
+        }, canselCompletion: nil)
     }
 
 

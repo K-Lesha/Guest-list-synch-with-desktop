@@ -7,8 +7,6 @@
 
 import UIKit
 import FirebaseAuth
-
-
 import GoogleSignIn
 import GTMSessionFetcher
 import GoogleAPIClientForREST
@@ -31,7 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let networkService = NetworkService()
         let assemblyBuilder = AssemblyModuleBuilder(networkService: networkService, firebaseService: firebaseService, firebaseDatabase: firebeseDatabase)
         
-//        FirebaseService().logOutWithFirebase()
+        FirebaseService().logOutWithFirebase()
 
         let user = Auth.auth().currentUser
         if user == nil {

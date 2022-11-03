@@ -29,7 +29,7 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
     private var eventsTableView: UITableView!
     private var addEventButton: UIButton!
     
-    //MARK: -viewDidLoad
+    //MARK: -viewDidLoad, -viewWillAppear
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -157,6 +157,6 @@ extension EventsListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.showEventGuestlist(event: self.presenter.eventsList[indexPath.row])
+        presenter.showEventGuestlist(eventID: self.presenter.eventsList[indexPath.row].eventUniqueIdentifier)
     }
 }

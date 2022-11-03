@@ -26,7 +26,9 @@ protocol FirebaseServiceProtocol: AnyObject {
     //Facebook methods
     func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ())
     //Google methods
-    func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ())
+    func tryToSignInWith(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ())
+    func tryToLoginWithGoogle(viewController: GuestlistViewProtocol, completion: @escaping (Bool) -> ())
+    func checkSignInWithGoogle(completion: @escaping (Bool) -> ())
 }
 //MARK: Firebase errors
 enum FireBaseError: String, Error {
@@ -67,9 +69,9 @@ class FirebaseService: FirebaseServiceProtocol {
             if let result {
                 print(result.user.uid)
                 self.database.saveNewUserToTheDatabase(userUID: result.user.uid,
-                                              name: userName,
-                                              email: email,
-                                              signInProvider: "Firebase")
+                                                       name: userName,
+                                                       email: email,
+                                                       signInProvider: "Firebase")
                 completion(.success(result.user.uid))
             }
         }
@@ -115,48 +117,48 @@ class FirebaseService: FirebaseServiceProtocol {
             print("can't log out")
         }
     }
-//    public func reauthenticateAndDeleteUserWithFirebase(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
-//        guard let email = firebase.currentUser?.email else {
-//            print("email, is wrong")
-//            return completion(.failure(.wrongEmail))
-//        }
-//        //password confirmation with firebase
-//        let user = firebase.currentUser
-//        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
-//        user?.reauthenticate(with: credential) { result, error in
-//            if error != nil {
-//                print("Firebase service: logging in with email: \(email) and password: \(password) is failed")
-//                completion (.failure(.loginError))
-//            }
-//            if result != nil {
-//                //deleting
-//                self.tryToDeleteAccountWithFirebase() { deletionResult in
-//                    switch deletionResult {
-//                    case .success(_):
-//                        break
-//                        // in succesfull case SceneDelegate listener will change the state of app
-//                    case .failure(let error):
-//                        completion(.failure(error))
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    public func tryToDeleteAccountWithFirebase(completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
-//        guard let user = firebase.currentUser else {
-//            completion(.failure(.noSuchUserFindet))
-//            return
-//        }
-//        user.delete { error in
-//            if let error = error {
-//                print(error.localizedDescription)
-//                completion(.failure(.deletingError))
-//            } else {
-//                completion(.success(true))
-//                self.database.updateValues(userUID: user.uid, key: "active", value: "false")
-//            }
-//        }
-//    }
+    //    public func reauthenticateAndDeleteUserWithFirebase(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
+    //        guard let email = firebase.currentUser?.email else {
+    //            print("email, is wrong")
+    //            return completion(.failure(.wrongEmail))
+    //        }
+    //        //password confirmation with firebase
+    //        let user = firebase.currentUser
+    //        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+    //        user?.reauthenticate(with: credential) { result, error in
+    //            if error != nil {
+    //                print("Firebase service: logging in with email: \(email) and password: \(password) is failed")
+    //                completion (.failure(.loginError))
+    //            }
+    //            if result != nil {
+    //                //deleting
+    //                self.tryToDeleteAccountWithFirebase() { deletionResult in
+    //                    switch deletionResult {
+    //                    case .success(_):
+    //                        break
+    //                        // in succesfull case SceneDelegate listener will change the state of app
+    //                    case .failure(let error):
+    //                        completion(.failure(error))
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+    //    public func tryToDeleteAccountWithFirebase(completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
+    //        guard let user = firebase.currentUser else {
+    //            completion(.failure(.noSuchUserFindet))
+    //            return
+    //        }
+    //        user.delete { error in
+    //            if let error = error {
+    //                print(error.localizedDescription)
+    //                completion(.failure(.deletingError))
+    //            } else {
+    //                completion(.success(true))
+    //                self.database.updateValues(userUID: user.uid, key: "active", value: "false")
+    //            }
+    //        }
+    //    }
     public func restorePasswordWithFirebase(email: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
         firebase.sendPasswordReset(withEmail: email) { error in
             if error != nil {
@@ -222,10 +224,10 @@ class FirebaseService: FirebaseServiceProtocol {
     //        return false
     //    }
     //MARK: - GOOGLE
-    internal func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
+    internal func tryToSignInWith(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         
-        let config = GIDConfiguration(clientID: clientID)
+        let config = GIDConfiguration(clientID: clientID, serverClientID: "appserviceaccount@guest-list-295cc.iam.gserviceaccount.com")
         GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController as! UIViewController) { user, error in
             if error != nil {
                 completion(.failure(.googleLoginError))
@@ -252,52 +254,78 @@ class FirebaseService: FirebaseServiceProtocol {
                                                        name: self.firebase.currentUser?.displayName ?? "googleWrongName",
                                                        email: self.firebase.currentUser?.email ?? "googleWrongMail",
                                                        signInProvider: "GoogleSignIn")
-                //requestScopes for work with the private spreadshits
-//                self.requestScopes(viewController: viewController, googleUser: user!) { success in
-//                    if success == true {
-//                        print("request scopes = success")
-//                        completion(.success("success"))
-//                    } else {
-//                        print("request scopes = false")
-//                        completion(.failure(.googleWithFirebaseLoginError))
-//                    }
-//                }
+//                requestScopes for work with the private spreadshits
+//                                self.requestScopes(viewController: viewController as! UIViewController, googleUser: user!) { success in
+//                                    if success == true {
+//                                        print("request scopes = success")
+//                                        completion(.success("success"))
+//                                    } else {
+//                                        print("request scopes = false")
+//                                        completion(.failure(.googleWithFirebaseLoginError))
+//                                    }
+//                                }
             }
         }
     }
-//    private let service = GTLRSheetsService()
-//    public func requestScopes(viewController: SignInViewProtocol, googleUser: GIDGoogleUser, completionHandler: @escaping (Bool) -> Void) {
-//        let grantedScopes = googleUser.grantedScopes
-//        if grantedScopes == nil || !grantedScopes!.contains(GoogleSpreadsheetsService.grantedScopes) {
-//            let additionalScopes = GoogleSpreadsheetsService.additionalScopes
+    internal func tryToLoginWithGoogle(viewController: GuestlistViewProtocol, completion: @escaping (Bool) -> ()) {
+//        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
 //
-//            GIDSignIn.sharedInstance.addScopes(additionalScopes, presenting: viewController as! UIViewController) { user, scopeError in
-//                if scopeError == nil {
-//                    user?.authentication.do { authentication, err in
-//                        if err == nil {
-//                            guard let authentication = authentication else { return }
-//                            // Get the access token to attach it to a REST or gRPC request.
-//                            // let accessToken = authentication.accessToken
-//                            let authorizer = authentication.fetcherAuthorizer()
-//                            self.service.authorizer = authorizer
-//                            completionHandler(true)
-//                        } else {
-//                            print("Error with auth: \(String(describing: err?.localizedDescription))")
-//                            completionHandler(false)
-//                        }
-//                    }
-//                } else {
-//                    completionHandler(false)
-//                    print("Error with adding scopes: \(String(describing: scopeError?.localizedDescription))")
-//                }
+//        // " appserviceaccount"
+//        let config = GIDConfiguration(clientID: clientID, serverClientID: "appserviceaccount")
+//        GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController as! UIViewController) { user, error in
+//            if error != nil {
+//                completion(false)
+//                return
 //            }
-//        } else {
-//            print("Already contains the scopes!")
-//            completionHandler(true)
+//            completion(true)
+////            self.requestScopes(viewController: viewController as! UIViewController, googleUser: user!) { success in
+////                if success == true {
+////                    print("request scopes = success")
+////                    completion(true)
+////                } else {
+////                    print("request scopes = false")
+////                    completion(false)
+////                }
+////            }
+//
 //        }
-//    }
-    public func checkUserLoginnedWithGoogle() -> Bool {
-        return false
     }
-
+//        private let service = GTLRSheetsService()
+//        public func requestScopes(viewController: UIViewController, googleUser: GIDGoogleUser, completionHandler: @escaping (Bool) -> Void) {
+//            let grantedScopes = googleUser.grantedScopes
+//            if grantedScopes == nil || !grantedScopes!.contains(GoogleSpreadsheetsService.grantedScopes) {
+//                let additionalScopes = GoogleSpreadsheetsService.additionalScopes
+//
+//                GIDSignIn.sharedInstance.addScopes(additionalScopes, presenting: viewController) { user, scopeError in
+//                    if scopeError == nil {
+//                        user?.authentication.do { authentication, err in
+//                            if err == nil {
+//                                guard let authentication = authentication else { return }
+//                                // Get the access token to attach it to a REST or gRPC request.
+//                                // let accessToken = authentication.accessToken
+//                                let authorizer = authentication.fetcherAuthorizer()
+//                                self.service.authorizer = authorizer
+//                                completionHandler(true)
+//                            } else {
+//                                print("Error with auth: \(String(describing: err?.localizedDescription))")
+//                                completionHandler(false)
+//                            }
+//                        }
+//                    } else {
+//                        completionHandler(false)
+//                        print("Error with adding scopes: \(String(describing: scopeError?.localizedDescription))")
+//                    }
+//                }
+//            } else {
+//                print("Already contains the scopes!")
+//                completionHandler(true)
+//            }
+//        }
+    public func checkSignInWithGoogle(completion: @escaping (Bool) -> ()) {
+        if GIDSignIn.sharedInstance.currentUser != nil {
+            completion(true)
+        } else {
+            completion(false)
+        }
+    }
 }
