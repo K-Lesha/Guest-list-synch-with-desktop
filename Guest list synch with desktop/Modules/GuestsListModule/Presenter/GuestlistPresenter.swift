@@ -10,52 +10,59 @@ import Foundation
 //MARK: Protocol
 protocol GuestlistPresenterProtocol: AnyObject {
     // VIPER protocol
-    var view: GuestlistViewProtocol! {get set}
+    var guestlistView: GuestlistViewProtocol! {get set}
+    var guestStaticticView: GuestStatisticViewProtocol! {get set}
     var interactor: GuestlistInteractorProtocol! {get set}
     var router: RouterProtocol! {get set}
-    init(view: GuestlistViewProtocol, interactor: GuestlistInteractorProtocol, router: RouterProtocol, eventID: String)
+    init(guestlistView: GuestlistViewProtocol, guestStaticticView: GuestStatisticViewProtocol, interactor: GuestlistInteractorProtocol, router: RouterProtocol, event: EventEntity)
     // Properties
-    var eventID: String! {get set}
+    var event: EventEntity! {get set}
     var guestlist: [GuestEntity] {get set}
     // METHODS
     func setGuestsToTheTable()
     func popToTheEventsList()
+    func showGuest(guest: GuestEntity)
 }
 
 //MARK: Presenter
 class GuestlistPresenter: GuestlistPresenterProtocol {
     //MARK: VIPER protocol
-    internal weak var view: GuestlistViewProtocol!
+    internal weak var guestlistView: GuestlistViewProtocol!
+    internal weak var guestStaticticView: GuestStatisticViewProtocol!
     internal var router: RouterProtocol!
     internal var interactor: GuestlistInteractorProtocol!
     internal var userUID: String!
-    required init(view: GuestlistViewProtocol, interactor: GuestlistInteractorProtocol, router: RouterProtocol, eventID: String) {
-        self.view = view
+    required init(guestlistView: GuestlistViewProtocol, guestStaticticView: GuestStatisticViewProtocol, interactor: GuestlistInteractorProtocol, router: RouterProtocol, event: EventEntity) {
+        self.guestlistView = guestlistView
+        self.guestStaticticView = guestStaticticView
         self.interactor = interactor
         self.router = router
-        self.eventID = eventID
+        self.event = event
         setGuestsToTheTable()
     }
     //MARK: Properties
-    var eventID: String!
+    var event: EventEntity!
     var guestlist: [GuestEntity] = [GuestEntity]()
 
 
     //MARK: -METHODS
     func setGuestsToTheTable() {
-        interactor.readEventGuests(eventID: self.eventID) { result in
+        interactor.readEventGuests(event: self.event) { result in
             switch result {
             case .success(let guestlist):
                 self.guestlist = guestlist
-                self.view.reloadData()
+                self.guestlistView.reloadData()
             case .failure(let error):
                 print(error.localizedDescription)
-                self.view.showError()
+                self.guestlistView.showError()
             }
         }
     }
     func popToTheEventsList() {
         self.router.popOneController()
+    }
+    func showGuest(guest: GuestEntity) {
+//        router.showGuestModule(guest: guest)
     }
     
 }

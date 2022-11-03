@@ -11,7 +11,7 @@ protocol GuestlistInteractorProtocol {
     //VIPER protocol
     var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol {get set}
     //Spreadsheet methods
-    func readEventGuests(eventID: String, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void)
+    func readEventGuests(event: EventEntity, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void)
 
 }
 
@@ -25,7 +25,7 @@ class GuestListInteractor: GuestlistInteractorProtocol {
     internal var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
     
     //MARK: -Spreadsheets methods
-    func readEventGuests(eventID: String, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void) {
+    func readEventGuests(event: EventEntity, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void) {
 
         // запросить у таблиц и сгенерировать массив с гест энтити
         

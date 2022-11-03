@@ -41,7 +41,6 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
         //setup@self.view
         self.view.backgroundColor = .white
         
-        
         //setup@allEventsButton
         allEventsButton = UIButton()
         allEventsButton.setTitle("All events", for: .normal)
@@ -91,7 +90,7 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
         // download@all_the_user_events_and_set_them_to_view
         self.presenter.setDataToTheView()
         
-        //setup@sheetsButton
+        //setup@addEventButton
         addEventButton = UIButton()
         self.view.addSubview(addEventButton)
         addEventButton.setTitle("+", for: .normal)
@@ -104,7 +103,6 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
         addEventButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         addEventButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20).isActive = true
     }
-    
     func reloadData() {
         DispatchQueue.main.async {
             self.eventsTableView.reloadData()
@@ -157,6 +155,6 @@ extension EventsListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.showEventGuestlist(eventID: self.presenter.eventsList[indexPath.row].eventUniqueIdentifier)
+        presenter.showEventGuestlist(event: self.presenter.eventsList[indexPath.row])
     }
 }

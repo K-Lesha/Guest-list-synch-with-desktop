@@ -49,7 +49,7 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
                 self.setupUserToTheApp(user: self.firebase.currentUser!)
             } else {
                 self.database.child(userUID).updateChildValues(["payedEvents": 0,
-                                                                "eventsIdList": ["1n-sxCDHrMmE0hXwWOzrUNOF3uFxTSsAs1FQuyLBdqKE"] as! NSArray,
+                                                                "eventsIdList": ["1OlZ7J45qI3zE9ViWcpgc5ZCmhPWdpgh8rlABjTy3dWk"] as! NSArray,
                                                                 "accessLevelInt": 0,
                                                                 "coorganizersUIDs": [""] as! NSArray,
                                                                 "headOrganizersUIDs": [""] as! NSArray,

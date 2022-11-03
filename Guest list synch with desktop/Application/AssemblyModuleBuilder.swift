@@ -17,7 +17,7 @@ protocol AssemblyBuilderProtocol {
     //METHODS
     func createAuthModule(router: RouterProtocol) -> UIViewController
     func createEventsListModule(router: RouterProtocol) -> UIViewController
-    func createGuestslistModule(router: RouterProtocol, eventID: String) -> UIViewController
+    func createGuestslistModule(router: RouterProtocol, event: EventEntity) -> UIViewController
     func createProfileModule(router: RouterProtocol) -> UIViewController
 }
 
@@ -47,12 +47,16 @@ class AssemblyModuleBuilder: AssemblyBuilderProtocol {
         view.presenter = presenter
         return view
     }
-    internal func createGuestslistModule(router: RouterProtocol, eventID: String) -> UIViewController {
-        let view = GuestlistViewController()
+    internal func createGuestslistModule(router: RouterProtocol, event: EventEntity) -> UIViewController {
+        let guestListView = GuestlistViewController()
+        let guestStatisticView = GuestsStaticticViewController()
         let interactor = GuestListInteractor()
-        let presenter = GuestlistPresenter(view: view, interactor: interactor, router: router, eventID: eventID)
-        view.presenter = presenter
-        return view
+        let presenter = GuestlistPresenter(guestlistView: guestListView, guestStaticticView: guestStatisticView, interactor: interactor, router: router, event: event)
+        guestListView.presenter = presenter
+        guestStatisticView.presenter = presenter
+        let tabBarViewController = UITabBarController()
+        tabBarViewController.setViewControllers([guestListView, guestStatisticView], animated: true)
+        return tabBarViewController
     }
     internal func createProfileModule(router: RouterProtocol) -> UIViewController {
         let view = ProfileViewController()

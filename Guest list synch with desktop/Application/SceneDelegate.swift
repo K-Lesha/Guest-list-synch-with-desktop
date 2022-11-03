@@ -30,13 +30,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let firebeseDatabase = FirebaseDatabase()
         let networkService = NetworkService()
         let assemblyBuilder = AssemblyModuleBuilder(networkService: networkService, firebaseService: firebaseService, firebaseDatabase: firebeseDatabase)
-
+        
 //        FirebaseService().logOutWithFirebase()
 
-        print("Auth check: is user loginned?")
-        
         let user = Auth.auth().currentUser
         if user == nil {
+            //clean cookies
             FirebaseService().logOutWithFirebase()
             print("user == nil, auth module initialization")
             let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
@@ -47,19 +46,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 fatalError("failed")
             }
             //Google restorePreviousSignIn
-            GIDSignIn.sharedInstance.restorePreviousSignIn { googleUser, error in
-                if error != nil || googleUser == nil {
-                    print("googleUser == nil, need to authenteticate user with google")
-                } else {
-                    print("googleUser != nil")
-                }
-            }
+//            GIDSignIn.sharedInstance.restorePreviousSignIn { googleUser, error in
+//                if error != nil || googleUser == nil {
+//                    print("googleUser == nil, need to authenteticate user with google")
+//                } else {
+//                    print("googleUser != nil")
+//                }
+//            }
             firebaseService.setupUserToTheApp(user: user)
             let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
             router.showEventsListModule()
         }
-        
-
         self.window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }

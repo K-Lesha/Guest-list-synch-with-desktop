@@ -22,31 +22,102 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
     
     //MARK: -OUTLETS
     private var backButton: UIButton!
-//    private var listAppearance: UIButton!
+    private var listAppearanceAndSettingsButton: UIButton!
+    private var eventSettingsButton: UIButton!
+    private var eventNameLabel: UILabel!
+    private var guestSerarchBarController: UISearchController!
 //    private var searchTextField: UITextField!
-//    private var guestListTableView: UITableView!
-//    private var addGuestButton: UIButton!
+    private var guestListTableView: UITableView!
+    private var addGuestButton: UIButton!
     
     //MARK: -viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("GuestlistViewController")
+        self.view.backgroundColor = .green
         setupViews()
     }
     //MARK: -View methods
     func setupViews() {
+        // setup@self.view
+        self.title = "Guestlist"
+        self.navigationItem.title = presenter.event.eventName
+
         //setup@backButton
         backButton = UIButton()
-        backButton.setTitle("<", for: .normal)
+        backButton.setTitle("⏪", for: .normal)
         backButton.backgroundColor = .black
         backButton.addTarget(self, action: #selector(backButtonPushed), for: .touchUpInside)
         let backButtomItem = UIBarButtonItem(customView: backButton)
-        self.navigationItem.leftBarButtonItems = [backButtomItem]
+        print(self.navigationItem.backBarButtonItem == nil)
+        print(self.navigationController?.navigationItem.backBarButtonItem == nil)
+        print(self.tabBarController?.navigationItem.backBarButtonItem == nil)
+        print(self.tabBarController?.navigationController?.navigationItem.backBarButtonItem == nil)
+
         
         
+        //setup@listAppearanceAndSettingsButton
+        listAppearanceAndSettingsButton = UIButton()
+        listAppearanceAndSettingsButton.setTitle("🎛", for: .normal)
+        listAppearanceAndSettingsButton.backgroundColor = .black
+        listAppearanceAndSettingsButton.addTarget(self, action: #selector(listAppearanceButtonPushed), for: .touchUpInside)
+        let listAppearanceButtomItem = UIBarButtonItem(customView: listAppearanceAndSettingsButton)
+        self.tabBarController?.navigationItem.rightBarButtonItems = [listAppearanceButtomItem]
+
+        //setup@eventSettingsButton
+        eventSettingsButton = UIButton()
+        eventSettingsButton.setTitle("🖊", for: .normal)
+        eventSettingsButton.backgroundColor = .black
+        eventSettingsButton.addTarget(self, action: #selector(eventSettingsButtonPushed), for: .touchUpInside)
+        let eventSettingsButtomItem = UIBarButtonItem(customView: eventSettingsButton)
+        self.tabBarController?.navigationItem.rightBarButtonItems?.append(eventSettingsButtomItem)
+
+        
+        //setup@guestSerarchBarController
+//        guestSerarchBarController = UISearchController(searchResultsController: nil)
+//        guestSerarchBarController.searchResultsUpdater = self
+//        guestSerarchBarController.obscuresBackgroundDuringPresentation = false
+//        guestSerarchBarController.searchBar.showsCancelButton = true
+//        guestSerarchBarController.searchBar.barStyle = .default
+//        guestSerarchBarController.searchBar.placeholder = "Найти гостя..."
+//        self.tabBarController?.navigationItem.searchController = guestSerarchBarController
+
+        
+        //setup@guestListTableView
+        guestListTableView = UITableView()
+        self.view.addSubview(guestListTableView)
+        guestListTableView.delegate = self
+        guestListTableView.dataSource = self
+        guestListTableView.backgroundColor = .green
+        guestListTableView.register(GuestTableViewCell.self, forCellReuseIdentifier: "guest")
+        //constraints@guestListTableView
+        guestListTableView.translatesAutoresizingMaskIntoConstraints = false
+        guestListTableView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        guestListTableView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        guestListTableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        guestListTableView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        guestListTableView.heightAnchor.constraint(equalTo: self.view.heightAnchor).isActive = true
+        // download@all_the_user_events_and_set_them_to_view
+        self.presenter.setGuestsToTheTable()
+        
+        //setup@addGuestButton
+        addGuestButton = UIButton()
+        self.view.addSubview(addGuestButton)
+        addGuestButton.setTitle("+", for: .normal)
+        addGuestButton.backgroundColor = .black
+        addGuestButton.addTarget(self, action: #selector(addGuestButtonPressed), for: .touchUpInside)
+        //constraints@addGuestButton
+        addGuestButton.translatesAutoresizingMaskIntoConstraints = false
+        addGuestButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -100).isActive = true
+        addGuestButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        addGuestButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        addGuestButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20).isActive = true
+        
+
         
     }
     func reloadData() {
-//        guestListTableView.reloadData()
+        guestListTableView.reloadData()
     }
     func showError() {
         
@@ -55,7 +126,41 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
     @objc func backButtonPushed() {
         presenter.popToTheEventsList()
     }
+    
+    @objc func listAppearanceButtonPushed() {
+        
+    }
+    @objc func eventSettingsButtonPushed() {
+        
+    }
+
+    @objc func addGuestButtonPressed() {
+        print("addGuestButtonPressed")
+    }
 
 
+}
 
+extension GuestlistViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.presenter.guestlist.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "guest", for: indexPath) as! GuestTableViewCell
+        
+        
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presenter.showGuest(guest: self.presenter.guestlist[indexPath.row])
+    }
+}
+
+extension GuestlistViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        
+    }
 }
