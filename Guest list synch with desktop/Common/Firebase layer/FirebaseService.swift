@@ -227,7 +227,7 @@ class FirebaseService: FirebaseServiceProtocol {
     internal func tryToSignInWith(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         
-        let config = GIDConfiguration(clientID: clientID, serverClientID: "appserviceaccount@guest-list-295cc.iam.gserviceaccount.com")
+        let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController as! UIViewController) { user, error in
             if error != nil {
                 completion(.failure(.googleLoginError))

@@ -10,43 +10,50 @@ import GoogleSignIn
 import GTMSessionFetcher
 import GoogleAPIClientForREST
 
+import FirebaseAuth
+import FirebaseCore
+
+//MARK: -protocol GoogleSpreadsheetsServiceProtocol
 protocol GoogleSpreadsheetsServiceProtocol {
     //Methods
     func readSpreadsheetsData(range: SheetsRange, eventID: String, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void)
     func appendData(spreadsheetID: String, range: SheetsRange, data: [String], completion: @escaping (String) -> Void)
 }
-
+//MARK: -SheetsRange
 enum SheetsRange: String {
     case oneEventData = "A1:A23"
     case guestsDataForReading = "B27:N"
     case guestsDataForAdding = "A27:N"
 }
+//MARK: -SheetsError
 enum SheetsError: Error {
     case error
     case dataIsEmpty
 }
-
+//MARK: -GoogleSpreadsheetsService
 class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
     //Service properties
     private let sheetService = GTLRSheetsService()
     private let driveService = GTLRDriveService()
+    let apiKey = "AIzaSyDmUVpnjFI_cKazeKORNk37o-MV_prH970"
+    static let grantedScopes = "https://www.googleapis.com/auth/drive.file"
+    static let additionalScopes = ["https://www.googleapis.com/auth/drive.file"]
+
     
     //Service init
     init() {
         sheetService.apiKey = self.apiKey
         sheetService.authorizer = GIDSignIn.sharedInstance.currentUser?.authentication.fetcherAuthorizer()
+        //        sheetService.apiKeyRestrictionBundleID =
         driveService.apiKey = self.apiKey
         driveService.authorizer = GIDSignIn.sharedInstance.currentUser?.authentication.fetcherAuthorizer()
     }
-    
-    let apiKey = "AIzaSyDmUVpnjFI_cKazeKORNk37o-MV_prH970"
-    static let grantedScopes = "https://www.googleapis.com/auth/drive.file"
-    static let additionalScopes = ["https://www.googleapis.com/auth/drive.file"]
-    
+        
     //MARK: Spreadsheets methods
     func readSpreadsheetsData(range: SheetsRange, eventID: String, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void) {
         print("Getting sheet data...")
         let query = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: eventID, range:range.rawValue)
+        
         sheetService.executeQuery(query) { (ticket, result, error) in
             if let error {
                 print("Google sheets service: ", error.localizedDescription)
@@ -132,4 +139,3 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
 //    }
     
 }
-

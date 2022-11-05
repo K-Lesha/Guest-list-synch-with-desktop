@@ -22,7 +22,6 @@ protocol GuestlistPresenterProtocol: AnyObject {
     func popToTheEventsList()
     func showGuest(guest: GuestEntity)
     func addNewGuest()
-    func signInWithGoogle()
 }
 
 //MARK: Presenter
@@ -74,23 +73,6 @@ class GuestlistPresenter: GuestlistPresenterProtocol {
 //        router.showGuestModule(guest: guest)
     }
     func addNewGuest() {
-        interactor.checkGoogleSignIn() { result in
-            switch result {
-            case true:
-                self.router.showAddModifyGuestModule(state: .addGuest, guest: nil, eventID: self.eventID)
-            case false:
-                self.guestlistView.addGuestGoogleSignInError()
-            }
-        }
-    }
-    func signInWithGoogle() {
-        interactor.tryToLoginWithGoogle(viewController: guestlistView) { result in
-            switch result {
-            case true:
-                self.addNewGuest()
-            case false:
-                self.guestlistView.addGuestGoogleSignInError()
-            }
-        }
+        router.showAddModifyGuestModule(state: .addGuest, guest: nil, eventID: eventID)
     }
 }

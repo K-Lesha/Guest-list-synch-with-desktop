@@ -13,11 +13,10 @@ protocol GuestlistViewProtocol: AnyObject {
     //Methods
     func reloadData()
     func showReadGuestsError()
-    func addGuestGoogleSignInError()
-    func signInWithGoogleError()
 }
 //MARK: View
 class GuestlistViewController: UIViewController, GuestlistViewProtocol {
+    
     
     //MARK: -VIPER protocol
     internal var presenter: GuestlistPresenterProtocol!
@@ -119,7 +118,6 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
     }
     func showReadGuestsError() {
         print("GuestlistVC showReadGuestsError")
-
     }
     
     @objc func backButtonPushed() {
@@ -134,27 +132,20 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
         print("eventSettingsButtonPushed")
 
     }
-
+    
+    let addguestlistInteractor = AddModifyGuestInteractor(networkService: NetworkService())
     @objc func addGuestButtonPressed() {
-        presenter.addNewGuest()
+//        presenter.addNewGuest()
+        addguestlistInteractor.addNewGuest(eventID: presenter.eventID, guest: GuestEntity()) { result in
+            switch result {
+            case .success(_):
+                print("success")
+            case.failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        
     }
-    func addGuestGoogleSignInError() {
-        AlertsFactory.shared.showAlert(title: "",
-                                       message: "Чтобы добавлять гостей из приложение в Google таблицы, нужно авторизоваться с помощью Google",
-                                       viewController: self,
-                                       okAlertTitle: "Войти",
-                                       secondAlertTitle: "Отмена", okCompletion: {
-            self.presenter.signInWithGoogle()
-        },
-                                       canselCompletion: nil)
-    }
-    func signInWithGoogleError() {
-        AlertsFactory.shared.showAlert(title: "Ошибка", message: "По какой-то причине не удалось войти в Google-аккаунт", viewController: self,  okAlertTitle: "Попробовать снова", secondAlertTitle: "Отмена", okCompletion: {
-            self.presenter.signInWithGoogle()
-        }, canselCompletion: nil)
-    }
-
-
 }
 
 extension GuestlistViewController: UITableViewDelegate, UITableViewDataSource {
