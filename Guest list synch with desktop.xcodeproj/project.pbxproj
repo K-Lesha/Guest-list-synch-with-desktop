@@ -33,6 +33,7 @@
 		8A1AD3832914061F00312DD8 /* AddModifyOneGuestInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1AD3822914061F00312DD8 /* AddModifyOneGuestInteractor.swift */; };
 		8A4F444E2914159400594A3C /* AddModifyGuestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F444C2914159400594A3C /* AddModifyGuestViewController.swift */; };
 		8A4F444F2914159400594A3C /* AddModifyGuestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A4F444D2914159400594A3C /* AddModifyGuestViewController.xib */; };
+		8A4FFBA72917E61700234E04 /* SpreadsheetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4FFBA62917E61700234E04 /* SpreadsheetData.swift */; };
 		8A54CE2B290C177900ADAB45 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE2A290C177900ADAB45 /* UserEntity.swift */; };
 		8A54CE2E290C3E2F00ADAB45 /* SupportingUserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */; };
 		8A54CE32290C893D00ADAB45 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE31290C893D00ADAB45 /* RealmService.swift */; };
@@ -84,6 +85,7 @@
 		8A1AD3822914061F00312DD8 /* AddModifyOneGuestInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModifyOneGuestInteractor.swift; sourceTree = "<group>"; };
 		8A4F444C2914159400594A3C /* AddModifyGuestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModifyGuestViewController.swift; sourceTree = "<group>"; };
 		8A4F444D2914159400594A3C /* AddModifyGuestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddModifyGuestViewController.xib; sourceTree = "<group>"; };
+		8A4FFBA62917E61700234E04 /* SpreadsheetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpreadsheetData.swift; sourceTree = "<group>"; };
 		8A54CE2A290C177900ADAB45 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportingUserEntity.swift; sourceTree = "<group>"; };
 		8A54CE31290C893D00ADAB45 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
@@ -417,6 +419,7 @@
 			isa = PBXGroup;
 			children = (
 				8A7E9308290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift */,
+				8A4FFBA62917E61700234E04 /* SpreadsheetData.swift */,
 			);
 			path = "GoogleSpreadsheets layer";
 			sourceTree = "<group>";
@@ -452,7 +455,7 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
-		8AE77639291019E10048584C /* Common */ = {
+		8AE77639291019E10048584C /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				8ACB2D32291447AC009AE476 /* Alerts factory */,
@@ -461,7 +464,7 @@
 				8AF83EB129066CF000614257 /* Firebase layer */,
 				8AF83EB029066CE900614257 /* Network layer */,
 			);
-			path = Common;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		8AF83E822906655100614257 = {
@@ -487,7 +490,7 @@
 			children = (
 				8AE77638291019770048584C /* Application */,
 				8A0E9B4629101D7C00DBF883 /* Modules */,
-				8AE77639291019E10048584C /* Common */,
+				8AE77639291019E10048584C /* Services */,
 				8AF83E9C2906655300614257 /* Info.plist */,
 			);
 			path = "Guest list synch with desktop";
@@ -682,6 +685,7 @@
 				8A4F444E2914159400594A3C /* AddModifyGuestViewController.swift in Sources */,
 				8A0E9B8729101FEF00DBF883 /* EventTableViewCell.swift in Sources */,
 				8A0E9B7B29101FA000DBF883 /* PasswordModalView.swift in Sources */,
+				8A4FFBA72917E61700234E04 /* SpreadsheetData.swift in Sources */,
 				8A0E9B8329101FE800DBF883 /* EventsListPresenter.swift in Sources */,
 				8A0E9B8E2910210200DBF883 /* ProfileViewController.swift in Sources */,
 				8A0E9B6F29101F7900DBF883 /* AuthenticationSemaphore.swift in Sources */,

@@ -31,10 +31,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let assemblyBuilder = AssemblyModuleBuilder(networkService: networkService, firebaseService: firebaseService, firebaseDatabase: firebeseDatabase)
         
 //        FirebaseService().logOutWithFirebase()
-        
-        
-        
-        
 
         let user = Auth.auth().currentUser
         if user == nil {

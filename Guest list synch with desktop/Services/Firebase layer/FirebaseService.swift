@@ -226,9 +226,8 @@ class FirebaseService: FirebaseServiceProtocol {
     //MARK: - GOOGLE
     internal func tryToSignInWith(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-        
         let config = GIDConfiguration(clientID: clientID)
-        GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController as! UIViewController) { user, error in
+        GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController as! UIViewController, hint: nil, additionalScopes: ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive.file"]) { user, error in
             if error != nil {
                 completion(.failure(.googleLoginError))
                 return
@@ -239,7 +238,7 @@ class FirebaseService: FirebaseServiceProtocol {
             }
             //google credential
             let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
-            //firebase sign in or log in with google credential
+//            //firebase sign in or log in with google credential
             self.firebase.signIn(with: credential) { result, error in
                 if error != nil {
                     completion(.failure(.googleWithFirebaseLoginError))
@@ -249,78 +248,52 @@ class FirebaseService: FirebaseServiceProtocol {
                     return
                 }
                 completion(.success(result.user.uid))
-                //in sucsessfull case save new user or update google user data to database
+//                in sucsessfull case save new user or update google user data to database
                 self.database.saveNewUserToTheDatabase(userUID: result.user.uid,
                                                        name: self.firebase.currentUser?.displayName ?? "googleWrongName",
                                                        email: self.firebase.currentUser?.email ?? "googleWrongMail",
                                                        signInProvider: "GoogleSignIn")
-//                requestScopes for work with the private spreadshits
-//                                self.requestScopes(viewController: viewController as! UIViewController, googleUser: user!) { success in
-//                                    if success == true {
-//                                        print("request scopes = success")
-//                                        completion(.success("success"))
-//                                    } else {
-//                                        print("request scopes = false")
-//                                        completion(.failure(.googleWithFirebaseLoginError))
-//                                    }
-//                                }
             }
         }
     }
     internal func tryToLoginWithGoogle(viewController: GuestlistViewProtocol, completion: @escaping (Bool) -> ()) {
-//        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-//
-//        // " appserviceaccount"
-//        let config = GIDConfiguration(clientID: clientID, serverClientID: "appserviceaccount")
-//        GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController as! UIViewController) { user, error in
-//            if error != nil {
-//                completion(false)
-//                return
-//            }
-//            completion(true)
-////            self.requestScopes(viewController: viewController as! UIViewController, googleUser: user!) { success in
-////                if success == true {
-////                    print("request scopes = success")
-////                    completion(true)
-////                } else {
-////                    print("request scopes = false")
-////                    completion(false)
-////                }
-////            }
-//
-//        }
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController as! UIViewController, hint: nil, additionalScopes: ["https://www.googleapis.com/auth/spreadsheets"]) { user, error in
+            if error != nil {
+                completion(false)
+                return
+            }
+            completion(true)
+        }
     }
-//        private let service = GTLRSheetsService()
-//        public func requestScopes(viewController: UIViewController, googleUser: GIDGoogleUser, completionHandler: @escaping (Bool) -> Void) {
-//            let grantedScopes = googleUser.grantedScopes
-//            if grantedScopes == nil || !grantedScopes!.contains(GoogleSpreadsheetsService.grantedScopes) {
-//                let additionalScopes = GoogleSpreadsheetsService.additionalScopes
-//
-//                GIDSignIn.sharedInstance.addScopes(additionalScopes, presenting: viewController) { user, scopeError in
-//                    if scopeError == nil {
-//                        user?.authentication.do { authentication, err in
-//                            if err == nil {
-//                                guard let authentication = authentication else { return }
-//                                // Get the access token to attach it to a REST or gRPC request.
-//                                // let accessToken = authentication.accessToken
-//                                let authorizer = authentication.fetcherAuthorizer()
-//                                self.service.authorizer = authorizer
-//                                completionHandler(true)
-//                            } else {
-//                                print("Error with auth: \(String(describing: err?.localizedDescription))")
-//                                completionHandler(false)
-//                            }
-//                        }
-//                    } else {
-//                        completionHandler(false)
-//                        print("Error with adding scopes: \(String(describing: scopeError?.localizedDescription))")
-//                    }
-//                }
-//            } else {
-//                print("Already contains the scopes!")
-//                completionHandler(true)
-//            }
-//        }
+    public func requestScopes(viewController: UIViewController, googleUser: GIDGoogleUser, completionHandler: @escaping (Bool) -> Void) {
+        let grantedScopes = googleUser.grantedScopes
+        if grantedScopes == nil || !grantedScopes!.contains(GoogleSpreadsheetsService.grantedScopes) {
+            let additionalScopes = GoogleSpreadsheetsService.additionalScopes
+            GIDSignIn.sharedInstance.addScopes(additionalScopes, presenting: viewController) { user, scopeError in
+                if scopeError == nil {
+                    user?.authentication.do { authentication, err in
+                        if err == nil {
+                            guard let authentication = authentication else { return }
+                            // Get the access token to attach it to a REST or gRPC request.
+//                             let accessToken = authentication.accessToken
+                            completionHandler(true)
+                        } else {
+                            print("Error with auth: \(String(describing: err?.localizedDescription))")
+                            completionHandler(false)
+                        }
+                    }
+                } else {
+                    completionHandler(false)
+                    print("Error with adding scopes: \(String(describing: scopeError?.localizedDescription))")
+                }
+            }
+        } else {
+            print("Already contains the scopes!")
+            completionHandler(true)
+        }
+    }
     public func checkSignInWithGoogle(completion: @escaping (Bool) -> ()) {
         if GIDSignIn.sharedInstance.currentUser != nil {
             completion(true)

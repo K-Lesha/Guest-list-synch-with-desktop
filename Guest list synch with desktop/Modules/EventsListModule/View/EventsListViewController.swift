@@ -117,9 +117,13 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
         }
     }
     
+    let sheetsService = GoogleSpreadsheetsService()
+    
     //MARK: Button methods
     @objc func addEventButtonPressed() {
-        
+        sheetsService.createNewSheet(name: "GUESTLIST") { result in
+            print(result)
+        }
     }
     @objc func allEventsButtonPressed() {
         

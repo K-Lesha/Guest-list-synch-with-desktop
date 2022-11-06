@@ -133,18 +133,9 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
 
     }
     
-    let addguestlistInteractor = AddModifyGuestInteractor(networkService: NetworkService())
     @objc func addGuestButtonPressed() {
 //        presenter.addNewGuest()
-        addguestlistInteractor.addNewGuest(eventID: presenter.eventID, guest: GuestEntity()) { result in
-            switch result {
-            case .success(_):
-                print("success")
-            case.failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-        
+        // presenter — need to be autorised with google
     }
 }
 
