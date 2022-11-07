@@ -65,7 +65,7 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
         passwordLabel = UILabel()
         view.addSubview(passwordLabel)
         passwordLabel.textColor = .black
-        passwordLabel.text = "PASSWORD"
+        passwordLabel.text = "ПАРОЛЬ"
         passwordLabel.font = Appearance.titlesFont
         //constraints@passwordLabel
         passwordLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -77,7 +77,7 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
         //setup@passwordTextField
         passwordTextField = UITextField()
         view.addSubview(passwordTextField)
-        passwordTextField.placeholder = "password"
+        passwordTextField.placeholder = "пароль"
         passwordTextField.font = Appearance.buttomsFont
         let bottomLine = CALayer()
         bottomLine.backgroundColor = UIColor.lightGray.cgColor
@@ -113,7 +113,7 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
         //setup@createAccountButton
         createAccountButton = UIButton()
         view.addSubview(createAccountButton)
-        createAccountButton.setTitle("create account", for: .normal)
+        createAccountButton.setTitle("создать аккаунт", for: .normal)
         createAccountButton.backgroundColor = .orange
         createAccountButton.titleLabel?.font = Appearance.buttomsFont
         createAccountButton.titleLabel?.textAlignment = .left
@@ -129,7 +129,7 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
     private func showPasswordError() {
         self.passwordTextField.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
         passwordTextField.text = ""
-        passwordTextField.placeholder = "Your password must be longer than 6 characters"
+        passwordTextField.placeholder = "Ваш пароль должен быть более 6 символов"
     }
     private func showLoginError() {
         //setup@errorLabel
@@ -138,7 +138,7 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
         errorLabel?.numberOfLines = 0
         errorLabel?.textColor = .red
         errorLabel?.textAlignment = .left
-        errorLabel?.text = "check the Internet connection and the correctness of the entered data"
+        errorLabel?.text = "проверьте интернет соединение и корректность введенных данных"
         errorLabel?.font = Appearance.buttomsFont
         //constraints@errorLabel
         errorLabel?.translatesAutoresizingMaskIntoConstraints = false
@@ -150,7 +150,7 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
         //setup@forgotPasswordButton
         forgotPasswordButton = UIButton()
         self.view.addSubview(forgotPasswordButton ?? UIButton())
-        forgotPasswordButton?.setTitle("I forgot password", for: .normal)
+        forgotPasswordButton?.setTitle("Я забыл пароль", for: .normal)
         forgotPasswordButton?.backgroundColor = .white
         forgotPasswordButton?.titleLabel?.font = Appearance.buttomsFont
         forgotPasswordButton?.setTitleColor(.orange, for: .normal)
@@ -165,12 +165,12 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
     private func showAlert(_ success: Bool) {
         var alert = UIAlertController()
         if success {
-            alert = UIAlertController(title: "Check your email", message: "there you can reset your pass", preferredStyle: .alert)
+            alert = UIAlertController(title: "Проверьте почту", message: "на email отправлено письмо со ссылкой для сброса пароля", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default)
             alert.addAction(okAction)
         } else {
-            alert = UIAlertController(title: "Can't reset the password with this email", message: "something went wrong", preferredStyle: .alert)
-            let backToEmailAction = UIAlertAction(title: "Back to email", style: .default) { action in
+            alert = UIAlertController(title: "Невозможно сбросить пароль", message: "проверьте интернет соеденение и корректность введенного имейла", preferredStyle: .alert)
+            let backToEmailAction = UIAlertAction(title: "вернуться к вводу email", style: .default) { action in
                 self.dismiss(animated: true)
             }
             alert.addAction(backToEmailAction)
@@ -237,6 +237,7 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
     @objc private func tryToRegisterWithFirebase() {
         animateButton(button: createAccountButton)
         if checkPasswordTextFeild() {
+            passwordTextField.resignFirstResponder()
             presenter.password = self.passwordTextField.text ?? ""
             //change view vize to normal
             preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight)

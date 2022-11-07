@@ -18,6 +18,8 @@ protocol GoogleSpreadsheetsServiceProtocol {
     //Methods
     func readSpreadsheetsData(range: SheetsRange, eventID: String, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void)
     func appendData(spreadsheetID: String, range: SheetsRange, data: [String], completion: @escaping (String) -> Void)
+    func createDefaultSpreadsheet(named name: String, sheetType: DefaultSheetsIds, completion: @escaping (String) -> ())
+    
 }
 //MARK: -SheetsRange
 enum SheetsRange: String {
@@ -25,6 +27,12 @@ enum SheetsRange: String {
     case guestsDataForReading = "B27:N"
     case guestsDataForAdding = "A27:N"
 }
+//MARK: -DefaultSheetsIds
+enum DefaultSheetsIds: String {
+    case demoEvent = "1OlZ7J45qI3zE9ViWcpgc5ZCmhPWdpgh8rlABjTy3dWk"
+    case emptyEvent = "1RRZ6QRAguHYu1rmOwcdAKJUZbWi14RASlUv1_Rbd42I"
+}
+
 //MARK: -SheetsError
 enum SheetsError: Error {
     case error
@@ -139,7 +147,8 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
     //        }
     //    }
     
-    func createNewSheet(name: String, completion: @escaping (String) -> ()) {
+    //MARK: -ADD NEW SPREADSHEET WITH (DEMO/EMPTY)EVENT
+    public func createDefaultSpreadsheet(named name: String, sheetType: DefaultSheetsIds, completion: @escaping (String) -> ()) {
         let newSheet = GTLRSheets_Spreadsheet.init()
         let properties = GTLRSheets_SpreadsheetProperties.init()
         properties.title = name
@@ -148,52 +157,99 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
         let query = GTLRSheetsQuery_SpreadsheetsCreate.query(withObject:newSheet)
         query.fields = "spreadsheetId"
         
-        query.completionBlock = { (ticket, result, NSError) in
+        query.completionBlock = { (ticket, result, error) in
             
-            if let error = NSError {
+            if let error {
                 completion(error.localizedDescription)
             }
             else {
                 let response = result as! GTLRSheets_Spreadsheet
                 let identifier = response.spreadsheetId
-                self.copyNewSheet(newSheetID: identifier!)
+                self.copyDefaultSheetTo(spreadsheet: identifier!, sheetType: sheetType, completion: completion)
+                
             }
         }
         sheetService.executeQuery(query, completionHandler: nil)
     }
-    
-//    private func fillNewSheet(spreadsheetID: String, completion: @escaping (String) -> ()) {
-//        let dataForNewSheet = SpreadsheetData.dataForNewSheet
-//        let rangeToAppend = GTLRSheets_ValueRange.init();
-//        rangeToAppend.values = dataForNewSheet
-//
-//        let query = GTLRSheetsQuery_SpreadsheetsValuesAppend.query(withObject: rangeToAppend, spreadsheetId: spreadsheetID, range: "A1:Z1000")
-//        query.valueInputOption = "USER_ENTERED"
-//        sheetService.executeQuery(query) { (ticket, result, error) in
-//            if let error = error {
-//                print("Error in appending data: \(error)")
-    //                completion("Error in sending data:\n\(error.localizedDescription)")
-    //            } else {
-    //                print("Data sent: \(dataForNewSheet)")
-    //                completion("Success!")
-    //            }
-    //        }
-    //    }
-    
-    func copyNewSheet(newSheetID: String) {
-        
+    private func copyDefaultSheetTo(spreadsheet spreadsheetID: String, sheetType: DefaultSheetsIds, completion: @escaping (String) -> ()) {
         let request = GTLRSheets_CopySheetToAnotherSpreadsheetRequest()
-        request.destinationSpreadsheetId = newSheetID
+        request.destinationSpreadsheetId = spreadsheetID
         
-        let query = GTLRSheetsQuery_SpreadsheetsSheetsCopyTo.query(withObject: request, spreadsheetId: "1OlZ7J45qI3zE9ViWcpgc5ZCmhPWdpgh8rlABjTy3dWk", sheetId: 0)
+        let query = GTLRSheetsQuery_SpreadsheetsSheetsCopyTo.query(withObject: request, spreadsheetId: sheetType.rawValue, sheetId: 0)
         
         query.completionBlock =  { (ticket, result, error) in
-            
+            if let error {
+                completion(error.localizedDescription)
+            }
+            else {
+                self.deleteFirstEmtySheetIn(spreadsheet: spreadsheetID, completion: completion)
+            }
+
         }
-        
         sheetService.executeQuery(query)
     }
-    func deleteOneSheet(sheetID: String) {
-
+    private func deleteFirstEmtySheetIn(spreadsheet spreadsheetID: String, completion: @escaping (String) -> ()) {
+        let deleteSheetRequest = GTLRSheets_DeleteSheetRequest()
+        deleteSheetRequest.sheetId = 0
+        let sheetRequest = GTLRSheets_Request()
+        sheetRequest.deleteSheet = deleteSheetRequest
+        let batchUpdateRequest = GTLRSheets_BatchUpdateSpreadsheetRequest()
+        batchUpdateRequest.requests = [sheetRequest]
+        
+        let query = GTLRSheetsQuery_SpreadsheetsBatchUpdate.query(withObject: batchUpdateRequest, spreadsheetId: spreadsheetID)
+        query.completionBlock =  { (ticket, result, error) in
+            if let error {
+                completion(error.localizedDescription)
+            }
+            else {
+                completion(spreadsheetID)
+            }
+        }
+        sheetService.executeQuery(query)
     }
+//    private func getSheetsIDsAndRenameIn(spreadsheet spreadsheetID: String, completion: @escaping (String) -> ()) {
+//        let query = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: spreadsheetID)
+//
+//        query.completionBlock =  { (ticket, result, error) in
+//            if let error {
+//                completion(error.localizedDescription)
+//            }
+//            else {
+//                let spreadsheet = result as? GTLRSheets_Spreadsheet
+//                let sheets = spreadsheet?.sheets
+//                for sheet in sheets! {
+//                    self.renameSheetIn(spreadsheet: spreadsheetID, sheetID: sheet.properties!.sheetId!, completion: completion)
+//                }
+//            }
+//        }
+//        sheetService.executeQuery(query)
+//    }
+    
+//    private func renameSheetNameIn(spreadsheet spreadsheetID: String, sheetID: NSNumber, completion: @escaping (String) -> ()) {
+//
+//        let renameSheetRequest = GTLRSheets_UpdateSheetPropertiesRequest()
+//        renameSheetRequest.properties?.sheetId = sheetID
+//        renameSheetRequest.properties?.title = "GUESTLIST"
+//        renameSheetRequest.fields = "title"
+//
+//        let sheetRequest = GTLRSheets_Request()
+//        sheetRequest.updateSheetProperties = renameSheetRequest
+//
+//        let batchUpdateRequest = GTLRSheets_BatchUpdateSpreadsheetRequest()
+//        batchUpdateRequest.requests = [sheetRequest]
+//
+//        let query = GTLRSheetsQuery_SpreadsheetsBatchUpdate.query(withObject: batchUpdateRequest, spreadsheetId: spreadsheetID)
+//        query.completionBlock =  { (ticket, result, error) in
+//            if let error {
+//                completion(error.localizedDescription)
+//            }
+//            else {
+//                completion(spreadsheetID)
+//            }
+//        }
+//        sheetService.executeQuery(query)
+//    }
+    
+    
+    
 }

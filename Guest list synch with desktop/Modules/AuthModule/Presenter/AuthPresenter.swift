@@ -15,9 +15,12 @@ protocol AuthPresenterProtocol: AnyObject {
     var router: RouterProtocol! {get set}
     init(view: AuthViewProtocol, interactor: AuthInteractorProtocol, router: RouterProtocol)
     //TEMP DATA
-    var userName: String  {get set}
-    var password: String  {get set}
     var email: String {get set}
+    var password: String  {get set}
+    var userName: String  {get set}
+    var userSurname: String? {get set}
+    var userAgency: String? {get set}
+    var userType: UserTypes {get set}
     // METHODS
     func setBackgroundImage(width: CGFloat, height: CGFloat, completion: @escaping (Result<Data, NetworkError>) -> Void)
     func tryToRegisterWithFirebase(completion: @escaping (Result<String, FireBaseError>) -> ())
@@ -31,7 +34,6 @@ protocol AuthPresenterProtocol: AnyObject {
 
 //MARK: Presenter
 class AuthPresenter: AuthPresenterProtocol {
-
     //MARK: VIPER protocol
     internal weak var view: AuthViewProtocol!
     internal var router: RouterProtocol!
@@ -43,21 +45,13 @@ class AuthPresenter: AuthPresenterProtocol {
         self.router = router
     }
     //MARK: TEMP DATA
-    internal var userName: String = "" {
-        didSet {
-            print(userName)
-        }
-    }
-    internal var password: String = "" {
-        didSet {
-            print(password)
-        }
-    }
-    internal var email: String = "" {
-        didSet {
-            print(email)
-        }
-    }
+    internal var userName: String = ""
+    internal var password: String = ""
+    internal var email: String = ""
+    internal var userSurname: String? = ""
+    internal var userAgency: String? = ""
+    internal var userType: UserTypes = .headOrganizer
+    
     //MARK: METHODS
     internal func setBackgroundImage(width: CGFloat, height: CGFloat, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         let urlString = "https://source.unsplash.com/random/\(Int(width))x\(Int(height))?sig=1"

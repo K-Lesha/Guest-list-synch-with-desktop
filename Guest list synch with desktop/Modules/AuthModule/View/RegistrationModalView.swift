@@ -44,6 +44,11 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
     private var emailTextfield: UITextField!
     private var passwordTextfield: UITextField!
     private var userNameTextfield: UITextField!
+    private var userSurnameTextfield: UITextField!
+    private var agencyTextfield: UITextField!
+    private var userTypeTextfield: UITextField!
+    private var userTypePicker: UIPickerView!
+    private var userTypeState: UserTypes?
     private var registerButton: UIButton!
     private var errorLabel: UILabel? = nil
     
@@ -64,7 +69,7 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
         registerLabel = UILabel()
         view.addSubview(registerLabel)
         registerLabel.textColor = .black
-        registerLabel.text = "ONE MORE STEP"
+        registerLabel.text = "ЕЩË ОДИН ШАГ"
         registerLabel.font = Appearance.titlesFont
         //constraints@registerLabel
         registerLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -79,6 +84,8 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
         emailTextfield.placeholder = "email"
         emailTextfield.text = presenter.email
         emailTextfield.font = Appearance.buttomsFont
+        emailTextfield.clearButtonMode = .whileEditing
+        emailTextfield.keyboardType = .emailAddress
         let bottomLineLogin = CALayer()
         bottomLineLogin.backgroundColor = UIColor.lightGray.cgColor
         emailTextfield.borderStyle = UITextField.BorderStyle.none
@@ -97,13 +104,14 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
         //setup@passwordTextfield
         passwordTextfield = UITextField()
         view.addSubview(passwordTextfield)
-        passwordTextfield.placeholder = "password"
+        passwordTextfield.placeholder = "пароль"
         if presenter.password.count > 0 {
             passwordTextfield.text = self.presenter.password
         }
         passwordTextfield.isSecureTextEntry = true
         passwordTextfield.font = Appearance.buttomsFont
         passwordTextfield.autocorrectionType = .no
+        passwordTextfield.clearButtonMode = .whileEditing
         passwordTextfield.borderStyle = UITextField.BorderStyle.none
         let bottomLinePassword = CALayer()
         bottomLinePassword.backgroundColor = UIColor.lightGray.cgColor
@@ -120,9 +128,10 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
         //setup@userNameTextfield
         userNameTextfield = UITextField()
         view.addSubview(userNameTextfield)
-        userNameTextfield.placeholder = "username (optional)"
+        userNameTextfield.placeholder = "имя"
         userNameTextfield.font = Appearance.buttomsFont
         userNameTextfield.borderStyle = UITextField.BorderStyle.none
+        userNameTextfield.clearButtonMode = .whileEditing
         let bottomLineLoginEmail = CALayer()
         bottomLineLoginEmail.backgroundColor = UIColor.lightGray.cgColor
         userNameTextfield.layer.addSublayer(bottomLineLoginEmail)
@@ -136,18 +145,85 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
         userNameTextfield.leftAnchor.constraint(equalTo: passwordTextfield.leftAnchor, constant: 0).isActive = true
         bottomLineLoginEmail.frame = CGRect(x: 0.0, y: textfieldsHeighConstraint, width: view.frame.width - 50, height: 1.0)
         
+        //setup@userSurnameTextfield
+        userSurnameTextfield = UITextField()
+        view.addSubview(userSurnameTextfield)
+        userSurnameTextfield.placeholder = "фамилия (опционально)"
+        userSurnameTextfield.font = Appearance.buttomsFont
+        userSurnameTextfield.borderStyle = UITextField.BorderStyle.none
+        let bottomLineSurnameTextfield = CALayer()
+        bottomLineSurnameTextfield.backgroundColor = UIColor.lightGray.cgColor
+        userSurnameTextfield.layer.addSublayer(bottomLineSurnameTextfield)
+        userSurnameTextfield.delegate = self
+        userSurnameTextfield.autocorrectionType = .no
+        userSurnameTextfield.clearButtonMode = .whileEditing
+        //constraints@userSurnameTextfield
+        userSurnameTextfield.translatesAutoresizingMaskIntoConstraints = false
+        userSurnameTextfield.topAnchor.constraint(equalTo: userNameTextfield.bottomAnchor, constant: 10).isActive = true
+        userSurnameTextfield.widthAnchor.constraint(equalTo: userNameTextfield.widthAnchor).isActive = true
+        userSurnameTextfield.heightAnchor.constraint(equalToConstant: textfieldsHeighConstraint).isActive = true
+        userSurnameTextfield.leftAnchor.constraint(equalTo: passwordTextfield.leftAnchor, constant: 0).isActive = true
+        bottomLineSurnameTextfield.frame = CGRect(x: 0.0, y: textfieldsHeighConstraint, width: view.frame.width - 50, height: 1.0)
+
+        //setup@agencyTextfield
+        agencyTextfield = UITextField()
+        view.addSubview(agencyTextfield)
+        agencyTextfield.placeholder = "агентство (опционально)"
+        agencyTextfield.font = Appearance.buttomsFont
+        agencyTextfield.borderStyle = UITextField.BorderStyle.none
+        let bottomLineAgencyTextfield = CALayer()
+        bottomLineAgencyTextfield.backgroundColor = UIColor.lightGray.cgColor
+        agencyTextfield.layer.addSublayer(bottomLineAgencyTextfield)
+        agencyTextfield.delegate = self
+        agencyTextfield.autocorrectionType = .no
+        agencyTextfield.clearButtonMode = .whileEditing
+        //constraints@agencyTextfield
+        agencyTextfield.translatesAutoresizingMaskIntoConstraints = false
+        agencyTextfield.topAnchor.constraint(equalTo: userSurnameTextfield.bottomAnchor, constant: 10).isActive = true
+        agencyTextfield.widthAnchor.constraint(equalTo: userSurnameTextfield.widthAnchor).isActive = true
+        agencyTextfield.heightAnchor.constraint(equalToConstant: textfieldsHeighConstraint).isActive = true
+        agencyTextfield.leftAnchor.constraint(equalTo: passwordTextfield.leftAnchor, constant: 0).isActive = true
+        bottomLineAgencyTextfield.frame = CGRect(x: 0.0, y: textfieldsHeighConstraint, width: view.frame.width - 50, height: 1.0)
+        
+        //setup@userTypePicker
+        userTypePicker = UIPickerView()
+        userTypePicker.delegate = self
+        userTypePicker.dataSource = self
+        
+        //setup@userTypeTextfield
+        userTypeTextfield = UITextField()
+        view.addSubview(userTypeTextfield)
+        userTypeTextfield.placeholder = "тип пользователя"
+        userTypeTextfield.font = Appearance.buttomsFont
+        userTypeTextfield.borderStyle = UITextField.BorderStyle.none
+        userTypeTextfield.clearButtonMode = .whileEditing
+        userTypeTextfield.delegate = self
+        userTypeTextfield.autocorrectionType = .no
+        userTypeTextfield.inputView = userTypePicker
+        let bottomLineuserTypeTextField = CALayer()
+        bottomLineuserTypeTextField.backgroundColor = UIColor.lightGray.cgColor
+        userTypeTextfield.layer.addSublayer(bottomLineuserTypeTextField)
+        //constraints@userTypeTextfield
+        userTypeTextfield.translatesAutoresizingMaskIntoConstraints = false
+        userTypeTextfield.topAnchor.constraint(equalTo: agencyTextfield.bottomAnchor, constant: 15).isActive = true
+        userTypeTextfield.widthAnchor.constraint(equalTo: userSurnameTextfield.widthAnchor).isActive = true
+        userTypeTextfield.heightAnchor.constraint(equalToConstant: textfieldsHeighConstraint).isActive = true
+        userTypeTextfield.leftAnchor.constraint(equalTo: passwordTextfield.leftAnchor, constant: 0).isActive = true
+        bottomLineuserTypeTextField.frame = CGRect(x: 0.0, y: textfieldsHeighConstraint, width: view.frame.width - 50, height: 1.0)
+        
+        
         //setup@nextButton
         registerButton = UIButton()
         view.addSubview(registerButton)
-        registerButton.setTitle("register", for: .normal)
+        registerButton.setTitle("зарегистрироваться", for: .normal)
         registerButton.titleLabel?.font = Appearance.buttomsFont
         registerButton.backgroundColor = .orange
         registerButton.layer.cornerRadius = 15
-        registerButton.addTarget(self, action: #selector(tryToRegisterWithFirebase), for: .touchUpInside)
+        registerButton.addTarget(self, action: #selector(registerButtonPushed), for: .touchUpInside)
         //constraints@nextButton
         registerButton.translatesAutoresizingMaskIntoConstraints = false
-        registerButton.topAnchor.constraint(equalTo: userNameTextfield.bottomAnchor, constant: 5).isActive = true
-        registerButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        registerButton.topAnchor.constraint(equalTo: userTypeTextfield.bottomAnchor, constant: 5).isActive = true
+        registerButton.widthAnchor.constraint(equalToConstant: 140).isActive = true
         registerButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         registerButton.leftAnchor.constraint(equalTo: userNameTextfield.leftAnchor, constant: 0).isActive = true
         
@@ -181,13 +257,24 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
     private func handleEmailTextFieldError() {
         self.emailTextfield.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
         self.emailTextfield.text = ""
-        self.emailTextfield.placeholder = "email should be correct"
+        self.emailTextfield.placeholder = "имейл некорректен, введите корректный имейл"
     }
     private func handlePasswordTextFieldError() {
         self.passwordTextfield.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
         self.passwordTextfield.text = ""
-        self.passwordTextfield.placeholder = "Your password must be longer than 6 characters"
+        self.passwordTextfield.placeholder = "пароль должен быть не менее 6 символов"
     }
+    private func handleUserTypeTextFieldError() {
+        self.userTypeTextfield.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
+        self.userTypeTextfield.text = ""
+        self.userTypeTextfield.placeholder = "пожалуйста, выберете тип пользователя"
+    }
+    private func handleUserNameTextFieldError() {
+        self.userNameTextfield.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
+        self.userNameTextfield.text = ""
+        self.userNameTextfield.placeholder = "пожалуйста, введите имя пользователя"
+    }
+
     //MARK: Keyboard methods
     private func setupKeyBoardNotification() {
         //Notification keyboardWillShow
@@ -204,7 +291,6 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
             object: nil)
     }
     @objc private func keyboardWillShow(_ notification: Notification) {
-        print("keyboardWillShow ", Thread.current)
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             keyboardHeight = keyboardRectangle.height
@@ -213,16 +299,14 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
     }
     @objc private func keyboardWillHide(_ notification: Notification) {
         if ((notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue) != nil {
-            preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight )
+            preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight)
         }
     }
     //MARK: Button methods
-    @objc private func tryToRegisterWithFirebase() {
+    @objc private func registerButtonPushed() {
         animateButton(button: registerButton)
         // hide keyboard
-        emailTextfield.resignFirstResponder()
-        passwordTextfield.resignFirstResponder()
-        userNameTextfield.resignFirstResponder()
+        self.view.endEditing(true)
         //turn view size back to normal
         preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight)
         //Checking if textfield empty ...
@@ -235,26 +319,28 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
     // MARK: Other methods
     private func checkTextFields() -> Bool {
         //Checking if textfields are OK ...
-        var flag = true
-        switch emailTextfield.text {
-        case (let text) where text?.count == 0:
+        guard let email = self.emailTextfield.text, self.isValidEmail(email: email) else {
             self.handleEmailTextFieldError()
-            flag = false
-        case (let text) where !self.isValidEmail(email: text ?? ""):
-            self.handleEmailTextFieldError()
-            flag = false
-        case (_) where self.passwordTextfield.text == nil:
-            self.handlePasswordTextFieldError()
-            flag = false
-        case (_) where (self.passwordTextfield.text?.count ?? 0) < 6:
-            self.handlePasswordTextFieldError()
-            flag = false
-        case nil:
-            self.handleEmailTextFieldError()
-            flag = false
-        default: return true
+            return false
         }
-        return flag
+        self.emailTextfield.layer.sublayers?.first?.backgroundColor = UIColor.lightGray.cgColor
+        guard let password = self.passwordTextfield.text, password.count >= 6 else {
+            self.handlePasswordTextFieldError()
+            return false
+
+        }
+        self.passwordTextfield.layer.sublayers?.first?.backgroundColor = UIColor.lightGray.cgColor
+        guard let userName = self.userNameTextfield.text, userName.count >= 2 else {
+            self.handleUserNameTextFieldError()
+            return false
+        }
+        self.userNameTextfield.layer.sublayers?.first?.backgroundColor = UIColor.lightGray.cgColor
+        guard let userType = self.userTypeTextfield.text, userType.count > 1 else {
+            handleUserTypeTextFieldError()
+            return false
+        }
+        self.userTypeTextfield.layer.sublayers?.first?.backgroundColor = UIColor.lightGray.cgColor
+        return true
     }
     private func isValidEmail(email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
@@ -263,16 +349,38 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
     }
     //MARK: NAVIGATION
     private func continueToRegistration() {
-        // sending to presenter all the parameters
-        if self.userNameTextfield.text?.count != 0, self.userNameTextfield.text != nil {
-            presenter.userName = self.userNameTextfield.text!
+        // send to presenter all the parameters
+        // email
+        if let userEmail = self.emailTextfield.text, isValidEmail(email: userEmail) {
+            presenter.email = userEmail
         } else {
-            presenter.userName = "noname"
+            return
         }
-        presenter.password = self.passwordTextfield.text!
-        presenter.email = self.emailTextfield.text!
-        errorLabel?.removeFromSuperview()
-        errorLabel = nil
+        // password
+        if let userPassword = self.passwordTextfield.text, userPassword.count >= 6 {
+            presenter.password = userPassword
+        } else {
+            return
+        }
+        //name
+        if let userName = self.userNameTextfield.text, userName.count >= 1 {
+            presenter.userName = userName
+        } else {
+            return
+        }
+        //surname
+        if let userSurname = self.userSurnameTextfield.text {
+            presenter.userSurname = userSurname
+        }
+        //agency
+        if let userAgency = self.agencyTextfield.text {
+            presenter.userAgency = userAgency
+        }
+        // userType
+        guard userTypeTextfield.text?.isEmpty == false else {
+            return
+        }
+        // userType already sent with picker
         // try to registrer
         presenter.tryToRegisterWithFirebase() { result in
             switch result {
@@ -290,39 +398,47 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
         print("RegistrationModalViewController was deinited")
     }
 }
-
 //MARK: UITextFieldDelegate
 extension RegistrationModalViewController: UITextFieldDelegate {
     //textFieldDidEndEditing
     func textFieldDidEndEditing(_ textField: UITextField) {
-        //loginTextField
-        if self.emailTextfield.text != nil || (self.emailTextfield.text?.count ?? 0) > 0 {
-            emailTextfield.layer.sublayers?.first?.backgroundColor = UIColor.lightGray.cgColor
-        }
-        // passwordTextfield
-        if self.passwordTextfield.text != nil || (self.passwordTextfield.text?.count ?? 0) > 0 {
-            passwordTextfield.layer.sublayers?.first?.backgroundColor = UIColor.lightGray.cgColor
-        }
-        // emailTextfield
-        if textField == self.userNameTextfield {
-            userNameTextfield.resignFirstResponder()
-        }
-        if self.userNameTextfield.text != nil || (self.userNameTextfield.text?.count ?? 0) > 0 {
-            userNameTextfield.layer.sublayers?.first?.backgroundColor = UIColor.lightGray.cgColor
-        }
+        self.checkTextFields()
     }
     //textFieldShouldReturn
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == self.emailTextfield {
-            passwordTextfield.becomeFirstResponder()
-        }
-        if textField == self.passwordTextfield {
-            userNameTextfield.becomeFirstResponder()
-        }
-        if textField == self.userNameTextfield {
-            tryToRegisterWithFirebase()
+        switch textField {
+        case self.emailTextfield:
+            self.passwordTextfield.becomeFirstResponder()
+        case self.passwordTextfield:
+            self.userNameTextfield.becomeFirstResponder()
+        case self.userNameTextfield:
+            self.userSurnameTextfield.becomeFirstResponder()
+        case self.userSurnameTextfield:
+            self.agencyTextfield.becomeFirstResponder()
+        case self.agencyTextfield:
+            self.userTypeTextfield.becomeFirstResponder()
+        default:
+            break
         }
         return true
     }
 }
 
+extension RegistrationModalViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    //UIPickerViewDataSource
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return UserTypes.count
+    }
+    // UIPickerViewDelegate
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return UserTypes(rawValue: row)?.description
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.userTypeTextfield.text = UserTypes(rawValue: row)?.description
+        self.presenter.userType = UserTypes(rawValue: row)!
+        self.userTypeTextfield.resignFirstResponder()
+    }
+}

@@ -9,11 +9,22 @@ import Foundation
 
 
 enum UserTypes: Int {
-    case demoUser = 0 // temporary status, before he created an event
-    case headOrganizer = 1 // can create events, and manage them, can create guestlist and manage them
-    case coorganizer = 2 // can create own events and can see headOrganizer events
-    case hostess = 3 // can see events by headOrganizer and coOrganizer, cant create own events
-    case client = 4 // can see events by organizer and coOrganizer, cant create own events
+    case headOrganizer = 0 // can create events, and manage them, can create guestlist and manage them
+    case coorganizer = 1 // can create own events and can see headOrganizer events
+    case hostess = 2 // can see events by headOrganizer and coOrganizer, cant create own events
+    case client = 3 // can see events by organizer and coOrganizer, cant create own events
+    static var count: Int {
+        return UserTypes.client.rawValue + 1
+    }
+    var description: String {
+        switch self {
+        case .headOrganizer: return "Организатор"
+        case .coorganizer: return "Со-организатор"
+        case .hostess: return "Хостесс"
+        case .client: return "Клиент"
+        }
+    }
+    
 }
 
 struct UserEntity {

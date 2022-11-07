@@ -40,6 +40,7 @@
 		8A54CE34290C894F00ADAB45 /* FirebaseDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE33290C894F00ADAB45 /* FirebaseDatabaseService.swift */; };
 		8A7E93072907F78B005E5B33 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 8A7E93062907F78B005E5B33 /* BottomSheet */; };
 		8A7E9309290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7E9308290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift */; };
+		8AC4BEF9291946C1005A6B1E /* FinishRegistrationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC4BEF8291946C1005A6B1E /* FinishRegistrationModalView.swift */; };
 		8ACB2D34291447BC009AE476 /* AlertsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB2D33291447BC009AE476 /* AlertsFactory.swift */; };
 		8ACB2D3629146C71009AE476 /* guest-list-295cc-5476f0517864.json in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB2D3529146C70009AE476 /* guest-list-295cc-5476f0517864.json */; };
 		8AF83E8F2906655100614257 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83E8E2906655100614257 /* AppDelegate.swift */; };
@@ -91,6 +92,7 @@
 		8A54CE31290C893D00ADAB45 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		8A54CE33290C894F00ADAB45 /* FirebaseDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDatabaseService.swift; sourceTree = "<group>"; };
 		8A7E9308290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSpreadsheetsService.swift; sourceTree = "<group>"; };
+		8AC4BEF8291946C1005A6B1E /* FinishRegistrationModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishRegistrationModalView.swift; sourceTree = "<group>"; };
 		8ACB2D33291447BC009AE476 /* AlertsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsFactory.swift; sourceTree = "<group>"; };
 		8ACB2D3529146C70009AE476 /* guest-list-295cc-5476f0517864.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "guest-list-295cc-5476f0517864.json"; sourceTree = "<group>"; };
 		8AF83E8B2906655100614257 /* Guest list synch with desktop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Guest list synch with desktop.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,6 +160,7 @@
 				8A0E9B7529101F9F00DBF883 /* SignInModalView.swift */,
 				8A0E9B7729101FA000DBF883 /* PasswordModalView.swift */,
 				8A0E9B7629101F9F00DBF883 /* RegistrationModalView.swift */,
+				8AC4BEF8291946C1005A6B1E /* FinishRegistrationModalView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -688,6 +691,7 @@
 				8A4FFBA72917E61700234E04 /* SpreadsheetData.swift in Sources */,
 				8A0E9B8329101FE800DBF883 /* EventsListPresenter.swift in Sources */,
 				8A0E9B8E2910210200DBF883 /* ProfileViewController.swift in Sources */,
+				8AC4BEF9291946C1005A6B1E /* FinishRegistrationModalView.swift in Sources */,
 				8A0E9B6F29101F7900DBF883 /* AuthenticationSemaphore.swift in Sources */,
 				8AF83EA829066B9E00614257 /* Appearance.swift in Sources */,
 				8A0E9B922910214200DBF883 /* ProfileInteractor.swift in Sources */,
