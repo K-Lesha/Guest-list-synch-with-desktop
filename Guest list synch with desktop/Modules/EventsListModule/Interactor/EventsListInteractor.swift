@@ -26,7 +26,6 @@ class EventsListInteractor: EventsListInteractorProtocol {
     //MARK: -VIPER protocol
     internal var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
     
-    
     //MARK: -Spreadsheets methods
     func readAllTheEvents(completionHandler: @escaping (Result<[EventEntity], EventListInteractorError>) -> Void) {
         // temp properties

@@ -51,16 +51,21 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
     //Service init
     init() {
         sheetService.apiKey = self.apiKey
-        sheetService.authorizer = GIDSignIn.sharedInstance.currentUser?.authentication.fetcherAuthorizer()
-        
+        updateAuthrizer()
         //        sheetService.apiKeyRestrictionBundleID =
         //        driveService.apiKey = self.apiKey
         //        driveService.authorizer = GIDSignIn.sharedInstance.currentUser?.authentication.fetcherAuthorizer()
     }
     
-    //MARK: Spreadsheets methods
+    //MARK: -Methods
+    //service methods
+    func updateAuthrizer() {
+        sheetService.authorizer = GIDSignIn.sharedInstance.currentUser?.authentication.fetcherAuthorizer()
+    }
+    //Spreadsheets methods
     func readSpreadsheetsData(range: SheetsRange, eventID: String, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void) {
         print("Getting sheet data...")
+        updateAuthrizer()
         let query = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: eventID, range:range.rawValue)
 
         sheetService.executeQuery(query) { (ticket, result, error) in
@@ -85,6 +90,7 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
     
     
     func appendData(spreadsheetID: String, range: SheetsRange, data: [String], completion: @escaping (String) -> Void) {
+        updateAuthrizer()
         let rangeToAppend = GTLRSheets_ValueRange.init();
         rangeToAppend.values = [data]
         
@@ -149,6 +155,7 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
     
     //MARK: -ADD NEW SPREADSHEET WITH (DEMO/EMPTY)EVENT
     public func createDefaultSpreadsheet(named name: String, sheetType: DefaultSheetsIds, completion: @escaping (String) -> ()) {
+        updateAuthrizer()
         let newSheet = GTLRSheets_Spreadsheet.init()
         let properties = GTLRSheets_SpreadsheetProperties.init()
         properties.title = name
@@ -160,6 +167,7 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
         query.completionBlock = { (ticket, result, error) in
             
             if let error {
+                print(error.localizedDescription)
                 completion(error.localizedDescription)
             }
             else {

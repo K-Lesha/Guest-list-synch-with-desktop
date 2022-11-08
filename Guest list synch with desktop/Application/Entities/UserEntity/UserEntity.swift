@@ -13,11 +13,14 @@ enum UserTypes: Int {
     case coorganizer = 1 // can create own events and can see headOrganizer events
     case hostess = 2 // can see events by headOrganizer and coOrganizer, cant create own events
     case client = 3 // can see events by organizer and coOrganizer, cant create own events
+    case empty = 4
+    
     static var count: Int {
-        return UserTypes.client.rawValue + 1
+        return UserTypes.empty.rawValue + 1
     }
     var description: String {
         switch self {
+        case .empty: return ""
         case .headOrganizer: return "Организатор"
         case .coorganizer: return "Со-организатор"
         case .hostess: return "Хостесс"

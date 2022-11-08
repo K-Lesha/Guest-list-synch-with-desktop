@@ -10,24 +10,25 @@ import UIKit
 protocol RegistrationViewProtocol: AnyObject {
     //VIPER protocol
     var presenter: AuthPresenterProtocol! {get set}
+    var superView: PasswordViewProtocol! {get set}
+    // init
     init(initialHeight: CGFloat, presenter: AuthPresenterProtocol, superView: PasswordViewProtocol)
     // View properties
     var currentViewHeight: CGFloat! {get set}
     var keyboardHeight: CGFloat! {get set}
-    var superView: PasswordViewProtocol! {get set}
 }
 
 
 class RegistrationModalViewController: UIViewController, RegistrationViewProtocol {
-    //MARK: VIPER protocol
+    //MARK: -VIPER protocol
     weak internal var rootViewContoroller: PasswordViewProtocol!
     weak internal var presenter: AuthPresenterProtocol!
-    //MARK: View properties
+    weak var superView: PasswordViewProtocol!
+    //MARK: -View properties
     internal var currentViewHeight: CGFloat!
     internal var keyboardHeight: CGFloat!
-    weak var superView: PasswordViewProtocol!
     
-    //MARK: INIT
+    //MARK: -INIT
     required init(initialHeight: CGFloat, presenter: AuthPresenterProtocol, superView: PasswordViewProtocol) {
         super.init(nibName: nil, bundle: nil)
         self.presenter = presenter
@@ -39,7 +40,7 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    //MARK: OUTLETS
+    //MARK: -OUTLETS
     private var registerLabel: UILabel!
     private var emailTextfield: UITextField!
     private var passwordTextfield: UITextField!
@@ -439,6 +440,6 @@ extension RegistrationModalViewController: UIPickerViewDataSource, UIPickerViewD
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.userTypeTextfield.text = UserTypes(rawValue: row)?.description
         self.presenter.userType = UserTypes(rawValue: row)!
-        self.userTypeTextfield.resignFirstResponder()
+//        self.userTypeTextfield.resignFirstResponder()
     }
 }

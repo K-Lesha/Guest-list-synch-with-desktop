@@ -187,33 +187,6 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
             })
         }
     }
-    //MARK: Button methods
-    @objc private func nextButtonTapped() {
-        self.animateButton(button: self.nextButton)
-        self.checkUserDataAndContinue()
-    }
-    @objc private func facebookButtonTapped() {
-        presenter.tryToLoginWithFacebook(viewController: self) { result in
-            switch result {
-            case .success(_):
-                self.dismiss(animated: true)
-                self.presenter.showEventsListModule()
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
-    @objc func googleButtonTapped() {
-        presenter.tryToLoginWithGoogle(viewController: self) { result in
-            switch result {
-            case .success(_):
-                self.dismiss(animated: true)
-                self.presenter.showEventsListModule()
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
     //MARK: Keyboard methods
     private func setupKeyBoardNotification() {
         //Notification keyboardWillShow
@@ -243,20 +216,12 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
         }
     }
     //MARK: Other methods
+
     private func checkUserDataAndContinue() {
-        guard let emailString = self.emailTextField.text else {
-            showError()
-            return
-        }
-        if emailString.count >= 5, self.isValidEmail(email: emailString) {
+        if let emailString = self.emailTextField.text, self.isValidEmail(email: emailString) {
             emailTextField.resignFirstResponder()
             presenter.email = emailString
-            
-            //next modal view
-            let viewControllerToPresent = PasswordModalViewController(initialHeight: 200, presenter: self.presenter, superView: self)
-            presentBottomSheetInsideNavigationController(
-                viewController: viewControllerToPresent,
-                configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
+            finishRegistrationWithFirebase()
         } else {
             showError()
             return
@@ -267,12 +232,60 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
+    //MARK: Button methods
+    @objc private func nextButtonTapped() {
+        self.animateButton(button: self.nextButton)
+        self.checkUserDataAndContinue()
+    }
+    @objc private func facebookButtonTapped() {
+        presenter.tryToLoginWithFacebook(viewController: self) { result in
+            switch result {
+            case .success(let userUID, let email, let name):
+                self.presenter.userUID = userUID
+                self.presenter.email = email
+                self.presenter.userName = name
+                self.finishRegistrationAfterGoogleFacebookLogin()
+                self.presenter.userUID = userUID
+                self.dismiss(animated: true)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    @objc func googleButtonTapped() {
+        presenter.tryToLoginWithGoogle(viewController: self) { result in
+            switch result {
+            case .success((let userUID, let email, let name)):
+                self.presenter.userUID = userUID
+                self.presenter.email = email
+                self.presenter.userName = name
+                self.finishRegistrationAfterGoogleFacebookLogin()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    //MARK: Navigation
+    private func finishRegistrationWithFirebase() {
+        //next modal view
+        let viewControllerToPresent = PasswordModalViewController(initialHeight: 200, presenter: self.presenter, superView: self)
+        presentBottomSheetInsideNavigationController(
+            viewController: viewControllerToPresent,
+            configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
+    }
+    private func finishRegistrationAfterGoogleFacebookLogin() {
+        //next modal view
+        let viewControllerToPresent = FinishRegistrationModalView(initialHeight: 200, presenter: self.presenter, superView: self)
+        presentBottomSheetInsideNavigationController(
+            viewController: viewControllerToPresent,
+            configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
+    }
     //MARK: Deinit
     func dismissThisView() {
         print("trying to dismiss SignInModalView")
         self.dismiss(animated: false)
     }
-
+    
     deinit {
         self.dismiss(animated: false)
         print("SignInModalViewController was deinited")
