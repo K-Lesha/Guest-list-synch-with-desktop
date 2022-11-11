@@ -23,9 +23,9 @@ protocol GoogleSpreadsheetsServiceProtocol {
 }
 //MARK: -SheetsRange
 enum SheetsRange: String {
-    case oneEventData = "A1:A23"
-    case guestsDataForReading = "B27:N"
-    case guestsDataForAdding = "A27:N"
+    case oneEventData = "A1:A21"
+    case guestsDataForReading = "B25:N"
+    case guestsDataForAdding = "A25:N"
 }
 //MARK: -DefaultSheetsIds
 enum DefaultSheetsIds: String {
@@ -42,7 +42,6 @@ enum SheetsError: Error {
 class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
     //Service properties
     private let sheetService = GTLRSheetsService()
-    //    private let driveService = GTLRDriveService()
     let apiKey = "AIzaSyDmUVpnjFI_cKazeKORNk37o-MV_prH970"
     static let grantedScopes = "https://www.googleapis.com/auth/spreadsheets"
     static let additionalScopes = ["https://www.googleapis.com/auth/spreadsheets",
@@ -53,9 +52,6 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
     init() {
         sheetService.apiKey = self.apiKey
         updateAuthrizer()
-        //        sheetService.apiKeyRestrictionBundleID =
-        //        driveService.apiKey = self.apiKey
-        //        driveService.authorizer = GIDSignIn.sharedInstance.currentUser?.authentication.fetcherAuthorizer()
     }
     
     //MARK: -Methods
@@ -67,7 +63,7 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
     func readSpreadsheetsData(range: SheetsRange, eventID: String, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void) {
         print("Getting sheet data...")
         updateAuthrizer()
-        let query = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: eventID, range:range.rawValue)
+        let query = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: eventID, range: range.rawValue)
         sheetService.executeQuery(query) { (ticket, result, error) in
             if let error {
                 print("Google sheets service: ", error.localizedDescription)

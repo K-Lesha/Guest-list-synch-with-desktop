@@ -1,10 +1,11 @@
 Hi Rene!
 
-This is my pet project. I've send it to you to demonstrate a bit more of my skills.
-This is an app for event managers. With this app they could read and write guestlist with app synchronized with Google Spreadsheets.
+Hi Rene
+This is my pet-project. I've sent it to you to demonstrate a bit more of my skills. 
+This is an app for event managers. With this app they could read and write guestlist synchronized with Google Spreadsheets. 
 I shared it via Google Drive, because I'll publish it on the App Store. Don't want to spread it around github.
 
-Files that could be interesting to you:
+Files that could be interesting for you:
 
 — in "Application" folder
    1. SceneDelegate,
@@ -30,4 +31,4 @@ I still have a lot of thing to do.
 But I hope the project can present my code structuring skills and demonstrate my basic programming skills.
 
 I attached video to the folder to free you from the building app on your computer.
-Thank you for the reading. Enjojy :-)
+Thank you for the reading. Enjoy :-)

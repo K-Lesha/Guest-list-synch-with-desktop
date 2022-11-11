@@ -53,9 +53,8 @@ class EventsListInteractor: EventsListInteractorProtocol {
                         let totalGuests = eventsDataAsStringsArray[12][0]
                         let totalCheckedInGuests = eventsDataAsStringsArray[14][0]
                         let totalGiftsGaved = eventsDataAsStringsArray[16][0]
-                        let uniqueIdentifier = eventsDataAsStringsArray[18][0]
-                        let initedByUserUID = eventsDataAsStringsArray[20][0]
-                        let initedByUserName = eventsDataAsStringsArray[22][0]
+                        let initedByUserUID = eventsDataAsStringsArray[18][0]
+                        let initedByUserName = eventsDataAsStringsArray[20][0]
                         
                         let oneEvent = EventEntity(eventName: eventName,
                                                    eventClient: clientName,
@@ -65,7 +64,7 @@ class EventsListInteractor: EventsListInteractorProtocol {
                                                    totalGuest: totalGuests,
                                                    totalCheckedInGuests: totalCheckedInGuests,
                                                    totalGiftsGaved: totalGiftsGaved,
-                                                   eventUniqueIdentifier: uniqueIdentifier,
+                                                   eventUniqueIdentifier: eventID,
                                                    initedByUserUID: initedByUserUID,
                                                    initedByUserName: initedByUserName)
                         userEventEntities.append(oneEvent)
