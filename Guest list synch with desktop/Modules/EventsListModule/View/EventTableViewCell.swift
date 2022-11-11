@@ -33,8 +33,6 @@ class EventTableViewCell: UITableViewCell, EventTableViewCellProtocol {
     }
     //MARK: - METHODS
     func setupViews() {
-        print(Thread.current)
-        
         //setup@eventNameLabel
         eventNameLabel = UILabel()
         contentView.addSubview(eventNameLabel)

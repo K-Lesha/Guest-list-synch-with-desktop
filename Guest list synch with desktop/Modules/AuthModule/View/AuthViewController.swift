@@ -17,22 +17,22 @@ protocol AuthViewProtocol: AnyObject {
 //MARK: View
 class AuthViewController: UIViewController, AuthViewProtocol {
     
-    //MARK: VIPER protocol
+    //MARK: -VIPER protocol
     internal var presenter: AuthPresenterProtocol!
     
-    //MARK: OUTLETS
+    //MARK: -OUTLETS
     private var backgroundImageView: UIImageView!
     private var signInButton: UIButton!
     private var textLabel: UILabel!
     private var errorLabel: UILabel? = nil
     private var errorButton: UIButton? = nil
     
-    //MARK: viewDidLoad
+    //MARK: -viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         checkInternetConnectionAndSetupViews()
     }
-    //MARK: METHODS
+    //MARK: -METHODS
     //MARK: View methods
     private func checkInternetConnectionAndSetupViews() {
         if presenter.checkInternetConnection() {
@@ -57,9 +57,9 @@ class AuthViewController: UIViewController, AuthViewProtocol {
                 }
             }
         }
+        //Other interface elements are waiting to setup before image will be downloaded
         AuthenticationSemaphore.shared.wait()
         self.view.addSubview(self.backgroundImageView)
-        //Other interface elements are waiting for the background image to load
         // setup@signInButton
         self.signInButton = UIButton()
         self.view.addSubview(signInButton)
@@ -169,7 +169,7 @@ class AuthViewController: UIViewController, AuthViewProtocol {
             viewController: viewControllerToPresent,
             configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
     }
-    //MARK: Deinit
+    //MARK: -Deinit
     deinit {
         print("AuthViewController was deinited")
     }

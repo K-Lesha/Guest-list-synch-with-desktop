@@ -16,7 +16,6 @@ protocol GuestlistInteractorProtocol {
     //Spreadsheet methods
     func readEventGuests(eventID: String, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void)
     func checkGoogleSignIn(completion: @escaping (Bool) -> ())
-    func tryToLoginWithGoogle(viewController: GuestlistViewProtocol, completion: @escaping (Bool) -> ())
 }
 
 enum GuestlistInteractorError: Error {
@@ -28,8 +27,6 @@ enum GuestlistInteractorError: Error {
 
 class GuestListInteractor: GuestlistInteractorProtocol {
 
-    
-    
     //MARK: -VIPER protocol
     internal var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
     internal var firebaseService: FirebaseServiceProtocol!
@@ -92,9 +89,4 @@ class GuestListInteractor: GuestlistInteractorProtocol {
     func checkGoogleSignIn(completion: @escaping (Bool) -> ()) {
         firebaseService.checkSignInWithGoogle(completion: completion)
     }
-    func tryToLoginWithGoogle(viewController: GuestlistViewProtocol, completion: @escaping (Bool) -> ()) {
-        firebaseService.tryToLoginWithGoogle(viewController: viewController, completion: completion)
-    }
-
-
 }

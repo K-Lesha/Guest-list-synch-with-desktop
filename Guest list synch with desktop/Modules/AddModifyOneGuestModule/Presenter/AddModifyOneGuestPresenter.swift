@@ -71,7 +71,10 @@ class AddModifyGuestPresenter: AddModifyGuestPresenterProtocol {
     
     
     func addNewGuest(guest: GuestEntity) {
-        guard state == .addGuest else { return }
+        guard state == .addGuest else {
+            print("presenter addNewGuest error")
+            return
+        }
         interactor.addNewGuest(eventID: self.eventID, guest: guest) { result in
             switch result {
             case .success(_):

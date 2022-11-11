@@ -24,20 +24,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
 
-        let navigationController = UINavigationController()
-        let firebaseService = FirebaseService()
-        let firebeseDatabase = FirebaseDatabase()
+        // init assemblyBuilder with core services
         let networkService = NetworkService()
+        let firebeseDatabase = FirebaseDatabase()
+        let firebaseService = FirebaseService(database: firebeseDatabase)
         let assemblyBuilder = AssemblyModuleBuilder(networkService: networkService, firebaseService: firebaseService, firebaseDatabase: firebeseDatabase)
-        
-        FirebaseService().logOutWithFirebase()
-
+                
+        // init correct screen by checking user condition
+        let navigationController = UINavigationController()
+        let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
         let user = Auth.auth().currentUser
         if user == nil {
-            //clean cookies
-            FirebaseService().logOutWithFirebase()
             print("user == nil, auth module initialization")
-            let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
             router.showAuthModule()
         } else {
             print("user != nil, eventsList module initialization")
@@ -52,9 +50,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     print("googleUser != nil")
                 }
             }
-            firebaseService.setupUserToTheApp(user: user)
-            let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
-            router.showEventsListModule()
+            firebeseDatabase.setupUserFromDatabaseToTheApp(user: user) {
+                print("userSettedUpToTheApp")
+                router.showEventsListModule()
+            }
         }
         self.window?.rootViewController = navigationController
         window?.makeKeyAndVisible()

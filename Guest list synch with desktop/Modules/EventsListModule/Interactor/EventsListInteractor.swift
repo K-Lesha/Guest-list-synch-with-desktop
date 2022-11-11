@@ -33,8 +33,6 @@ class EventsListInteractor: EventsListInteractorProtocol {
         let concurrentQueue = DispatchQueue(label: "concurrent", qos: .userInteractive, attributes: .concurrent)
         var userEventEntities = Array<EventEntity>()
         concurrentQueue.async() {
-            //wait until user will not be setup from database to the app
-            EventsListSemaphore.shared.wait()
             // get user events ids
             guard let userEventIdList = FirebaseService.logginnedUser?.eventsIdList else {
                 completionHandler(.failure(.noEventsToShow))

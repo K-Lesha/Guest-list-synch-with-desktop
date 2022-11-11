@@ -44,8 +44,9 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
     private let sheetService = GTLRSheetsService()
     //    private let driveService = GTLRDriveService()
     let apiKey = "AIzaSyDmUVpnjFI_cKazeKORNk37o-MV_prH970"
-    static let grantedScopes = "https://www.googleapis.com/auth/drive.file"
-    static let additionalScopes = ["https://www.googleapis.com/auth/drive.file"]
+    static let grantedScopes = "https://www.googleapis.com/auth/spreadsheets"
+    static let additionalScopes = ["https://www.googleapis.com/auth/spreadsheets",
+                                   "https://www.googleapis.com/auth/drive.file"]
     
     
     //Service init
@@ -67,7 +68,6 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
         print("Getting sheet data...")
         updateAuthrizer()
         let query = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: eventID, range:range.rawValue)
-
         sheetService.executeQuery(query) { (ticket, result, error) in
             if let error {
                 print("Google sheets service: ", error.localizedDescription)

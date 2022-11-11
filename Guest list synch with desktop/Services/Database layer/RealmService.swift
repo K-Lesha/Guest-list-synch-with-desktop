@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+protocol RealmServiceProtocol {
+    //TODO: ONLINEFIRST
+}
+
+class RealmService: RealmServiceProtocol {
+    //TODO: ONLINEFIRST
+}

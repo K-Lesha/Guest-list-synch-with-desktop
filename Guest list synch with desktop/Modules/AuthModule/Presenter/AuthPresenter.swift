@@ -26,8 +26,8 @@ protocol AuthPresenterProtocol: AnyObject {
     func setBackgroundImage(width: CGFloat, height: CGFloat, completion: @escaping (Result<Data, NetworkError>) -> Void)
     func tryToRegisterWithFirebase(completion: @escaping (Result<String, FirebaseError>) -> ())
     func tryToLoginWithFirebase(completion: @escaping (Result<String, FirebaseError>) -> ())
-    func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String), FirebaseError>) -> ())
-    func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String), FirebaseError>) -> ())
+    func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ())
+    func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ())
     func checkInternetConnection() -> Bool
     func restorePasswordWithFirebase(completion: @escaping (Result<Bool, FirebaseError>) -> ())
     func showEventsListModule()
@@ -36,7 +36,7 @@ protocol AuthPresenterProtocol: AnyObject {
 
 //MARK: Presenter
 class AuthPresenter: AuthPresenterProtocol {
-    //MARK: VIPER protocol
+    //MARK: -VIPER protocol
     internal weak var view: AuthViewProtocol!
     internal var router: RouterProtocol!
     internal var interactor: AuthInteractorProtocol!
@@ -46,45 +46,50 @@ class AuthPresenter: AuthPresenterProtocol {
         self.interactor = interactor
         self.router = router
     }
-    //MARK: TEMP DATA
+    //MARK: -TEMP DATA
     internal var userName: String = ""
     internal var password: String = ""
     internal var email: String = ""
     internal var userSurname: String? = ""
     internal var userAgency: String? = ""
-    internal var userType: UserTypes = .headOrganizer
+    internal var userType: UserTypes = .organizer
     internal var userUID: String = ""
     
-    //MARK: METHODS
+    //MARK: -METHODS
+    // AuthViewController
+    internal func checkInternetConnection() -> Bool {
+        return self.interactor.checkInternetConnection()
+    }
     internal func setBackgroundImage(width: CGFloat, height: CGFloat, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         let urlString = "https://source.unsplash.com/random/\(Int(width))x\(Int(height))?sig=1"
         print("presenter, setBackgroundImage", Thread.current)
         self.interactor.downloadImage(urlString: urlString, completionBlock: completion)
     }
-    internal func tryToRegisterWithFirebase(completion: @escaping (Result<String, FirebaseError>) -> ()) {
-        self.interactor.tryToRegisterWithFirebase(email: self.email, name: self.userName, surname: self.userSurname ?? "", agency: self.userAgency ?? "", userTypeRawValue: self.userType.rawValue, password: self.password, completion: completion)
-    }
+    // PasswordModalView
     internal func tryToLoginWithFirebase(completion: @escaping (Result<String, FirebaseError>) -> ()) {
         self.interactor.tryToLogInWithFirebase(email: self.email, password: self.password, completion: completion)
-    }
-    internal func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String), FirebaseError>) -> ()) {
-        self.interactor.tryToLoginWithFacebook(viewController: viewController, completion: completion)
-    }
-    internal func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String), FirebaseError>) -> ()) {
-        interactor.tryToLoginWithGoogle(viewController: viewController, completion: completion)
-    }
-    internal func checkInternetConnection() -> Bool {
-        return self.interactor.checkInternetConnection()
     }
     internal func restorePasswordWithFirebase(completion: @escaping (Result<Bool, FirebaseError>) -> ()) {
         self.interactor.restorePasswordWithFirebase(email: self.email, completion: completion)
     }
-
-    internal func showEventsListModule() {
-        router.showEventsListModule()
+    // SignInModalView
+    internal func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ()) {
+        self.interactor.tryToLoginWithFacebook(viewController: viewController, completion: completion)
     }
+    internal func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ()) {
+        interactor.tryToLoginWithGoogle(viewController: viewController, completion: completion)
+    }
+    // FirebaseRegistrationModalView
+    internal func tryToRegisterWithFirebase(completion: @escaping (Result<String, FirebaseError>) -> ()) {
+        self.interactor.tryToRegisterWithFirebase(email: self.email, name: self.userName, surname: self.userSurname ?? "", agency: self.userAgency ?? "", userTypeRawValue: self.userType.rawValue, password: self.password, completion: completion)
+    }
+    // FinishFbGModalView
     internal func finishFacebookGoogleRegistrationProcess(completion: @escaping (Result<String, FirebaseError>) -> ()) {
         interactor.finishFacebookGoogleRegistrationProcess(userUID: self.userUID, surname: self.userSurname ?? "", agency: self.userAgency ?? "", userTypeRawValue: self.userType.rawValue, completion: completion)
+    }
+    // FinishFbGModalView & FirebaseRegistrationModalView
+    internal func showEventsListModule() {
+        router.showEventsListModule()
     }
 
 }

@@ -15,7 +15,6 @@
 		8A0E9B7929101FA000DBF883 /* SignInModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B7529101F9F00DBF883 /* SignInModalView.swift */; };
 		8A0E9B7A29101FA000DBF883 /* FirebaseRegistrationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B7629101F9F00DBF883 /* FirebaseRegistrationModalView.swift */; };
 		8A0E9B7B29101FA000DBF883 /* PasswordModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B7729101FA000DBF883 /* PasswordModalView.swift */; };
-		8A0E9B7D29101FD400DBF883 /* EventsListSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B7C29101FD400DBF883 /* EventsListSemaphore.swift */; };
 		8A0E9B7F29101FDA00DBF883 /* EventEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B7E29101FDA00DBF883 /* EventEntity.swift */; };
 		8A0E9B8129101FE100DBF883 /* EventsListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B8029101FE100DBF883 /* EventsListInteractor.swift */; };
 		8A0E9B8329101FE800DBF883 /* EventsListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0E9B8229101FE800DBF883 /* EventsListPresenter.swift */; };
@@ -33,14 +32,14 @@
 		8A1AD3832914061F00312DD8 /* AddModifyOneGuestInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1AD3822914061F00312DD8 /* AddModifyOneGuestInteractor.swift */; };
 		8A4F444E2914159400594A3C /* AddModifyGuestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F444C2914159400594A3C /* AddModifyGuestViewController.swift */; };
 		8A4F444F2914159400594A3C /* AddModifyGuestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A4F444D2914159400594A3C /* AddModifyGuestViewController.xib */; };
-		8A4FFBA72917E61700234E04 /* SpreadsheetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4FFBA62917E61700234E04 /* SpreadsheetData.swift */; };
 		8A54CE2B290C177900ADAB45 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE2A290C177900ADAB45 /* UserEntity.swift */; };
 		8A54CE2E290C3E2F00ADAB45 /* SupportingUserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */; };
 		8A54CE32290C893D00ADAB45 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE31290C893D00ADAB45 /* RealmService.swift */; };
 		8A54CE34290C894F00ADAB45 /* FirebaseDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE33290C894F00ADAB45 /* FirebaseDatabaseService.swift */; };
+		8A5AFE38291E93F500449C51 /* FirebaseDatabaseSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5AFE37291E93F500449C51 /* FirebaseDatabaseSemaphore.swift */; };
 		8A7E93072907F78B005E5B33 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 8A7E93062907F78B005E5B33 /* BottomSheet */; };
 		8A7E9309290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7E9308290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift */; };
-		8AC4BEF9291946C1005A6B1E /* FinishFBGRegistrationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC4BEF8291946C1005A6B1E /* FinishFBGRegistrationModalView.swift */; };
+		8AC4BEF9291946C1005A6B1E /* FinishFbGRegistrationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC4BEF8291946C1005A6B1E /* FinishFbGRegistrationModalView.swift */; };
 		8ACB2D34291447BC009AE476 /* AlertsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB2D33291447BC009AE476 /* AlertsFactory.swift */; };
 		8ACB2D3629146C71009AE476 /* guest-list-295cc-5476f0517864.json in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB2D3529146C70009AE476 /* guest-list-295cc-5476f0517864.json */; };
 		8AF83E8F2906655100614257 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83E8E2906655100614257 /* AppDelegate.swift */; };
@@ -68,7 +67,6 @@
 		8A0E9B7529101F9F00DBF883 /* SignInModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInModalView.swift; sourceTree = "<group>"; };
 		8A0E9B7629101F9F00DBF883 /* FirebaseRegistrationModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseRegistrationModalView.swift; sourceTree = "<group>"; };
 		8A0E9B7729101FA000DBF883 /* PasswordModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordModalView.swift; sourceTree = "<group>"; };
-		8A0E9B7C29101FD400DBF883 /* EventsListSemaphore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsListSemaphore.swift; sourceTree = "<group>"; };
 		8A0E9B7E29101FDA00DBF883 /* EventEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEntity.swift; sourceTree = "<group>"; };
 		8A0E9B8029101FE100DBF883 /* EventsListInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsListInteractor.swift; sourceTree = "<group>"; };
 		8A0E9B8229101FE800DBF883 /* EventsListPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsListPresenter.swift; sourceTree = "<group>"; };
@@ -86,13 +84,13 @@
 		8A1AD3822914061F00312DD8 /* AddModifyOneGuestInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModifyOneGuestInteractor.swift; sourceTree = "<group>"; };
 		8A4F444C2914159400594A3C /* AddModifyGuestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModifyGuestViewController.swift; sourceTree = "<group>"; };
 		8A4F444D2914159400594A3C /* AddModifyGuestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddModifyGuestViewController.xib; sourceTree = "<group>"; };
-		8A4FFBA62917E61700234E04 /* SpreadsheetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpreadsheetData.swift; sourceTree = "<group>"; };
 		8A54CE2A290C177900ADAB45 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportingUserEntity.swift; sourceTree = "<group>"; };
 		8A54CE31290C893D00ADAB45 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		8A54CE33290C894F00ADAB45 /* FirebaseDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDatabaseService.swift; sourceTree = "<group>"; };
+		8A5AFE37291E93F500449C51 /* FirebaseDatabaseSemaphore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDatabaseSemaphore.swift; sourceTree = "<group>"; };
 		8A7E9308290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSpreadsheetsService.swift; sourceTree = "<group>"; };
-		8AC4BEF8291946C1005A6B1E /* FinishFBGRegistrationModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishFBGRegistrationModalView.swift; sourceTree = "<group>"; };
+		8AC4BEF8291946C1005A6B1E /* FinishFbGRegistrationModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishFbGRegistrationModalView.swift; sourceTree = "<group>"; };
 		8ACB2D33291447BC009AE476 /* AlertsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsFactory.swift; sourceTree = "<group>"; };
 		8ACB2D3529146C70009AE476 /* guest-list-295cc-5476f0517864.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "guest-list-295cc-5476f0517864.json"; sourceTree = "<group>"; };
 		8AF83E8B2906655100614257 /* Guest list synch with desktop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Guest list synch with desktop.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,7 +158,7 @@
 				8A0E9B7529101F9F00DBF883 /* SignInModalView.swift */,
 				8A0E9B7729101FA000DBF883 /* PasswordModalView.swift */,
 				8A0E9B7629101F9F00DBF883 /* FirebaseRegistrationModalView.swift */,
-				8AC4BEF8291946C1005A6B1E /* FinishFBGRegistrationModalView.swift */,
+				8AC4BEF8291946C1005A6B1E /* FinishFbGRegistrationModalView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -184,7 +182,6 @@
 		8A0E9B5929101E0C00DBF883 /* EventsListModule */ = {
 			isa = PBXGroup;
 			children = (
-				8A0E9B7C29101FD400DBF883 /* EventsListSemaphore.swift */,
 				8A0E9B5C29101E1F00DBF883 /* Interactor */,
 				8A0E9B5B29101E1B00DBF883 /* Presenter */,
 				8A0E9B5A29101E1700DBF883 /* View */,
@@ -422,7 +419,6 @@
 			isa = PBXGroup;
 			children = (
 				8A7E9308290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift */,
-				8A4FFBA62917E61700234E04 /* SpreadsheetData.swift */,
 			);
 			path = "GoogleSpreadsheets layer";
 			sourceTree = "<group>";
@@ -430,6 +426,7 @@
 		8A7E92FD29074BEF005E5B33 /* Database layer */ = {
 			isa = PBXGroup;
 			children = (
+				8A5AFE37291E93F500449C51 /* FirebaseDatabaseSemaphore.swift */,
 				8A54CE33290C894F00ADAB45 /* FirebaseDatabaseService.swift */,
 				8A54CE31290C893D00ADAB45 /* RealmService.swift */,
 			);
@@ -464,7 +461,7 @@
 				8ACB2D32291447AC009AE476 /* Alerts factory */,
 				8A7E92FD29074BEF005E5B33 /* Database layer */,
 				8A7E92FC29074BCF005E5B33 /* GoogleSpreadsheets layer */,
-				8AF83EB129066CF000614257 /* Firebase layer */,
+				8AF83EB129066CF000614257 /* Registration & Login layer */,
 				8AF83EB029066CE900614257 /* Network layer */,
 			);
 			path = Services;
@@ -528,14 +525,14 @@
 			path = "Network layer";
 			sourceTree = "<group>";
 		};
-		8AF83EB129066CF000614257 /* Firebase layer */ = {
+		8AF83EB129066CF000614257 /* Registration & Login layer */ = {
 			isa = PBXGroup;
 			children = (
 				8AF83EA22906666300614257 /* GoogleService-Info.plist */,
 				8ACB2D3529146C70009AE476 /* guest-list-295cc-5476f0517864.json */,
 				8AF83EB429066D1700614257 /* FirebaseService.swift */,
 			);
-			path = "Firebase layer";
+			path = "Registration & Login layer";
 			sourceTree = "<group>";
 		};
 		96501F6EED8BA2CE67A7071B /* Pods */ = {
@@ -682,16 +679,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A5AFE38291E93F500449C51 /* FirebaseDatabaseSemaphore.swift in Sources */,
 				8A0E9B7329101F9700DBF883 /* AuthPresenter.swift in Sources */,
 				8AF83E8F2906655100614257 /* AppDelegate.swift in Sources */,
 				8AF83E912906655100614257 /* SceneDelegate.swift in Sources */,
 				8A4F444E2914159400594A3C /* AddModifyGuestViewController.swift in Sources */,
 				8A0E9B8729101FEF00DBF883 /* EventTableViewCell.swift in Sources */,
 				8A0E9B7B29101FA000DBF883 /* PasswordModalView.swift in Sources */,
-				8A4FFBA72917E61700234E04 /* SpreadsheetData.swift in Sources */,
 				8A0E9B8329101FE800DBF883 /* EventsListPresenter.swift in Sources */,
 				8A0E9B8E2910210200DBF883 /* ProfileViewController.swift in Sources */,
-				8AC4BEF9291946C1005A6B1E /* FinishFBGRegistrationModalView.swift in Sources */,
+				8AC4BEF9291946C1005A6B1E /* FinishFbGRegistrationModalView.swift in Sources */,
 				8A0E9B6F29101F7900DBF883 /* AuthenticationSemaphore.swift in Sources */,
 				8AF83EA829066B9E00614257 /* Appearance.swift in Sources */,
 				8A0E9B922910214200DBF883 /* ProfileInteractor.swift in Sources */,
@@ -718,7 +715,6 @@
 				8A1AD3832914061F00312DD8 /* AddModifyOneGuestInteractor.swift in Sources */,
 				8A0E9B992911983E00DBF883 /* GuestlistViewController.swift in Sources */,
 				8A0E9B8629101FEF00DBF883 /* EventsListViewController.swift in Sources */,
-				8A0E9B7D29101FD400DBF883 /* EventsListSemaphore.swift in Sources */,
 				8A54CE2E290C3E2F00ADAB45 /* SupportingUserEntity.swift in Sources */,
 				8A7E9309290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift in Sources */,
 			);

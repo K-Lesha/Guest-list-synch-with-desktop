@@ -31,7 +31,6 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
     @IBOutlet weak var phoneTextfiled: UITextField!
     @IBOutlet weak var emailTextfield: UITextField!
     @IBOutlet weak var internalNotesTextfield: UITextField!
-    
     @IBOutlet weak var saveGuestButton: UIButton!
     @IBOutlet weak var deleteGuestButton: UIButton!
     @IBOutlet weak var saveGuestAndAddOnMoreButton: UIButton!
@@ -42,12 +41,7 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
         super.viewDidLoad()
         setupViews()
     }
-
-
-   
-
     //MARK: -View methods
-    
     func setupViews() {
         // setup@self.view        
         if presenter.state == .addGuest {
@@ -65,13 +59,26 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
             saveGuestAndAddOnMoreButton.isHidden = true
             saveChangesButton.isHidden = false
         }
-        
-        
-        
     }
+    
+    
+    
     private func setGuestDataToView() {
         
     }
+    private func tryToAddNewGuest() {
+        if self.checkFields() {
+            
+        } else {
+            
+        }
+        
+        //in success pop this view
+    }
+    func checkFields() -> Bool {
+        return true
+    }
+    
 
     
 }

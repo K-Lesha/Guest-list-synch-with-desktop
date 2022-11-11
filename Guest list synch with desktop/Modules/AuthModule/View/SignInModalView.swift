@@ -21,14 +21,14 @@ protocol SignInViewProtocol: AnyObject {
 
 class SignInModalViewController: UIViewController, SignInViewProtocol {
 
-    //MARK: VIPER protocol
+    //MARK: -VIPER protocol
     internal var presenter: AuthPresenterProtocol!
 
-    //MARK: View properties
+    //MARK: -View properties
     internal var currentViewHeight: CGFloat!
     internal var keyboardHeight: CGFloat! = 0
     
-    //MARK: INIT
+    //MARK: -INIT
     required init(initialHeight: CGFloat, presenter: AuthPresenterProtocol) {
         super.init(nibName: nil, bundle: nil)
         self.presenter = presenter
@@ -40,7 +40,7 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
         fatalError("init(coder:) has not been implemented")
     }
 
-    //MARK: OUTLETS
+    //MARK: -OUTLETS
     private var signInLabel: UILabel!
     private var subSignInLabel: UILabel!
     private var emailTextField: UITextField!
@@ -49,14 +49,14 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
     private var legalsLabel: UILabel!
     private var nextButton: UIButton!
     
-    //MARK: viewDidLoad
+    //MARK: -viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupKeyBoardNotification()
     }
     
-    //MARK: METHODS
+    //MARK: -METHODS
     //MARK: View methods
     private func setupViews() {
         //mark@view
@@ -240,13 +240,16 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
     @objc private func facebookButtonTapped() {
         presenter.tryToLoginWithFacebook(viewController: self) { result in
             switch result {
-            case .success(let userUID, let email, let name):
-                self.presenter.userUID = userUID
-                self.presenter.email = email
-                self.presenter.userName = name
-                self.finishRegistrationAfterGoogleFacebookLogin()
-                self.presenter.userUID = userUID
-                self.dismiss(animated: true)
+            case .success((let userUID, let email, let name, let newUser)):
+                if newUser {
+                    self.presenter.userUID = userUID
+                    self.presenter.email = email
+                    self.presenter.userName = name
+                    self.finishRegistrationAfterGoogleFacebookLogin()
+                } else {
+                    self.presenter.showEventsListModule()
+                    self.dismiss(animated: true)
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -255,17 +258,22 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
     @objc func googleButtonTapped() {
         presenter.tryToLoginWithGoogle(viewController: self) { result in
             switch result {
-            case .success((let userUID, let email, let name)):
-                self.presenter.userUID = userUID
-                self.presenter.email = email
-                self.presenter.userName = name
-                self.finishRegistrationAfterGoogleFacebookLogin()
+            case .success((let userUID, let email, let name, let newUser)):
+                if newUser {
+                    self.presenter.userUID = userUID
+                    self.presenter.email = email
+                    self.presenter.userName = name
+                    self.finishRegistrationAfterGoogleFacebookLogin()
+                } else {
+                    self.presenter.showEventsListModule()
+                    self.dismiss(animated: true)
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
     }
-    //MARK: Navigation
+    //MARK: -Navigation
     private func finishRegistrationWithFirebase() {
         //next modal view
         let viewControllerToPresent = PasswordModalViewController(initialHeight: 200, presenter: self.presenter, superView: self)
@@ -280,7 +288,7 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
             viewController: viewControllerToPresent,
             configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
     }
-    //MARK: Deinit
+    //MARK: -Deinit
     func dismissThisView() {
         print("trying to dismiss SignInModalView")
         self.dismiss(animated: false)
@@ -292,7 +300,7 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
     }
 }
 
-//MARK: UITextFieldDelegate
+//MARK: -UITextFieldDelegate
 extension SignInModalViewController: UITextFieldDelegate {
     //textFieldShouldBeginEditing
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {

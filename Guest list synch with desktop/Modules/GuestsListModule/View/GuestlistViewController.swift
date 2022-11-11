@@ -134,8 +134,7 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
     }
     
     @objc func addGuestButtonPressed() {
-//        presenter.addNewGuest()
-        // presenter — need to be autorised with google
+        presenter.addNewGuest()
     }
 }
 

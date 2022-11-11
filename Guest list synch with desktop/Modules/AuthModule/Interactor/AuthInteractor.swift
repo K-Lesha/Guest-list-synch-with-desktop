@@ -18,14 +18,14 @@ protocol AuthInteractorProtocol {
     // Firebase methods
     func tryToRegisterWithFirebase(email: String, name: String, surname: String, agency: String, userTypeRawValue: Int, password: String, completion: @escaping (Result<String, FirebaseError>) -> ())
     func tryToLogInWithFirebase(email: String, password: String, completion: @escaping (Result<String, FirebaseError>) -> ())
-    func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String), FirebaseError>) -> ())
-    func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String), FirebaseError>) -> ())
+    func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ())
+    func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ())
     func restorePasswordWithFirebase(email: String, completion: @escaping (Result<Bool, FirebaseError>) -> ())
     func finishFacebookGoogleRegistrationProcess(userUID: String, surname: String, agency: String, userTypeRawValue: Int, completion: @escaping (Result<String, FirebaseError>) -> ())
 }
 
 class AuthInteractor: AuthInteractorProtocol {
-    //MARK: VIPER protocol
+    //MARK: -VIPER protocol
     internal var networkService: NetworkServiceProtocol!
     internal var firebaseService: FirebaseServiceProtocol!
     private let spreadsheetService: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
@@ -33,14 +33,14 @@ class AuthInteractor: AuthInteractorProtocol {
         self.networkService = networkService
         self.firebaseService = firebaseService
     }
-    //MARK: Network methods
+    //MARK: -Network methods
     internal func checkInternetConnection() -> Bool {
         networkService.checkInternetConnection()
     }
     internal func downloadImage(urlString: String, completionBlock: @escaping (Result<Data, NetworkError>) -> Void) {
         networkService.downloadImage(urlString: urlString, completionBlock: completionBlock)
     }
-    //MARK: Firebase calls
+    //MARK: -Firebase calls
     internal func tryToRegisterWithFirebase(email: String, name: String, surname: String, agency: String, userTypeRawValue: Int, password: String, completion: @escaping (Result<String, FirebaseError>) -> ()) {
         spreadsheetService.createDefaultSpreadsheet(named: "Demo guestlist", sheetType: .demoEvent) { eventID in
             self.firebaseService.tryToRegisterWithFirebase(email: email, name: name, surname: surname, agency: agency, userTypeRawValue: userTypeRawValue, demoEventID: eventID, password: password, completion: completion)
@@ -49,14 +49,14 @@ class AuthInteractor: AuthInteractorProtocol {
     internal func tryToLogInWithFirebase(email: String, password: String, completion: @escaping (Result<String, FirebaseError>) -> ()) {
         firebaseService.tryToLogInWithFirebase(email: email, password: password, completion: completion)
     }
-    internal func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String), FirebaseError>) -> ()) {
+    internal func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ()) {
         firebaseService.tryToLoginWithFacebook(viewController: viewController, completion: completion)
+    }
+    internal func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ()) {
+        firebaseService.tryToSignInWithGoogle(viewController: viewController, completion: completion)
     }
     internal func restorePasswordWithFirebase(email: String, completion: @escaping (Result<Bool, FirebaseError>) -> ()) {
         firebaseService.restorePasswordWithFirebase(email: email, completion: completion)
-    }
-    internal func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String), FirebaseError>) -> ()) {
-        firebaseService.tryToSignInWithGoogle(viewController: viewController, completion: completion)
     }
     internal func finishFacebookGoogleRegistrationProcess(userUID: String, surname: String, agency: String, userTypeRawValue: Int, completion: @escaping (Result<String, FirebaseError>) -> ()) {
         spreadsheetService.createDefaultSpreadsheet(named: "Demo guestlist", sheetType: .demoEvent) { eventID in

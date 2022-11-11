@@ -60,7 +60,7 @@ class AddModifyGuestInteractor: AddModifyGuestInteractorProtocol {
     }
 
     func addNewGuest(eventID: String, guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ()) {
-        self.spreadsheetsServise.appendData(spreadsheetID: eventID, range: .guestsDataForAdding, data: ["n",guest.guestName, guest.guestSurname]) { string in
+        self.spreadsheetsServise.appendData(spreadsheetID: eventID, range: .guestsDataForAdding, data: ["n", guest.guestName, guest.guestSurname]) { string in
             print(string)
             completion(.success(true))
         }

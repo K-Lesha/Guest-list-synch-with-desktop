@@ -32,6 +32,7 @@ protocol FirebaseDatabaseProtocol {
                                                          demoEventID: String,
                                                          agency: String,
                                                          completion: @escaping (Result<String, FirebaseDatabaseError>) -> ())
+    func setupUserFromDatabaseToTheApp(user: User, completion: @escaping () -> ())
 }
 
 
@@ -41,120 +42,146 @@ enum FirebaseDatabaseError: String, Error {
 
 
 class FirebaseDatabase: FirebaseDatabaseProtocol {
+    //MARK: -PROPERTIES
     private let database = Database.database(url: "https://guest-list-295cc-default-rtdb.europe-west1.firebasedatabase.app/").reference().child("users")
     private var lastDatabaseSnapshot: DataSnapshot? = nil
     private let firebase = Auth.auth()
+    private let operationQueue = OperationQueue()
 
-
-    //MARK: - FIREBASE DATABASE METHODS
-    private func updateDatabaseSnapshot(completion: @escaping () -> ()) {
-        guard firebase.currentUser != nil else {
-            return
+    //MARK: -Public service methods
+    public func saveNewFirebaseUserToTheDatabase(userUID: String,
+                                                 email: String,
+                                                 name: String,
+                                                 surname: String,
+                                                 agency: String,
+                                                 userTypeRawValue: Int,
+                                                 signInProvider: String,
+                                                 demoEventID: String,
+                                                 completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
+        let addUserToDatabaseOperation = BlockOperation {
+            self.updateDatabaseSnapshot()
         }
-        database.queryOrderedByKey().observeSingleEvent(of: .value) { snapshot in
-            self.lastDatabaseSnapshot = snapshot
-            completion()
-        }
-        
-    }
-    func saveNewFirebaseUserToTheDatabase(userUID: String,
-                                          email: String,
-                                          name: String,
-                                          surname: String,
-                                          agency: String,
-                                          userTypeRawValue: Int,
-                                          signInProvider: String,
-                                          demoEventID: String,
-                                          completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
-        self.updateDatabaseSnapshot() {
-            //find user in database
-            guard let userDatabaseSnapshot = self.lastDatabaseSnapshot else {return}
-            let usersDictionary = userDatabaseSnapshot.value as? NSDictionary
-            let userData = usersDictionary?.object(forKey: userUID) as? NSDictionary
+        addUserToDatabaseOperation.completionBlock = {
+            guard let databaseSnapshot = self.lastDatabaseSnapshot else {return}
+            let allUsersDataDictionary = databaseSnapshot.value as? NSDictionary
+            let userData = allUsersDataDictionary?.object(forKey: userUID) as? NSDictionary
             
-            
-            if userData != nil {
-                self.setupUserToTheApp(user: self.firebase.currentUser!)
-            } else {
-                self.database.child(userUID).updateChildValues(["payedEvents": 0,
-                                                                "eventsIdList": [demoEventID] as! NSArray,
-                                                                "userTypeRawValue": userTypeRawValue,
-                                                                "coorganizersUIDs": [""] as! NSArray,
-                                                                "headOrganizersUIDs": [""] as! NSArray,
-                                                                "hostessesUIDs": [""] as! NSArray,
-                                                                "name": name,
-                                                                "surname": surname,
-                                                                "email": email,
-                                                                "active": "true",
-                                                                "agency": "noagency",
-                                                                "avatarLinkString": "",
-                                                                "registrationDate": Date().formatted(date: .complete, time: .complete),
-                                                                "signInProvider": signInProvider,
-                                                                "registrationFinished": "true"])
-                self.setupUserToTheApp(user: self.firebase.currentUser!)
+            guard userData == nil else {
+                self.setupUserFromDatabaseToTheApp(user: self.firebase.currentUser!) {
+                    completion(.success("ok"))
+                }
+                return
+            }
+            self.database.child(userUID).updateChildValues(["payedEvents": 0,
+                                                            "eventsIdList": [demoEventID] as! NSArray,
+                                                            "userTypeRawValue": userTypeRawValue,
+                                                            "coorganizersUIDs": [""] as! NSArray,
+                                                            "headOrganizersUIDs": [""] as! NSArray,
+                                                            "hostessesUIDs": [""] as! NSArray,
+                                                            "name": name,
+                                                            "surname": surname,
+                                                            "email": email,
+                                                            "active": "true",
+                                                            "agency": "noagency",
+                                                            "avatarLinkString": "",
+                                                            "registrationDate": Date().formatted(date: .complete, time: .complete),
+                                                            "signInProvider": signInProvider,
+                                                            "registrationFinished": "true"]) { error, databaseReference in
+                guard error != nil else {
+                    completion(.failure(.error))
+                    return
+                }
+                
             }
         }
+        let setupUserOperation = BlockOperation {
+            self.setupUserFromDatabaseToTheApp(user: self.firebase.currentUser!) {
+                completion(.success("ok"))
+            }
+        }
+        operationQueue.addOperation(addUserToDatabaseOperation)
+        operationQueue.waitUntilAllOperationsAreFinished()
+        operationQueue.addOperation(setupUserOperation)
     }
-    func firstStepSavingFacebookGoogleUserToTheDatabase(userUID: String,
+    public func firstStepSavingFacebookGoogleUserToTheDatabase(userUID: String,
                                                         name: String,
                                                         email: String,
                                                         signInProvider: String,
                                                         completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
-        self.updateDatabaseSnapshot() {
-            //find user in database
-            guard let userDatabaseSnapshot = self.lastDatabaseSnapshot else {return}
-            let usersDictionary = userDatabaseSnapshot.value as? NSDictionary
-            let userData = usersDictionary?.object(forKey: userUID) as? NSDictionary
+        let addFirstDataPartOperation = BlockOperation {
+            self.updateDatabaseSnapshot()
+        }
+        addFirstDataPartOperation.completionBlock = {
+            guard let databaseSnapshot = self.lastDatabaseSnapshot else {return}
+            let allUsersDataDictionary = databaseSnapshot.value as? NSDictionary
+            let userData = allUsersDataDictionary?.object(forKey: userUID) as? NSDictionary
             
-            if userData != nil {
-                self.setupUserToTheApp(user: self.firebase.currentUser!)
-            } else {
-                self.database.child(userUID).updateChildValues(["payedEvents": 0,
-                                                                "eventsIdList": [""] as! NSArray,
-                                                                "userTypeRawValue": "",
-                                                                "coorganizersUIDs": [""] as! NSArray,
-                                                                "headOrganizersUIDs": [""] as! NSArray,
-                                                                "hostessesUIDs": [""] as! NSArray,
-                                                                "name": name,
-                                                                "surname": "",
-                                                                "email": email,
-                                                                "active": "true",
-                                                                "agency": "",
-                                                                "avatarLinkString": "",
-                                                                "registrationDate": Date().formatted(date: .complete, time: .complete),
-                                                                "signInProvider": signInProvider,
-                                                                "registrationFinished": "false"]) {error, databaseReference in
-                    if error != nil {
-                        completion(.failure(.error))
-                    }
-                    completion(.success("success"))
+            guard userData == nil else {
+                self.setupUserFromDatabaseToTheApp(user: self.firebase.currentUser!) {
+                    completion(.success("ok"))
                 }
+                return
+            }
+            self.database.child(userUID).updateChildValues(["payedEvents": 0,
+                                                            "eventsIdList": [""] as! NSArray,
+                                                            "userTypeRawValue": "",
+                                                            "coorganizersUIDs": [""] as! NSArray,
+                                                            "headOrganizersUIDs": [""] as! NSArray,
+                                                            "hostessesUIDs": [""] as! NSArray,
+                                                            "name": name,
+                                                            "surname": "",
+                                                            "email": email,
+                                                            "active": "true",
+                                                            "agency": "",
+                                                            "avatarLinkString": "",
+                                                            "registrationDate": Date().formatted(date: .complete, time: .complete),
+                                                            "signInProvider": signInProvider,
+                                                            "registrationFinished": "false"]) {error, databaseReference in
+                guard error == nil else {
+                    completion(.failure(.error))
+                    return
+                }
+                completion(.success("success"))
             }
         }
+        operationQueue.addOperation(addFirstDataPartOperation)
     }
-    
-    func finishStepSavingFacebookGoogleUserToTheDatabase(userUID: String,
+    public func finishStepSavingFacebookGoogleUserToTheDatabase(userUID: String,
                                                          surname: String,
                                                          userTypeRawValue: Int,
                                                          demoEventID: String,
                                                          agency: String,
                                                          completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
-        self.database.child(userUID).updateChildValues(["surname": surname,
-                                                        "agency": agency,
-                                                        "eventsIdList": [demoEventID] as! NSArray,
-                                                        "userTypeRawValue": String(userTypeRawValue),
-                                                        "registrationFinished": "true"]) { error, databasereference in
-            if error != nil {
-                completion(.failure(.error))
+        let addSecondDataPartOperation = BlockOperation {
+            self.database.child(userUID).updateChildValues(["surname": surname,
+                                                            "agency": agency,
+                                                            "eventsIdList": [demoEventID] as! NSArray,
+                                                            "userTypeRawValue": String(userTypeRawValue),
+                                                            "registrationFinished": "true"]) { error, databasereference in
+                guard error == nil else {
+                    completion(.failure(.error))
+                    return
+                }
             }
-            completion(.success("success"))
         }
+        let setupUserOperation = BlockOperation {
+            self.setupUserFromDatabaseToTheApp(user: self.firebase.currentUser!) {
+                completion(.success("ok"))
+            }
+        }
+        operationQueue.addOperation(addSecondDataPartOperation)
+        operationQueue.waitUntilAllOperationsAreFinished()
+        operationQueue.addOperation(setupUserOperation)
+        
     }
-    
-    func setupUserToTheApp(user: User) {
-        //find user in database
-        self.updateDatabaseSnapshot {
-            guard let userDatabaseSnapshot = self.lastDatabaseSnapshot else {return}
+    public func setupUserFromDatabaseToTheApp(user: User, completion: @escaping () -> ()) {
+        let setupUserOperation = BlockOperation {
+            self.updateDatabaseSnapshot()
+        }
+        setupUserOperation.completionBlock = {
+            guard let userDatabaseSnapshot = self.lastDatabaseSnapshot else {
+                print("userDatabaseSnapshot == nil")
+                return}
             let usersDictionary = userDatabaseSnapshot.value as? NSDictionary
             let userData = usersDictionary?.object(forKey: user.uid) as? NSDictionary
             // find all the userData in Snapshot
@@ -180,7 +207,7 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
             let avatarLinkString = userData?.object(forKey: "avatarLinkString") as! String
             let registrationDate = userData?.object(forKey: "registrationDate") as! String
             let signInProvider = userData?.object(forKey: "signInProvider") as! String
-            
+            //create the userEntity
             let user = UserEntity(uid: user.uid,
                                   payedEvents: payedEvents,
                                   eventsIdList: eventsIdList,
@@ -197,10 +224,28 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
                                   avatarLinkString: avatarLinkString,
                                   registrationDate: registrationDate,
                                   signInProvider: signInProvider)
+            //set the user to app
             FirebaseService.logginnedUser = user
-            EventsListSemaphore.shared.signal()
+            DispatchQueue.main.async {
+                completion()
+            }
         }
+        operationQueue.addOperation(setupUserOperation)
     }
+    // MARK: -Private service methods
+    private func updateDatabaseSnapshot() {
+        guard firebase.currentUser != nil else {
+            print("updateDatabaseSnapshot error")
+            return
+        }
+        self.database.queryOrderedByKey().observeSingleEvent(of: .value) { snapshot in
+            self.lastDatabaseSnapshot = snapshot
+            FirebaseDatabaseSemaphore.shared.signal()
+        }
+        FirebaseDatabaseSemaphore.shared.wait()
+    }
+    
+    //MARK: -Future methods
     private func initSupportingUsers(uids: [String]?) -> [SupportingUserEntity]? {
         return nil
     }
@@ -211,12 +256,12 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
         
     }
     func deleteUserEntityFromDatabase() {
-        
+
     }
     func getAllTheEventsFromTheDatabase() {
-        
+
     }
-    func updateValues(userUID: String,
+    private func updateValuesinDatabase(userUID: String,
                       key: String,
                       value: String,
                       completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {

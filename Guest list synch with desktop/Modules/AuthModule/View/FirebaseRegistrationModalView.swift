@@ -53,14 +53,14 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
     private var registerButton: UIButton!
     private var errorLabel: UILabel? = nil
     
-    //MARK: viewDidLoad
+    //MARK: -viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupKeyBoardNotification()
     }
     
-    //MARK: METHODS
+    //MARK: -METHODS
     //MARK: View methods
     private func setupViews() {
         //mark@view
@@ -348,7 +348,7 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
-    //MARK: NAVIGATION
+    //MARK: -NAVIGATION
     private func continueToRegistration() {
         // send to presenter all the parameters
         // email
@@ -393,13 +393,13 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
             }
         }
     }
-    //MARK: Deinit
+    //MARK: -Deinit
     deinit {
         self.superView.dismissPasswordAndSignInViews()
         print("RegistrationModalViewController was deinited")
     }
 }
-//MARK: UITextFieldDelegate
+//MARK: -UITextFieldDelegate
 extension RegistrationModalViewController: UITextFieldDelegate {
     //textFieldDidEndEditing
     func textFieldDidEndEditing(_ textField: UITextField) {

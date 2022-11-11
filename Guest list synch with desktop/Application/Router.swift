@@ -10,11 +10,12 @@ import UIKit
 
 
 protocol RouterProtocol: AnyObject {
-    //Router properties
+    // Properties
     var navigationController: UINavigationController! { get set }
     var assemblyBuilder: AssemblyBuilderProtocol! { get set }
+    // INIT
     init (navigationController: UINavigationController, assemblyBuilder: AssemblyBuilderProtocol)
-    //METHODS
+    // METHODS
     func showAuthModule()
     func showEventsListModule()
     func showProfileModule()
@@ -24,7 +25,7 @@ protocol RouterProtocol: AnyObject {
 }
 
 class Router: RouterProtocol {
-    //MARK: -Router properties
+    //MARK: -Properties
     internal var navigationController: UINavigationController!
     internal var assemblyBuilder: AssemblyBuilderProtocol!
     
@@ -63,7 +64,6 @@ class Router: RouterProtocol {
             navigationController.pushViewController(addModifyViewController, animated: true)
         }
     }
-
     public func popOneController() {
         if let navigationController = navigationController {
             navigationController.popViewController(animated: true)

@@ -22,13 +22,13 @@ protocol PasswordViewProtocol: AnyObject {
 
 
 class PasswordModalViewController: UIViewController, PasswordViewProtocol {
-    //MARK: VIPER protocol
+    //MARK: -VIPER protocol
     weak internal var presenter: AuthPresenterProtocol!
-    //MARK: View properties
+    //MARK: -View properties
     var currentViewHeight: CGFloat!
     var keyboardHeight: CGFloat!
     weak var superView: SignInViewProtocol!
-    //MARK: INIT
+    //MARK: -INIT
     required init(initialHeight: CGFloat, presenter: AuthPresenterProtocol, superView: SignInViewProtocol) {
         super.init(nibName: nil, bundle: nil)
         self.presenter = presenter
@@ -39,7 +39,7 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    //MARK: OUTLETS
+    //MARK: -OUTLETS
     private var passwordLabel: UILabel!
     private var passwordTextField: UITextField!
     private var createAccountButton: UIButton!
@@ -49,13 +49,14 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
     private var tryAgainButton: UIButton!
     private var errorLabel: UILabel? = nil
     private var forgotPasswordButton: UIButton? = nil
-    //MARK: viewDidLoad
+    
+    //MARK: -viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupKeyBoardNotification()
     }
-    //MARK: METHODS
+    //MARK: -METHODS
     //MARK: View methods
     private func setupViews() {
         //mark@view
@@ -273,7 +274,7 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
             }
         }
     }
-    //MARK: Deinit
+    //MARK: -Deinit
     func dismissPasswordAndSignInViews() {
         print("trying to dismiss PasswordModalView")
         self.dismiss(animated: false)
@@ -284,7 +285,7 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
     }
 }
 
-//MARK: UITextFieldDelegate
+//MARK: -UITextFieldDelegate
 extension PasswordModalViewController: UITextFieldDelegate {
     //textFieldDidEndEditing
     func textFieldDidEndEditing(_ textField: UITextField) {
