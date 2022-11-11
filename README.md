@@ -1,4 +1,4 @@
-Hi!
+Hi Rene!
 
 This is my pet project. I've send it to you to demonstrate a bit more of my skills.
 This is an app for event managers, with this app they could read and write guestlist with app and Google Spreadsheets.
