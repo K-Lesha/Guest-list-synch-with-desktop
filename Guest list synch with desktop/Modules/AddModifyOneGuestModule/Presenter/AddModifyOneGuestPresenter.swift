@@ -24,8 +24,9 @@ protocol AddModifyGuestPresenterProtocol {
     var guest: GuestEntity? {get set}
     //Methods
     func modifyGuest()
-    func addNewGuest(guest: GuestEntity)
+    func addNewGuest(guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ())
     func deleteGuest()
+    func popViewController()
 }
 
 enum AddModifyOneGuestPresenterState {
@@ -70,19 +71,15 @@ class AddModifyGuestPresenter: AddModifyGuestPresenterProtocol {
     }
     
     
-    func addNewGuest(guest: GuestEntity) {
+    func addNewGuest(guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ()) {
         guard state == .addGuest else {
             print("presenter addNewGuest error")
             return
         }
-        interactor.addNewGuest(eventID: self.eventID, guest: guest) { result in
-            switch result {
-            case .success(_):
-                self.router.popOneController()
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+        interactor.addNewGuest(eventID: self.eventID, guest: guest, completion: completion)
+    }
+    func popViewController() {
+        router.popOneController()
     }
     
     func deleteGuest() {

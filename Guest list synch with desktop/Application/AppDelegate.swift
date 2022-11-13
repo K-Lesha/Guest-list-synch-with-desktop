@@ -19,8 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let _ = ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         print("Appearance.configure")
         Appearance.configure()
-//        print("Google.configure")
-//        let pathToAcc = URL(fileURLWithPath: Bundle.main.path(forResource: "guest-list-295cc-5476f0517864", ofType: "json")!)
         return true
     }
     

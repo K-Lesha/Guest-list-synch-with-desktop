@@ -60,8 +60,20 @@ class AddModifyGuestInteractor: AddModifyGuestInteractorProtocol {
     }
 
     func addNewGuest(eventID: String, guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ()) {
-        self.spreadsheetsServise.appendData(spreadsheetID: eventID, range: .guestsDataForAdding, data: ["n", guest.guestName, guest.guestSurname]) { string in
-            print(string)
+        self.spreadsheetsServise.appendData(spreadsheetID: eventID, range: .guestsDataForAdding, data: [" ",
+                                                                                                        guest.guestName,
+                                                                                                        guest.guestSurname ?? " ",
+                                                                                                        guest.companyName ?? " ",
+                                                                                                        guest.positionInCompany ?? " ",
+                                                                                                        String(guest.guestGroup),
+                                                                                                        String(guest.guestsAmount),
+                                                                                                        String(guest.guestsEntered),
+                                                                                                        String(guest.giftsGifted),
+                                                                                                        guest.photoURL ?? " ",
+                                                                                                        guest.phoneNumber ?? " ",
+                                                                                                        guest.guestEmail ?? " ",
+                                                                                                        guest.internalNotes ?? " ",
+                                                                                                        guest.additionDate]) { string in
             completion(.success(true))
         }
     }

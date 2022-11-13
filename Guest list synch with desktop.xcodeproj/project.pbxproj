@@ -41,7 +41,6 @@
 		8A7E9309290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7E9308290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift */; };
 		8AC4BEF9291946C1005A6B1E /* FinishFbGRegistrationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC4BEF8291946C1005A6B1E /* FinishFbGRegistrationModalView.swift */; };
 		8ACB2D34291447BC009AE476 /* AlertsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB2D33291447BC009AE476 /* AlertsFactory.swift */; };
-		8ACB2D3629146C71009AE476 /* guest-list-295cc-5476f0517864.json in Resources */ = {isa = PBXBuildFile; fileRef = 8ACB2D3529146C70009AE476 /* guest-list-295cc-5476f0517864.json */; };
 		8AF83E8F2906655100614257 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83E8E2906655100614257 /* AppDelegate.swift */; };
 		8AF83E912906655100614257 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83E902906655100614257 /* SceneDelegate.swift */; };
 		8AF83E962906655100614257 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AF83E942906655100614257 /* Main.storyboard */; };
@@ -92,7 +91,6 @@
 		8A7E9308290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSpreadsheetsService.swift; sourceTree = "<group>"; };
 		8AC4BEF8291946C1005A6B1E /* FinishFbGRegistrationModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishFbGRegistrationModalView.swift; sourceTree = "<group>"; };
 		8ACB2D33291447BC009AE476 /* AlertsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsFactory.swift; sourceTree = "<group>"; };
-		8ACB2D3529146C70009AE476 /* guest-list-295cc-5476f0517864.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "guest-list-295cc-5476f0517864.json"; sourceTree = "<group>"; };
 		8AF83E8B2906655100614257 /* Guest list synch with desktop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Guest list synch with desktop.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AF83E8E2906655100614257 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AF83E902906655100614257 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -529,7 +527,6 @@
 			isa = PBXGroup;
 			children = (
 				8AF83EA22906666300614257 /* GoogleService-Info.plist */,
-				8ACB2D3529146C70009AE476 /* guest-list-295cc-5476f0517864.json */,
 				8AF83EB429066D1700614257 /* FirebaseService.swift */,
 			);
 			path = "Registration & Login layer";
@@ -619,7 +616,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AF83E9B2906655300614257 /* LaunchScreen.storyboard in Resources */,
-				8ACB2D3629146C71009AE476 /* guest-list-295cc-5476f0517864.json in Resources */,
 				8AF83EAA29066BBC00614257 /* LD Grotesk Condensed Bold.ttf in Resources */,
 				8A4F444F2914159400594A3C /* AddModifyGuestViewController.xib in Resources */,
 				8AF83EA32906666400614257 /* GoogleService-Info.plist in Resources */,

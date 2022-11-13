@@ -1,4 +1,3 @@
-Hi Rene!
 
 Hi Rene
 This is my pet-project. I've sent it to you to demonstrate a bit more of my skills. 

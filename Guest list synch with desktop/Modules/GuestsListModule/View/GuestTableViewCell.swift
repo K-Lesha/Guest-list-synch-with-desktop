@@ -15,11 +15,7 @@ class GuestTableViewCell: UITableViewCell, GuestTableViewCellProtocol {
 
     var presenter: GuestlistPresenterProtocol!
     
-    var guestEntity: GuestEntity! {
-        didSet {
-            self.guestNameAndSurnameLabel.text = guestEntity.guestName + " " + guestEntity.guestSurname
-        }
-    }
+    var guestEntity: GuestEntity!
     
     //MARK: - OUTLETS
     internal var guestNameAndSurnameLabel: UILabel!
@@ -50,9 +46,6 @@ class GuestTableViewCell: UITableViewCell, GuestTableViewCellProtocol {
         guestNameAndSurnameLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 5).isActive = true
         guestNameAndSurnameLabel.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, constant: -100).isActive = true
         guestNameAndSurnameLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        
-        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

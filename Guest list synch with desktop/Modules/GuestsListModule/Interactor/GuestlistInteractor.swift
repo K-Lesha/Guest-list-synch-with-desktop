@@ -39,6 +39,7 @@ class GuestListInteractor: GuestlistInteractorProtocol {
     //MARK: -Spreadsheets methods
     func readEventGuests(eventID: String, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void) {
         // temp properties
+        //TODO: make an operation queue with completion
         let group = DispatchGroup()
         let concurrentQueue = DispatchQueue(label: "concurrent", qos: .userInteractive, attributes: .concurrent)
         var guestsArrayEntity = Array<GuestEntity>()
@@ -62,8 +63,6 @@ class GuestListInteractor: GuestlistInteractorProtocol {
                 }
                 group.leave()
             }
-            
-            print(Thread.current)
             group.wait()
             if guestsArrayEntity.isEmpty {
                 completion(.failure(.noGuestsToShow))
@@ -80,6 +79,28 @@ class GuestListInteractor: GuestlistInteractorProtocol {
                 oneGuest.guestName = guestData
             case 1:
                 oneGuest.guestSurname = guestData
+            case 2:
+                oneGuest.companyName = guestData
+            case 3:
+                oneGuest.positionInCompany = guestData
+            case 4:
+                oneGuest.guestGroup = Int(guestData)!
+            case 5:
+                oneGuest.guestsAmount = Int(guestData)!
+            case 6:
+                oneGuest.guestsEntered = Int(guestData)!
+            case 7:
+                oneGuest.giftsGifted = Int(guestData)!
+            case 8:
+                oneGuest.photoURL = guestData
+            case 9:
+                oneGuest.phoneNumber = guestData
+            case 10:
+                oneGuest.guestEmail = guestData
+            case 11:
+                oneGuest.internalNotes = guestData
+            case 12:
+                oneGuest.additionDate = guestData
             default:
                 break
             }

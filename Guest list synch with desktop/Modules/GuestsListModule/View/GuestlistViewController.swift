@@ -17,7 +17,6 @@ protocol GuestlistViewProtocol: AnyObject {
 //MARK: View
 class GuestlistViewController: UIViewController, GuestlistViewProtocol {
     
-    
     //MARK: -VIPER protocol
     internal var presenter: GuestlistPresenterProtocol!
     
@@ -146,7 +145,7 @@ extension GuestlistViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "guest", for: indexPath) as! GuestTableViewCell
         cell.guestEntity = self.presenter.guestlist[indexPath.row]
-//        cell.guestNameAndSurnameLabel.text = cell.guestEntity.guestName + " " + cell.guestEntity.guestSurname
+        cell.guestNameAndSurnameLabel.text = cell.guestEntity.guestName + " " + (cell.guestEntity.guestSurname ?? " ")
         return cell
     }
     
