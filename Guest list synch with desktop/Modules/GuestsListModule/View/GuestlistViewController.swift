@@ -139,19 +139,18 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
 
 extension GuestlistViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.presenter.guestlist.count
+        return self.presenter.guestlistFiltred.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "guest", for: indexPath) as! GuestTableViewCell
-        cell.guestEntity = self.presenter.guestlist[indexPath.row]
+        cell.guestEntity = self.presenter.guestlistFiltred[indexPath.row]
         cell.guestNameAndSurnameLabel.text = cell.guestEntity.guestName + " " + (cell.guestEntity.guestSurname ?? " ")
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print((tableView.cellForRow(at: indexPath) as! GuestTableViewCell).guestEntity.guestName)
-//        presenter.showGuest(guest: self.presenter.guestlist[indexPath.row])
+        presenter.showOneGuest(guest: self.presenter.guestlist[indexPath.row])
     }
 }
 

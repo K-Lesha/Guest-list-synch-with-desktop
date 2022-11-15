@@ -20,7 +20,11 @@ protocol RouterProtocol: AnyObject {
     func showEventsListModule()
     func showProfileModule()
     func showGuestslistModule(eventID: String)
-    func showAddModifyGuestModule(state: AddModifyOneGuestPresenterState, guest: GuestEntity?, eventID: String)
+    func showOneGuestModule(guest: GuestEntity,
+                            eventID: String)
+    func showAddModifyGuestModule(state: AddModifyOneGuestPresenterState,
+                                  guest: GuestEntity?,
+                                  eventID: String)
     func popOneController()
 }
 
@@ -56,6 +60,12 @@ class Router: RouterProtocol {
         if let navigationController = navigationController {
             guard let eventsListViewController = assemblyBuilder?.createGuestslistModule(router: self, eventID: eventID) else { return }
             navigationController.pushViewController(eventsListViewController, animated: true)
+        }
+    }
+    public func showOneGuestModule(guest: GuestEntity, eventID: String) {
+        if let navigationController = navigationController {
+            guard let addModifyViewController = assemblyBuilder?.createOneGuestModule(router: self, guest: guest, eventID: eventID) else { return }
+            navigationController.pushViewController(addModifyViewController, animated: true)
         }
     }
     public func showAddModifyGuestModule(state: AddModifyOneGuestPresenterState, guest: GuestEntity?, eventID: String) {

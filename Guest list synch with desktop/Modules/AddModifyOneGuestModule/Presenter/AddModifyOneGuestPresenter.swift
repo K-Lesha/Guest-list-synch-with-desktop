@@ -22,11 +22,13 @@ protocol AddModifyGuestPresenterProtocol {
     var state: AddModifyOneGuestPresenterState! {get set}
     var eventID: String {get set}
     var guest: GuestEntity? {get set}
+    var newGuestData: GuestEntity? {get set}
     //Methods
-    func modifyGuest()
     func addNewGuest(guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ())
+    func modifyGuest()
     func deleteGuest()
     func popViewController()
+    func downloadGuestPhoto(stringURL: String, completion: @escaping (Result<Data, NetworkError>) -> Void)
 }
 
 enum AddModifyOneGuestPresenterState {
@@ -61,29 +63,33 @@ class AddModifyGuestPresenter: AddModifyGuestPresenterProtocol {
     //MARK: -PROPERTIES
     var state: AddModifyOneGuestPresenterState!
     var guest: GuestEntity?
+    var newGuestData: GuestEntity?
     var eventID: String
     
     //MARK: -METHODS
     func modifyGuest() {
+        if let oldGuestData = self.guest, let newGuestData = self.newGuestData {
+            interactor.modifyGuest(guest: oldGuestData, newGuestData: newGuestData)
+        }
+    }
+    func deleteGuest() {
         if state == .modifyGuest {
-            
+            interactor.deleteGuest(guest: self.guest!)
         }
     }
     
-    
     func addNewGuest(guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ()) {
-        guard state == .addGuest else {
-            print("presenter addNewGuest error")
-            return
+        if state == .addGuest {
+            interactor.addNewGuest(eventID: self.eventID, guest: guest, completion: completion)
         }
-        interactor.addNewGuest(eventID: self.eventID, guest: guest, completion: completion)
     }
     func popViewController() {
         router.popOneController()
     }
     
-    func deleteGuest() {
-       
+
+    func downloadGuestPhoto(stringURL: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+        interactor.downloadGuestImage(stringURL: stringURL, completion: completion)
     }
     
     

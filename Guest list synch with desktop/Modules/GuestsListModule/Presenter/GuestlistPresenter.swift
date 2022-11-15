@@ -17,10 +17,11 @@ protocol GuestlistPresenterProtocol: AnyObject {
     // Properties
     var eventID: String! {get set}
     var guestlist: [GuestEntity] {get set}
+    var guestlistFiltred: [GuestEntity] {get set}
     // METHODS
     func setGuestsToTheTable()
     func popToTheEventsList()
-    func showGuest(guest: GuestEntity)
+    func showOneGuest(guest: GuestEntity)
     func addNewGuest()
 }
 
@@ -46,6 +47,11 @@ class GuestlistPresenter: GuestlistPresenterProtocol {
     var eventID: String!
     var guestlist: [GuestEntity] = [GuestEntity]() {
         didSet {
+            guestlistFiltred = guestlist.filter { !$0.empty }
+        }
+    }
+    var guestlistFiltred: [GuestEntity] = [GuestEntity]() {
+        didSet {
             self.guestlistView.reloadData()
         }
     }
@@ -69,8 +75,8 @@ class GuestlistPresenter: GuestlistPresenterProtocol {
     func popToTheEventsList() {
         self.router.popOneController()
     }
-    func showGuest(guest: GuestEntity) {
-//        router.showGuestModule(guest: guest)
+    func showOneGuest(guest: GuestEntity) {
+        router.showOneGuestModule(guest: guest, eventID: self.eventID)
     }
     func addNewGuest() {
         router.showAddModifyGuestModule(state: .addGuest, guest: nil, eventID: eventID)

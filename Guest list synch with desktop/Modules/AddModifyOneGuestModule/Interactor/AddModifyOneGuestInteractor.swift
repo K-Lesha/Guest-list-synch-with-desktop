@@ -15,9 +15,11 @@ protocol AddModifyGuestInteractorProtocol {
     init(networkService: NetworkServiceProtocol)
     //Spreadsheet methods
     func readOneGuestInfo()
-    func modifyOneGuestInfo()
-    func deleteOneGuest()
+    func modifyGuest(guest: GuestEntity, newGuestData: GuestEntity)
+    func deleteGuest(guest: GuestEntity)
     func addNewGuest(eventID: String, guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ())
+    //methods
+    func downloadGuestImage(stringURL: String, completion: @escaping (Result<Data, NetworkError>) -> Void) 
 }
 
 enum AddModifyOneGuestInteractorError: Error {
@@ -44,18 +46,18 @@ class AddModifyGuestInteractor: AddModifyGuestInteractorProtocol {
         
     }
     
-    func modifyOneGuestInfo() {
-        
+    func modifyGuest(guest: GuestEntity, newGuestData: GuestEntity) {
+
     }
     
-    func deleteOneGuest() {
+    func deleteGuest(guest: GuestEntity) {
         
     }
     private func updateGuestImage() {
         
     }
     
-    private func downloadGuestImage() {
+    func downloadGuestImage(stringURL: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         
     }
 
@@ -65,7 +67,7 @@ class AddModifyGuestInteractor: AddModifyGuestInteractorProtocol {
                                                                                                         guest.guestSurname ?? " ",
                                                                                                         guest.companyName ?? " ",
                                                                                                         guest.positionInCompany ?? " ",
-                                                                                                        String(guest.guestGroup),
+                                                                                                        guest.guestGroup ?? " ",
                                                                                                         String(guest.guestsAmount),
                                                                                                         String(guest.guestsEntered),
                                                                                                         String(guest.giftsGifted),

@@ -49,13 +49,16 @@ class GuestListInteractor: GuestlistInteractorProtocol {
             self.spreadsheetsServise.readSpreadsheetsData(range: .guestsDataForReading, eventID: eventID) { result in
                 switch result {
                 case .success(let guestsDataAsStringsArray):
+                    var rowCounter = 25
                     for guestStringArray in guestsDataAsStringsArray {
                         if guestStringArray.isEmpty {
                             let oneEmptyGuest = GuestEntity()
                             guestsArrayEntity.append(oneEmptyGuest)
+                            rowCounter += 1
                         } else {
-                            let oneGuest = self.createGuestEntityWith(guestStringArray: guestStringArray)
+                            let oneGuest = self.createGuestEntityWith(guestStringArray: guestStringArray, row: rowCounter)
                             guestsArrayEntity.append(oneGuest)
+                            rowCounter += 1
                         }
                     }
                 case .failure(_):
@@ -71,7 +74,7 @@ class GuestListInteractor: GuestlistInteractorProtocol {
             }
         }
     }
-    func createGuestEntityWith(guestStringArray: [String]) -> GuestEntity {
+    func createGuestEntityWith(guestStringArray: [String], row: Int) -> GuestEntity {
         var oneGuest = GuestEntity()
         for (index, guestData) in guestStringArray.enumerated() {
             switch index {
@@ -84,7 +87,7 @@ class GuestListInteractor: GuestlistInteractorProtocol {
             case 3:
                 oneGuest.positionInCompany = guestData
             case 4:
-                oneGuest.guestGroup = Int(guestData)!
+                oneGuest.guestGroup = guestData
             case 5:
                 oneGuest.guestsAmount = Int(guestData)!
             case 6:
@@ -104,6 +107,8 @@ class GuestListInteractor: GuestlistInteractorProtocol {
             default:
                 break
             }
+            oneGuest.guestRowInSpreadSheet = String(row)
+            oneGuest.empty = false
         }
         return oneGuest
     }

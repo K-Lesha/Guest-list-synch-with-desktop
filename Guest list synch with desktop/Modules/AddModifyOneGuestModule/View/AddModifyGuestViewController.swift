@@ -42,49 +42,94 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        
-        print(self.navigationItem.backButtonTitle)
-        print(self.navigationController?.navigationItem.backButtonTitle)
-
     }
-    //MARK: -View methods
+    //MARK: -COMMON VIEW METHODS
     func setupViews() {
-        // setup@self.view        
         if presenter.state == .addGuest {
+            // setup@self.view
             self.navigationItem.title = "Добавление гостя"
+            //setup@buttons
             saveGuestButton.isHidden = false
-            deleteGuestButton.isHidden = true
             saveGuestAndAddOneMoreButton.isHidden = false
+            deleteGuestButton.isHidden = true
             saveChangesButton.isHidden = true
         } else if presenter.state == .modifyGuest {
+            // setup@self.view
             self.navigationItem.title = "Редактирование гостя"
             setGuestDataToView()
-            saveGuestButton.isHidden = false
-            deleteGuestButton.isHidden = true
-            saveGuestAndAddOneMoreButton.isHidden = true
+            //setup@buttons
             saveChangesButton.isHidden = false
+            deleteGuestButton.isHidden = false
+            saveGuestButton.isHidden = true
+            saveGuestAndAddOneMoreButton.isHidden = true
         }
     }
-    
-    
-    
-    //MARK: GUEST EDITING
+
+    //MARK: -GUEST EDITING METHODS
     private func setGuestDataToView() {
         if presenter.state == .modifyGuest {
-            
+            guard let guest = presenter.guest else {
+                return
+            }
+            // Name
+            nameTextfield.text = guest.guestName
+            // optional Surname
+            if let surname = guest.guestSurname {
+                surnameTextfield.text = surname
+            }
+            // optional Company
+            if let company = guest.companyName {
+                companyTextfield.text = company
+            }
+            //optional Position
+            if let position = guest.positionInCompany {
+                guestPositionTextfield.text = position
+            }
+            //optional Group
+            if let group = guest.guestGroup {
+                guestPositionTextfield.text = group
+            }
+            // Amount
+            guestsAmountTextfield.text = String(guest.guestsAmount)
+            // optional photo
+            if let photoURL = guest.photoURL {
+                presenter.downloadGuestPhoto(stringURL: photoURL) { result in
+                    switch result {
+                    case .success(let data):
+                        if let image = UIImage(data: data) {
+                            DispatchQueue.main.sync {
+                                self.photoImageView.image = image
+                            }
+                        }
+                    default:
+                        break
+                    }
+                }
+            }
+            //optional Phone
+            if let phone = guest.phoneNumber {
+                phoneTextfiled.text = phone
+            }
+            //optional Email
+            if let email = guest.guestEmail {
+                emailTextfield.text = email
+            }
+            //optional Internal notes
+            if let internalNotes = guest.internalNotes {
+                internalNotesTextfield.text = internalNotes
+            }
         }
     }
     
-    
     @IBAction func deleteGuestButtonPushed(_ sender: UIButton) {
-        print("deleteGuestButton pushed")
+        presenter.deleteGuest()
     }
-    
     
     @IBAction func saveChangesButtonPushed(_ sender: UIButton) {
-        print("saveChangesButtonPushed")
+//        presenter.newGuestData = newGuestData
+        presenter.modifyGuest()
     }
-    //MARK: GUEST ADDITION
+    //MARK: -GUEST ADDITION METHODS
     
     @IBAction func saveNewGuestButtonPushed(_ sender: UIButton) {
         self.tryToAddNewGuest(sender: sender)
@@ -99,8 +144,7 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
             return
         }
             guard let guestName = nameTextfield.text,
-                  let guestStringGroup = guestGroupTextfield.text,
-                  let guestGroup = Int(guestStringGroup),
+                  let guestGroup = guestGroupTextfield.text,
                   let guestsStringAmount = guestsAmountTextfield.text,
                   let guestsAmount = Int(guestsStringAmount)
             else { return }
@@ -122,7 +166,8 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
                                           photoURL: nil,
                                           phoneNumber: phoneNumber,
                                           guestEmail: email,
-                                          internalNotes: internalNotes)
+                                          internalNotes: internalNotes,
+                                          guestRowInSpreadSheet: nil)
         switch sender {
         case saveGuestButton:
             presenter.addNewGuest(guest: guestEntity, completion: saveButtonCompletion)
@@ -165,7 +210,7 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
         internalNotesTextfield.text = ""
     }
     
-    //MARK: Checking and handleling errors  methods
+    //MARK: -Checking and handleling errors  methods
     func checkFields() -> Bool {
         //Checking if textfields are OK ...
         guard let guestName = nameTextfield.text, guestName.count >= 1 else {

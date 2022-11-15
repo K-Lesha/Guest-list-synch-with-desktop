@@ -1700,7 +1700,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "A7D30EA5-E693-4650-AB0B-1F926981E816"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Guest list synch with desktop/Modules/EventsListModule/View/EventsListViewController.swift"
@@ -1716,7 +1716,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "FE9D6FA0-42B1-46CC-99C4-3C395D599CF5"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Guest list synch with desktop/Modules/GuestsListModule/Interactor/GuestlistInteractor.swift"
@@ -1770,8 +1770,8 @@
             filePath = "Guest list synch with desktop/Modules/GuestsListModule/Presenter/GuestlistPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "setGuestsToTheTable()"
             landmarkType = "7">
             <Locations>
@@ -1818,8 +1818,8 @@
             filePath = "Guest list synch with desktop/Modules/GuestsListModule/Presenter/GuestlistPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
             landmarkName = "setGuestsToTheTable()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1834,8 +1834,8 @@
             filePath = "Guest list synch with desktop/Modules/GuestsListModule/Presenter/GuestlistPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
             landmarkName = "setGuestsToTheTable()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1844,7 +1844,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "08F80133-A218-479D-88B1-E4474C7E0D37"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Guest list synch with desktop/Modules/GuestsListModule/Interactor/GuestlistInteractor.swift"
@@ -2708,7 +2708,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "6BCD11B5-D0A5-4CA0-8117-5A5CE8FAECA8"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
@@ -2934,8 +2934,8 @@
             filePath = "Guest list synch with desktop/Application/Router.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "showEventsListModule()"
             landmarkType = "7">
             <Locations>
@@ -2982,8 +2982,8 @@
             filePath = "Guest list synch with desktop/Application/AssemblyModuleBuilder.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
             landmarkName = "createEventsListModule(router:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2998,8 +2998,8 @@
             filePath = "Guest list synch with desktop/Application/AssemblyModuleBuilder.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "createEventsListModule(router:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3598,7 +3598,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "352F2B64-6740-4C8B-9052-5CEC6D183E52"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Guest list synch with desktop/Services/Database layer/FirebaseDatabaseService.swift"
@@ -3646,7 +3646,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "FC4944FC-DA5E-4B16-8889-BDFB7EAB4B41"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Guest list synch with desktop/Services/Database layer/FirebaseDatabaseService.swift"
@@ -3790,7 +3790,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "81543484-3BA9-4604-AA2E-BA7356121C39"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Guest list synch with desktop/Services/Database layer/FirebaseDatabaseService.swift"
@@ -3806,7 +3806,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "6D461425-AE20-456A-927A-FAE3E2E4FC9D"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Guest list synch with desktop/Services/Database layer/FirebaseDatabaseService.swift"
@@ -3821,32 +3821,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F3E9174B-DFE7-46AC-A44C-A2E004547E79"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "310F67DC-36DB-46BE-8716-7896B2A63CC7"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Guest list synch with desktop/Modules/GuestsListModule/Interactor/GuestlistInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
-            landmarkName = "createGuestEntityWith(guestStringArray:)"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "createGuestEntityWith(guestStringArray:row:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3860,8 +3844,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
             landmarkName = "tryToAddNewGuest(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3876,8 +3860,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "saveNewGuestAddOneMoreButtonPushed(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3892,8 +3876,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
             landmarkName = "saveNewGuestButtonPushed(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3908,8 +3892,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "saveChangesButtonPushed(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3924,8 +3908,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "deleteGuestButtonPushed(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3940,25 +3924,9 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
             landmarkName = "setGuestDataToView()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "032F2EF0-DEFB-4851-86D8-EB828D2EC45D"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "setupViews()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3988,8 +3956,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
             landmarkName = "saveButtonCompletion(result:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4004,8 +3972,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
             landmarkName = "saveAndAddOneMoreGuestCompletion(result:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4020,8 +3988,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "clearTextfiles()"
             landmarkType = "7">
          </BreakpointContent>
@@ -4036,8 +4004,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
             landmarkName = "checkFields()"
             landmarkType = "7">
             <Locations>
@@ -4084,8 +4052,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
             landmarkName = "handleGuestNameTextfieldError()"
             landmarkType = "7">
          </BreakpointContent>
@@ -4100,8 +4068,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
             landmarkName = "handleGuestAmountTextfieldError()"
             landmarkType = "7">
          </BreakpointContent>
@@ -4116,8 +4084,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
             landmarkName = "handleGuestGroupTextfieldError()"
             landmarkType = "7">
          </BreakpointContent>
@@ -4132,9 +4100,25 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/Interactor/AddModifyOneGuestInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "addNewGuest(eventID:guest:completion:)"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "AddModifyGuestInteractor"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BBF13C52-BC18-49F6-AA83-85487FBE200D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Guest list synch with desktop/Modules/OneGuestModule/View/OneGuestViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "setupGuestOnTheScreen(guest:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
