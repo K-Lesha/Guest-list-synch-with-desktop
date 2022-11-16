@@ -41,12 +41,13 @@ class OneGuestViewController: UIViewController, OneGuestViewPortocol {
     //MARK: -viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupGuestOnTheScreen(guest: presenter.guest)
         setupViews()
+        setupGuestOnTheScreen(guest: presenter.guest)
     }
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.updateGuestDataOnTheScreen()
+    }
 
     //MARK: -METHODS
     // MARK: View methods
@@ -54,7 +55,7 @@ class OneGuestViewController: UIViewController, OneGuestViewPortocol {
         //setup@internalNotesTextView
         internalNotesTextView.isEditable = false
         
-        //setup@eventSettingsButton
+        //setup@editGuestButton
         editGuestButton = UIButton()
         editGuestButton.setTitle("🖊", for: .normal)
         editGuestButton.backgroundColor = .black
@@ -63,6 +64,9 @@ class OneGuestViewController: UIViewController, OneGuestViewPortocol {
         self.navigationItem.rightBarButtonItems = [editGuestButtonItem]
     }
     func setupGuestOnTheScreen(guest: GuestEntity) {
+        if guest.guestsAmount == 0 {
+            self.view.backgroundColor = .lightGray
+        }
         self.nameLabel.text = guest.guestName
         if let surname = guest.guestSurname {
             self.surnameLabel.text = surname
@@ -92,69 +96,171 @@ class OneGuestViewController: UIViewController, OneGuestViewPortocol {
         } else {
             
         }
-        if let company = guest.companyName, company.count > 1 {
+        if let company = guest.companyName, company.count > 0 {
             comapanyNameLabel.text = company
         } else {
             comapanyNameLabel.text = "нет информации о компании"
             comapanyNameLabel.textColor = .gray
         }
-        if let position = guest.positionInCompany, position.count > 1 {
+        if let position = guest.positionInCompany, position.count > 0 {
             positionInCompanyLabel.text = position
         } else {
             positionInCompanyLabel.text = "неизвестно"
             positionInCompanyLabel.textColor = .gray
         }
-        if let phoneNumber = guest.phoneNumber, phoneNumber.count > 1 {
+        if let phoneNumber = guest.phoneNumber, phoneNumber.count > 0 {
             phoneNumberLabel.text = phoneNumber
         } else {
             phoneNumberLabel.text = "неизвестно"
             phoneNumberLabel.textColor = .gray
         }
-        if let email = guest.guestEmail, email.count > 1 {
+        if let email = guest.guestEmail, email.count > 0 {
             emailLabel.text = email
         } else {
             emailLabel.text = "неизвестно"
             emailLabel.textColor = .gray
         }
-        if let internalNotes = guest.internalNotes, internalNotes.count > 1 {
+        if let internalNotes = guest.internalNotes, internalNotes.count >= 0 {
             internalNotesTextView.text = internalNotes
         } else {
             internalNotesTextView.text = "заметок нет"
             internalNotesTextView.textColor = .gray
         }
         //checkIn Button
-        let guestsAmmount = guest.guestsAmount
-        let guestEntered = guest.guestsEntered
-        checkinButton.setTitle("""
-Зачекинить гостя
-\(guestEntered) / \(guestsAmmount)
-""", for: .normal)
+        setTitleForCheckInButton(guestEntered: guest.guestsEntered, guestsAmmount: guest.guestsAmount)
         checkinButton.titleLabel?.textAlignment = .center
         //presentGift Button
-        let giftsGifted = guest.giftsGifted
-        presentGiftButton.setTitle("""
-Подарить подарок
-\(giftsGifted) / \(guestsAmmount)
-""", for: .normal)
+        setTitleForGiftsButton(giftsGifted: guest.giftsGifted, guestsAmmount: guest.guestsAmount)
         presentGiftButton.titleLabel?.textAlignment = .center
-        
+        //all the buttons
+        self.checkGuestAmountForButtons()
+        setLongGestureRecognisersForTheButtons()
     }
-    //MARK: Button methods
-
+    func updateGuestDataOnTheScreen() {
+        self.presenter.updateGuestData { result in
+            switch result {
+            case .success(let guest):
+                self.presenter.guest = guest
+                self.setupGuestOnTheScreen(guest: guest)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    //MARK: -Button view methods
+    //Guest check-in/out button
+    private func setTitleForCheckInButton(guestEntered: Int, guestsAmmount: Int) {
+        checkinButton.setTitle("""
+                                Зачекинить гостя
+                                \(guestEntered) / \(guestsAmmount)
+                                """, for: .normal)
+    }
+    
+    //Gift button
+    private func setTitleForGiftsButton(giftsGifted: Int, guestsAmmount: Int) {
+        self.presentGiftButton.setTitle("""
+                            Подарить подарок
+                            \(giftsGifted) / \(guestsAmmount)
+                            """, for: .normal)
+    }
+    // All the buttons
+    private func animateButton(_ button: UIButton) {
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            button.transform = .init(scaleX: 1.25, y: 1.25)
+        }) { (finished: Bool) -> Void in
+            button.isHidden = false
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                button.transform = .identity
+            })
+        }
+    }
+    private func checkGuestAmountForButtons() {
+        if presenter.guest.giftsGifted >= presenter.guest.guestsAmount {
+            self.presentGiftButton.backgroundColor = .gray
+        } else {
+            self.presentGiftButton.backgroundColor = .blue
+        }
+        self.presentGiftButton.isEnabled = true
+        if presenter.guest.guestsEntered >= presenter.guest.guestsAmount {
+            self.checkinButton.backgroundColor = .gray
+        } else {
+            self.checkinButton.backgroundColor = .blue
+        }
+        self.checkinButton.isEnabled = true
+    }
+    //MARK: Button action methods
+    //Gift button
     @IBAction func presentGiftButtonTouchUpInside(_ sender: UIButton) {
+        animateButton(presentGiftButton)
+        guard presenter.guest.giftsGifted < presenter.guest.guestsAmount else {
+            self.checkGuestAmountForButtons()
+            return
+        }
+        self.presentGiftButton.isEnabled = false
+        self.presentGiftButton.backgroundColor = .gray
         
+        presenter.presentOneGift { string in
+            //TODO: обработка ошибок
+            print("added")
+            self.presenter.guest.giftsGifted += 1
+            self.setTitleForGiftsButton(giftsGifted: self.presenter.guest.giftsGifted, guestsAmmount: self.presenter.guest.guestsAmount)
+            self.checkGuestAmountForButtons()
+        }
     }
-    
+    @objc private func ungiftGifts() {
+        animateButton(presentGiftButton)
+        guard self.presenter.guest.giftsGifted > 0 else {
+            return
+        }
+        self.presentGiftButton.isEnabled = false
+        self.presentGiftButton.backgroundColor = .gray
+        presenter.ungiftAllTheGifts { string in
+            print(string)
+            self.presenter.guest.giftsGifted = 0
+            self.setTitleForGiftsButton(giftsGifted: self.presenter.guest.giftsGifted, guestsAmmount: self.presenter.guest.guestsAmount)
+            self.checkGuestAmountForButtons()
+        }
+    }
+    //Guest check-in/out button
     @IBAction func checkInGuestTouchUpInside(_ sender: UIButton) {
+        animateButton(checkinButton)
+        guard presenter.guest.guestsEntered < presenter.guest.guestsAmount else {
+            self.checkGuestAmountForButtons()
+            return
+        }
+        self.checkinButton.isEnabled = false
+        self.checkinButton.backgroundColor = .gray
+        presenter.oneGuestEntered { string in
+            //TODO: обработка ошибок
+            print("added")
+            self.presenter.guest.guestsEntered += 1
+            self.setTitleForCheckInButton(guestEntered: self.presenter.guest.guestsEntered, guestsAmmount: self.presenter.guest.guestsAmount)
+            self.checkGuestAmountForButtons()
+        }
     }
-    
+    @objc private func checkoutGuests() {
+        animateButton(checkinButton)
+        guard self.presenter.guest.guestsEntered > 0 else {
+            return
+        }
+        self.checkinButton.isEnabled = false
+        self.checkinButton.backgroundColor = .gray
+        presenter.canselAllTheGuestCheckins { string in
+            print(string)
+            self.presenter.guest.guestsEntered = 0
+            self.setTitleForCheckInButton(guestEntered: self.presenter.guest.guestsEntered, guestsAmmount: self.presenter.guest.guestsAmount)
+            self.checkGuestAmountForButtons()
+        }
+    }
+    //All the buttons
+    private func setLongGestureRecognisersForTheButtons() {
+        let ungiftGesture = UILongPressGestureRecognizer(target: self, action: #selector(ungiftGifts))
+        self.presentGiftButton.addGestureRecognizer(ungiftGesture)
+        
+        let checkoutGesture = UILongPressGestureRecognizer(target: self, action: #selector(checkoutGuests))
+        self.checkinButton.addGestureRecognizer(checkoutGesture)
+    }
     @objc func editGuestButtonPushed() {
-        print("editGuestButtonPushed")
+        presenter.showGuestEditModule()
     }
-    
-    
-    
-    
-    
-    
 }

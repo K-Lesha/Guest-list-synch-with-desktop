@@ -9,7 +9,6 @@ import Foundation
 
 protocol GuestlistInteractorProtocol {
     //VIPER protocol
-    var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol {get set}
     var firebaseService: FirebaseServiceProtocol! {get set}
     //init
     init(firebaseService: FirebaseServiceProtocol)
@@ -28,7 +27,7 @@ enum GuestlistInteractorError: Error {
 class GuestListInteractor: GuestlistInteractorProtocol {
 
     //MARK: -VIPER protocol
-    internal var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
+    private var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
     internal var firebaseService: FirebaseServiceProtocol!
     
     //MARK: INIT
@@ -46,7 +45,7 @@ class GuestListInteractor: GuestlistInteractorProtocol {
         concurrentQueue.async() {
             // download and create entites all the event guests
             group.enter()
-            self.spreadsheetsServise.readSpreadsheetsData(range: .guestsDataForReading, eventID: eventID) { result in
+            self.spreadsheetsServise.readSpreadsheetsData(range: .guestsDataForReading, eventID: eventID, oneGuestRow: nil) { result in
                 switch result {
                 case .success(let guestsDataAsStringsArray):
                     var rowCounter = 25

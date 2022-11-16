@@ -22,11 +22,11 @@ protocol AddModifyGuestPresenterProtocol {
     var state: AddModifyOneGuestPresenterState! {get set}
     var eventID: String {get set}
     var guest: GuestEntity? {get set}
-    var newGuestData: GuestEntity? {get set}
+    var modifiedGuestData: GuestEntity? {get set}
     //Methods
     func addNewGuest(guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ())
-    func modifyGuest()
-    func deleteGuest()
+    func modifyGuest(completion: @escaping (String) -> ())
+    func deleteGuest(completion: @escaping (String) -> ())
     func popViewController()
     func downloadGuestPhoto(stringURL: String, completion: @escaping (Result<Data, NetworkError>) -> Void)
 }
@@ -63,19 +63,20 @@ class AddModifyGuestPresenter: AddModifyGuestPresenterProtocol {
     //MARK: -PROPERTIES
     var state: AddModifyOneGuestPresenterState!
     var guest: GuestEntity?
-    var newGuestData: GuestEntity?
+    var modifiedGuestData: GuestEntity?
     var eventID: String
     
     //MARK: -METHODS
-    func modifyGuest() {
-        if let oldGuestData = self.guest, let newGuestData = self.newGuestData {
-            interactor.modifyGuest(guest: oldGuestData, newGuestData: newGuestData)
+    func modifyGuest(completion: @escaping (String) -> ()) {
+        if let modifiedGuestData {
+            interactor.modifyGuest(eventID: self.eventID, newGuestData: modifiedGuestData, completion: completion)
         }
     }
-    func deleteGuest() {
-        if state == .modifyGuest {
-            interactor.deleteGuest(guest: self.guest!)
+    func deleteGuest(completion: @escaping (String) -> ()) {
+        guard let guest, state == .modifyGuest else {
+            return
         }
+        interactor.deleteOneGuest(eventID: self.eventID, guest: guest, completion: completion)
     }
     
     func addNewGuest(guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ()) {

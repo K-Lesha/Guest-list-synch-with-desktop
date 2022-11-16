@@ -16,16 +16,17 @@ import FirebaseCore
 //MARK: -protocol GoogleSpreadsheetsServiceProtocol
 protocol GoogleSpreadsheetsServiceProtocol {
     //Methods
-    func readSpreadsheetsData(range: SheetsRange, eventID: String, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void)
+    func readSpreadsheetsData(range: SheetsRange, eventID: String, oneGuestRow: String?, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void)
     func appendData(spreadsheetID: String, range: SheetsRange, data: [String], completion: @escaping (String) -> Void)
+    func sendDataToCell(spreadsheetID: String, range: String, data: [String], completionHandler: @escaping (String) -> Void)
     func createDefaultSpreadsheet(named name: String, sheetType: DefaultSheetsIds, completion: @escaping (String) -> ())
-    
 }
 //MARK: -SheetsRange
 enum SheetsRange: String {
     case oneEventData = "A1:A21"
     case guestsDataForReading = "B25:N"
     case guestsDataForAdding = "A25:N"
+    case oneGuestData = "B"
 }
 //MARK: -DefaultSheetsIds
 enum DefaultSheetsIds: String {
@@ -60,10 +61,14 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
         sheetService.authorizer = GIDSignIn.sharedInstance.currentUser?.authentication.fetcherAuthorizer()
     }
     //Spreadsheets methods
-    func readSpreadsheetsData(range: SheetsRange, eventID: String, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void) {
+    func readSpreadsheetsData(range: SheetsRange, eventID: String, oneGuestRow: String?, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void) {
         print("Getting sheet data...")
         updateAuthrizer()
-        let query = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: eventID, range: range.rawValue)
+        var rangeRawValue = range.rawValue
+        if range == .oneGuestData {
+            rangeRawValue += oneGuestRow! + ":N" + oneGuestRow!
+        }
+        let query = GTLRSheetsQuery_SpreadsheetsValuesGet.query(withSpreadsheetId: eventID, range: rangeRawValue)
         sheetService.executeQuery(query) { (ticket, result, error) in
             if let error {
                 print("Google sheets service: ", error.localizedDescription)
@@ -103,51 +108,25 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
         }
     }
     
-//        func sendDataToCell(completionHandler: @escaping (String) -> Void) {
-//
-//                let spreadsheetId = self.sheetID
-//                let currentRange = "A5:B5" //Any range on the sheet, for instance: A5:B6
-//                let results = ["this is a test"]
-//                let rangeToAppend = GTLRSheets_ValueRange.init();
-//                    rangeToAppend.values = [results]
-//
-//                let query = GTLRSheetsQuery_SpreadsheetsValuesUpdate.query(withObject: rangeToAppend, spreadsheetId: spreadsheetId, range: currentRange)
-//                    query.valueInputOption = "USER_ENTERED"
-//
-//                    sheetService.executeQuery(query) { (ticket, result, error) in
-//                        if let error = error {
-//                            print(error)
-//                            completionHandler("Error in sending data:\n\(error.localizedDescription)")
-//                        } else {
-//                            print("Sending: \(results)")
-//                            completionHandler("Sucess!")
-//                        }
-//                    }
-//        }
-    //
-    //
-    //    func readSheets(completionHandler: @escaping (String) -> Void ) {
-    //        print("func findSpreadNameAndSheets executing...")
-    //
-    //        let spreadsheetId = self.sheetID
-    //        let query = GTLRSheetsQuery_SpreadsheetsGet.query(withSpreadsheetId: spreadsheetId)
-    //
-    //        sheetService.executeQuery(query) { (ticket, result, error) in
-    //            if let error = error {
-    //                print(error)
-    //                completionHandler("Error in loading sheets\n\(error.localizedDescription)")
-    //            } else {
-    //                let result = result as? GTLRSheets_Spreadsheet
-    //                let sheets = result?.sheets
-    //                if let sheetInfo = sheets {
-    //                    for info in sheetInfo {
-    //                            print("New sheet found: \(String(describing: info.properties?.title))")
-    //                        }
-    //                    }
-    //                completionHandler("Success!")
-    //            }
-    //        }
-    //    }
+    func sendDataToCell(spreadsheetID: String, range: String, data: [String], completionHandler: @escaping (String) -> Void) {
+
+                let rangeToAppend = GTLRSheets_ValueRange.init();
+                    rangeToAppend.values = [data]
+
+                let query = GTLRSheetsQuery_SpreadsheetsValuesUpdate.query(withObject: rangeToAppend, spreadsheetId: spreadsheetID, range: range)
+        //row = Any range on the sheet, for instance: "A5:B6"
+                    query.valueInputOption = "USER_ENTERED"
+
+                    sheetService.executeQuery(query) { (ticket, result, error) in
+                        if let error = error {
+                            print(error)
+                            completionHandler("Error in sending data:\n\(error.localizedDescription)")
+                        } else {
+                            print("Sending: \(data)")
+                            completionHandler("Sucess!")
+                        }
+                    }
+        }
     
     //MARK: -ADD NEW SPREADSHEET WITH (DEMO/EMPTY)EVENT
     public func createDefaultSpreadsheet(named name: String, sheetType: DefaultSheetsIds, completion: @escaping (String) -> ()) {

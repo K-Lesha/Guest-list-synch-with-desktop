@@ -17,12 +17,17 @@ protocol OneGuestPresenterProtocol {
     // Properties
     var guest: GuestEntity! {get set}
     var eventID: String!  {get set}
-    //Methods
-    func oneGuestEntered()
-    func canselAllTheCheckins()
-    func giftOneGift()
-    func ungiftAllTheGifts()
+    // Guest check-in/out methods
+    func oneGuestEntered(completion: @escaping (String) -> ())
+    func canselAllTheGuestCheckins(completion: @escaping (String) -> ())
+    // Gift methods
+    func presentOneGift(completion: @escaping (String) -> ())
+    func ungiftAllTheGifts(completion: @escaping (String) -> ())
+    // Other methods
+    func updateGuestData(completion: @escaping (Result<GuestEntity, SheetsError>) -> ())
     func setGuestPhoto(stringURL: String, completion: @escaping (Result<Data, NetworkError>) -> Void)
+    //Navigation methods
+    func showGuestEditModule()
 }
 
 class OneGuestPresenter: OneGuestPresenterProtocol {
@@ -44,24 +49,29 @@ class OneGuestPresenter: OneGuestPresenterProtocol {
     var eventID: String!
     
     //MARK: -METHODS
+    //MARK: Guest check-in/out methods
+    func oneGuestEntered(completion: @escaping (String) -> ()) {
+        interactor.oneGuestEntered(eventID: self.eventID, guest: self.guest, completion: completion)
+    }
+    func canselAllTheGuestCheckins(completion: @escaping (String) -> ()) {
+        interactor.canselAllTheGuestCheckins(eventID: self.eventID, guest: self.guest, completion: completion)
+    }
+    //MARK: Gift methods
+    func presentOneGift(completion: @escaping (String) -> ()) {
+        interactor.presentOneGift(eventID: self.eventID, guest: self.guest, completion: completion)
+    }
+    func ungiftAllTheGifts(completion: @escaping (String) -> ()) {
+        interactor.ungiftAllTheGifts(eventID: self.eventID, guest: self.guest, completion: completion)
+    }
+    //MARK: Other methods
     func setGuestPhoto(stringURL: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         interactor.setGuestPhoto(stringURL: stringURL, completion: completion)
     }
-
-    func oneGuestEntered() {
-        
+    func updateGuestData(completion: @escaping (Result<GuestEntity, SheetsError>) -> ()) {
+        interactor.updateGuestData(eventID: self.eventID, guest: self.guest, completion: completion)
     }
-    func canselAllTheCheckins() {
-        
+    //MARK: Navigation methods
+    func showGuestEditModule() {
+        router.showAddModifyGuestModule(state: .modifyGuest, guest: self.guest, eventID: self.eventID)
     }
-    func giftOneGift() {
-        
-    }
-    func ungiftAllTheGifts() {
-        
-    }
-    func showGuestEditModule(guest: GuestEntity) {
-        router.showAddModifyGuestModule(state: .modifyGuest, guest: guest, eventID: self.eventID)
-    }
-
 }

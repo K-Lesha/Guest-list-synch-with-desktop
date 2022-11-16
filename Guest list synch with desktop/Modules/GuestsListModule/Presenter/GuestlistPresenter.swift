@@ -47,7 +47,7 @@ class GuestlistPresenter: GuestlistPresenterProtocol {
     var eventID: String!
     var guestlist: [GuestEntity] = [GuestEntity]() {
         didSet {
-            guestlistFiltred = guestlist.filter { !$0.empty }
+            guestlistFiltred = guestlist.filter { !$0.empty && $0.guestsAmount > 0 }
         }
     }
     var guestlistFiltred: [GuestEntity] = [GuestEntity]() {

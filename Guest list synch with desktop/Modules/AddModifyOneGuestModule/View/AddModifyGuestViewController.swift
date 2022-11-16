@@ -28,6 +28,7 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
     @IBOutlet weak var guestPositionTextfield: UITextField!
     @IBOutlet weak var guestGroupTextfield: UITextField!
     @IBOutlet weak var guestsAmountTextfield: UITextField!
+    private var photoURLString: String!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var phoneTextfiled: UITextField!
     @IBOutlet weak var emailTextfield: UITextField!
@@ -87,12 +88,13 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
             }
             //optional Group
             if let group = guest.guestGroup {
-                guestPositionTextfield.text = group
+                guestGroupTextfield.text = group
             }
             // Amount
             guestsAmountTextfield.text = String(guest.guestsAmount)
             // optional photo
             if let photoURL = guest.photoURL {
+                photoURLString = photoURL
                 presenter.downloadGuestPhoto(stringURL: photoURL) { result in
                     switch result {
                     case .success(let data):
@@ -122,15 +124,39 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
     }
     
     @IBAction func deleteGuestButtonPushed(_ sender: UIButton) {
-        presenter.deleteGuest()
+        presenter.deleteGuest() { string in
+            self.presenter.popViewController()
+        }
     }
     
     @IBAction func saveChangesButtonPushed(_ sender: UIButton) {
-//        presenter.newGuestData = newGuestData
-        presenter.modifyGuest()
+        
+        guard presenter.state == .modifyGuest,
+                self.checkFields(),
+                var modifiedGuest = presenter.guest
+        else {
+            return
+        }
+        modifiedGuest.guestName = nameTextfield.text ?? " "
+        modifiedGuest.guestSurname = surnameTextfield.text
+        modifiedGuest.companyName = companyTextfield.text
+        modifiedGuest.positionInCompany = guestPositionTextfield.text
+        modifiedGuest.guestGroup = guestGroupTextfield.text
+        let guestsStringAmount: String = guestsAmountTextfield.text ?? "1"
+        modifiedGuest.guestsAmount = Int(guestsStringAmount)!
+        modifiedGuest.photoURL = self.photoURLString
+        modifiedGuest.phoneNumber = phoneTextfiled.text
+        modifiedGuest.guestEmail = emailTextfield.text
+        modifiedGuest.internalNotes = internalNotesTextfield.text
+
+        presenter.modifiedGuestData = modifiedGuest
+        presenter.modifyGuest() { string in
+            print("guest modified")
+            self.presenter.guest = modifiedGuest
+            self.presenter.popViewController()
+        }
     }
     //MARK: -GUEST ADDITION METHODS
-    
     @IBAction func saveNewGuestButtonPushed(_ sender: UIButton) {
         self.tryToAddNewGuest(sender: sender)
     }
@@ -143,28 +169,28 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
         guard presenter.state == .addGuest, self.checkFields() else {
             return
         }
-            guard let guestName = nameTextfield.text,
-                  let guestGroup = guestGroupTextfield.text,
-                  let guestsStringAmount = guestsAmountTextfield.text,
-                  let guestsAmount = Int(guestsStringAmount)
-            else { return }
-            
-            let guestSurname = surnameTextfield.text
-
+        guard let guestName = nameTextfield.text,
+              let guestGroup = guestGroupTextfield.text,
+              let guestsStringAmount = guestsAmountTextfield.text,
+              let guestsAmount = Int(guestsStringAmount)
+        else { return }
+        
+        let guestSurname = surnameTextfield.text
+        
         let guestCompany = companyTextfield.text
-            let positionInCompany = guestPositionTextfield.text
-            let phoneNumber = phoneTextfiled.text
-            let email = emailTextfield.text
-            let internalNotes = internalNotesTextfield.text
-            
-            let guestEntity = GuestEntity(guestName: guestName,
-                                          guestSurname: guestSurname,
-                                          companyName: guestCompany,
-                                          positionInCompany: positionInCompany,
-                                          guestGroup: guestGroup,
-                                          guestsAmount: guestsAmount,
-                                          photoURL: nil,
-                                          phoneNumber: phoneNumber,
+        let positionInCompany = guestPositionTextfield.text
+        let phoneNumber = phoneTextfiled.text
+        let email = emailTextfield.text
+        let internalNotes = internalNotesTextfield.text
+        
+        let guestEntity = GuestEntity(guestName: guestName,
+                                      guestSurname: guestSurname,
+                                      companyName: guestCompany,
+                                      positionInCompany: positionInCompany,
+                                      guestGroup: guestGroup,
+                                      guestsAmount: guestsAmount,
+                                      photoURL: nil,
+                                      phoneNumber: phoneNumber,
                                           guestEmail: email,
                                           internalNotes: internalNotes,
                                           guestRowInSpreadSheet: nil)
@@ -177,7 +203,6 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
             break
         }
     }
-    
     func saveButtonCompletion(result: Result<Bool, GuestlistInteractorError>) -> () {
         switch result {
         case .success(_):
@@ -186,7 +211,6 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
             print(error.localizedDescription)
         }
     }
-    
     func saveAndAddOneMoreGuestCompletion(result: Result<Bool, GuestlistInteractorError>) -> () {
         switch result {
         case .success(_):
@@ -196,7 +220,6 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
             print(error.localizedDescription)
         }
     }
-    
     func clearTextfiles() {
         nameTextfield.text = ""
         surnameTextfield.text = ""

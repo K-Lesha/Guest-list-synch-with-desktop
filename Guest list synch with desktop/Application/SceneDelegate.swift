@@ -15,7 +15,7 @@ import GoogleUtilities
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    let operationQueue = OperationQueue()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else {
@@ -46,19 +46,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             GIDSignIn.sharedInstance.restorePreviousSignIn { googleUser, error in
                 if error != nil || googleUser == nil {
                     print("googleUser == nil, need to authenteticate user with google")
+                    self.setupUserToDatabaseAndShowViewController(firebaseDatabase: firebeseDatabase, router: router, user: user)
                 } else {
                     print("googleUser != nil")
+                    self.setupUserToDatabaseAndShowViewController(firebaseDatabase: firebeseDatabase, router: router, user: user)
                 }
-            }
-            firebeseDatabase.setupUserFromDatabaseToTheApp(user: user) {
-                print("userSettedUpToTheApp")
-                router.showEventsListModule()
             }
         }
         self.window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
-
+    
+    func setupUserToDatabaseAndShowViewController(firebaseDatabase: FirebaseDatabaseProtocol, router: RouterProtocol, user: User) {
+        firebaseDatabase.setupUserFromDatabaseToTheApp(user: user) {
+            print("userSettedUpToTheApp")
+            DispatchQueue.main.async {
+                router.showEventsListModule()
+            }
+        }
+    }
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

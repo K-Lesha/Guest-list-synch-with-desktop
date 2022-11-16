@@ -41,7 +41,7 @@ class EventsListInteractor: EventsListInteractorProtocol {
             // download and create entites all the user events
             for eventID in userEventIdList {
                 group.enter()
-                self.spreadsheetsServise.readSpreadsheetsData(range: .oneEventData, eventID: eventID) { result in
+                self.spreadsheetsServise.readSpreadsheetsData(range: .oneEventData, eventID: eventID, oneGuestRow: nil) { result in
                     switch result {
                     case .success(let eventsDataAsStringsArray):
                         //TODO: проверки чтобы не было пустых массивов
