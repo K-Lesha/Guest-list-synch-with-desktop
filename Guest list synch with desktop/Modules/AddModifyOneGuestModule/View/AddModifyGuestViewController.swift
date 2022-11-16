@@ -11,8 +11,6 @@ import UIKit
 protocol AddModifyGuestViewProtocol {
     //VIPER protocol
     var presenter: AddModifyGuestPresenterProtocol! {get set}
-    //Methods
-    
 }
 
 
@@ -65,8 +63,20 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
             saveGuestAndAddOneMoreButton.isHidden = true
         }
     }
-
+    func clearTextfiles() {
+        nameTextfield.text = ""
+        surnameTextfield.text = ""
+        companyTextfield.text = ""
+        guestPositionTextfield.text = ""
+        guestGroupTextfield.text = ""
+        guestsAmountTextfield.text = ""
+        photoImageView.image = nil
+        phoneTextfiled.text = ""
+        emailTextfield.text = ""
+        internalNotesTextfield.text = ""
+    }
     //MARK: -GUEST EDITING METHODS
+    //MARK: View methods
     private func setGuestDataToView() {
         if presenter.state == .modifyGuest {
             guard let guest = presenter.guest else {
@@ -122,13 +132,12 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
             }
         }
     }
-    
+    //MARK: Button methods
     @IBAction func deleteGuestButtonPushed(_ sender: UIButton) {
         presenter.deleteGuest() { string in
             self.presenter.popViewController()
         }
     }
-    
     @IBAction func saveChangesButtonPushed(_ sender: UIButton) {
         
         guard presenter.state == .modifyGuest,
@@ -157,6 +166,7 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
         }
     }
     //MARK: -GUEST ADDITION METHODS
+    //MARK: Button methods
     @IBAction func saveNewGuestButtonPushed(_ sender: UIButton) {
         self.tryToAddNewGuest(sender: sender)
     }
@@ -164,7 +174,6 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
     @IBAction func saveNewGuestAddOneMoreButtonPushed(_ sender: UIButton) {
         self.tryToAddNewGuest(sender: sender)
     }
-    
     private func tryToAddNewGuest(sender: UIButton) {
         guard presenter.state == .addGuest, self.checkFields() else {
             return
@@ -220,19 +229,6 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
             print(error.localizedDescription)
         }
     }
-    func clearTextfiles() {
-        nameTextfield.text = ""
-        surnameTextfield.text = ""
-        companyTextfield.text = ""
-        guestPositionTextfield.text = ""
-        guestGroupTextfield.text = ""
-        guestsAmountTextfield.text = ""
-        photoImageView.image = nil
-        phoneTextfiled.text = ""
-        emailTextfield.text = ""
-        internalNotesTextfield.text = ""
-    }
-    
     //MARK: -Checking and handleling errors  methods
     func checkFields() -> Bool {
         //Checking if textfields are OK ...

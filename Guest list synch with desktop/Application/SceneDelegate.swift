@@ -23,40 +23,32 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-
         // init assemblyBuilder with core services
         let networkService = NetworkService()
-        let firebeseDatabase = FirebaseDatabase()
-        let firebaseService = FirebaseService(database: firebeseDatabase)
-        let assemblyBuilder = AssemblyModuleBuilder(networkService: networkService, firebaseService: firebaseService, firebaseDatabase: firebeseDatabase)
-                
+        let firebaseDatabase = FirebaseDatabase()
+        let firebaseService = FirebaseService(database: firebaseDatabase)
+        let assemblyBuilder = AssemblyModuleBuilder(networkService: networkService, firebaseService: firebaseService, firebaseDatabase: firebaseDatabase)
         // init correct screen by checking user condition
         let navigationController = UINavigationController()
         let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
-        let user = Auth.auth().currentUser
-        if user == nil {
-            print("user == nil, auth module initialization")
-            router.showAuthModule()
-        } else {
+        if let user = Auth.auth().currentUser {
             print("user != nil, eventsList module initialization")
-            guard let user = user else {
-                fatalError("failed")
-            }
             //Google restorePreviousSignIn
             GIDSignIn.sharedInstance.restorePreviousSignIn { googleUser, error in
                 if error != nil || googleUser == nil {
                     print("googleUser == nil, need to authenteticate user with google")
-                    self.setupUserToDatabaseAndShowViewController(firebaseDatabase: firebeseDatabase, router: router, user: user)
                 } else {
                     print("googleUser != nil")
-                    self.setupUserToDatabaseAndShowViewController(firebaseDatabase: firebeseDatabase, router: router, user: user)
                 }
+                self.setupUserToDatabaseAndShowViewController(firebaseDatabase: firebaseDatabase, router: router, user: user)
             }
+        } else {
+            print("user == nil, auth module initialization")
+            router.showAuthModule()
         }
         self.window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
-    
     func setupUserToDatabaseAndShowViewController(firebaseDatabase: FirebaseDatabaseProtocol, router: RouterProtocol, user: User) {
         firebaseDatabase.setupUserFromDatabaseToTheApp(user: user) {
             print("userSettedUpToTheApp")
@@ -65,7 +57,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
     }
-    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

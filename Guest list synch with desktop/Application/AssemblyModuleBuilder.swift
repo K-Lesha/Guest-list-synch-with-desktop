@@ -18,6 +18,9 @@ protocol AssemblyBuilderProtocol {
     // METHODS
     func createAuthModule(router: RouterProtocol) -> UIViewController
     func createEventsListModule(router: RouterProtocol) -> UIViewController
+    func createAddModifyEventModule(router: RouterProtocol,
+                                       state: AddModifyEventPresenterState,
+                                       eventID: String?) -> UIViewController
     func createGuestslistModule(router: RouterProtocol,
                                 eventID: String) -> UIViewController
     func createProfileModule(router: RouterProtocol) -> UIViewController
@@ -57,6 +60,15 @@ class AssemblyModuleBuilder: AssemblyBuilderProtocol {
         let view = EventsListViewController()
         let interactor = EventsListInteractor()
         let presenter = EventsListPresenter(view: view, interactor: interactor, router: router)
+        view.presenter = presenter
+        return view
+    }
+    func createAddModifyEventModule(router: RouterProtocol,
+                                       state: AddModifyEventPresenterState,
+                                       eventID: String?) -> UIViewController {
+        let view = AddModifyEventViewController(nibName: "AddModifyEventViewController", bundle: nil)
+        let interactor = AddModifyEventInteractor(networkService: self.networkService, firebaseDatabase: self.firebaseDatabase)
+        let presenter = AddModifyEventPresenter(view: view, interactor: interactor, router: router, eventID: eventID, state: state)
         view.presenter = presenter
         return view
     }

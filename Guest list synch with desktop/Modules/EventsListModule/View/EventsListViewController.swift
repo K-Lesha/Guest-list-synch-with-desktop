@@ -120,7 +120,7 @@ class EventsListViewController: UIViewController, EventsListViewControllerProtoc
     
     //MARK: Button methods
     @objc func addEventButtonPressed() {        
-        
+        presenter.addNewEvent()
     }
     @objc func allEventsButtonPressed() {
         

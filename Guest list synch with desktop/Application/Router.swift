@@ -18,6 +18,7 @@ protocol RouterProtocol: AnyObject {
     // METHODS
     func showAuthModule()
     func showEventsListModule()
+    func showAddModifyEventModule(state: AddModifyEventPresenterState, eventID: String?)
     func showProfileModule()
     func showGuestslistModule(eventID: String)
     func showOneGuestModule(guest: GuestEntity,
@@ -50,6 +51,12 @@ class Router: RouterProtocol {
             navigationController.viewControllers = [eventsListViewController]
         }
     }
+    public func showAddModifyEventModule(state: AddModifyEventPresenterState, eventID: String?) {
+        if let navigationController = navigationController {
+            guard let addModifyEventViewController = assemblyBuilder?.createAddModifyEventModule(router: self, state: state, eventID: eventID) else { return }
+            navigationController.pushViewController(addModifyEventViewController, animated: true)
+        }
+    }
     public func showProfileModule() {
         if let navigationController = navigationController {
             guard let eventsListViewController = assemblyBuilder?.createProfileModule(router: self) else { return }
@@ -70,8 +77,8 @@ class Router: RouterProtocol {
     }
     public func showAddModifyGuestModule(state: AddModifyOneGuestPresenterState, guest: GuestEntity?, eventID: String) {
         if let navigationController = navigationController {
-            guard let addModifyViewController = assemblyBuilder?.createAddModifyOneGuestModule(router: self, state: state, guest: guest, eventID: eventID) else { return }
-            navigationController.pushViewController(addModifyViewController, animated: true)
+            guard let addModifyGuestViewController = assemblyBuilder?.createAddModifyOneGuestModule(router: self, state: state, guest: guest, eventID: eventID) else { return }
+            navigationController.pushViewController(addModifyGuestViewController, animated: true)
         }
     }
     public func popOneController() {
