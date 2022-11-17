@@ -13,6 +13,7 @@ protocol GuestlistViewProtocol: AnyObject {
     //Methods
     func reloadData()
     func showReadGuestsError()
+    func noGuestToShowAlert()
 }
 //MARK: View
 class GuestlistViewController: UIViewController, GuestlistViewProtocol {
@@ -41,6 +42,8 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.presenter.setGuestsToTheTable()
+        self.presenter.updateEventEntity()
+
     }
     //MARK: -View methods
     func setupViews() {
@@ -115,6 +118,16 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
             self.guestListTableView.reloadData()
         }
     }
+    func noGuestToShowAlert() {
+        AlertsFactory.shared.showAlert(title: "NO GUEST TO SHOW HERE",
+                                  message: "add some guests",
+                                  viewController: self,
+                                  okAlertTitle: "OK",
+                                  secondAlertTitle: nil,
+                                  okCompletion: nil,
+                                  canselCompletion: nil)
+    }
+
     func showReadGuestsError() {
         print("GuestlistVC showReadGuestsError")
     }
@@ -128,8 +141,7 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
 
     }
     @objc func eventSettingsButtonPushed() {
-        print("eventSettingsButtonPushed")
-
+        presenter.showEventModifyModule()
     }
     
     @objc func addGuestButtonPressed() {
@@ -137,6 +149,7 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
     }
 }
 
+//MARK: -UITableViewDelegate, UITableViewDataSource
 extension GuestlistViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.presenter.guestlistFiltred.count
@@ -150,7 +163,7 @@ extension GuestlistViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.showOneGuest(guest: self.presenter.guestlist[indexPath.row])
+        presenter.showOneGuest(guest: self.presenter.guestlistFiltred[indexPath.row])
     }
 }
 

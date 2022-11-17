@@ -33,6 +33,11 @@ protocol FirebaseDatabaseProtocol {
                                                          agency: String,
                                                          completion: @escaping (Result<String, FirebaseDatabaseError>) -> ())
     func setupUserFromDatabaseToTheApp(user: User, completion: @escaping () -> ())
+    func updateUserData(completion: @escaping () -> ())
+    func setNewEventIDInDatabase(eventID: [String],
+                      completion: @escaping (Result<String, FirebaseDatabaseError>) -> ())
+    func deleteEventIDInDatabase(eventID: String,
+                                 completion: @escaping (Result<String, FirebaseDatabaseError>) -> ())
 }
 
 
@@ -48,7 +53,7 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
     private let firebase = Auth.auth()
     private let operationQueue = OperationQueue()
 
-    //MARK: -Public service methods
+    //MARK: -User registration methods
     public func saveNewFirebaseUserToTheDatabase(userUID: String,
                                                  email: String,
                                                  name: String,
@@ -174,6 +179,7 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
         operationQueue.addOperation(setupUserOperation)
         
     }
+    //MARK: -Setting up user data from database to the app
     public func setupUserFromDatabaseToTheApp(user: User, completion: @escaping () -> ()) {
         let setupUserOperation = BlockOperation {
             self.updateDatabaseSnapshot()
@@ -232,7 +238,113 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
         }
         operationQueue.addOperation(setupUserOperation)
     }
-    // MARK: -Private service methods
+    func updateUserData(completion: @escaping () -> ()) {
+        let setupUserOperation = BlockOperation {
+            self.updateDatabaseSnapshot()
+        }
+        setupUserOperation.completionBlock = {
+            guard let userDatabaseSnapshot = self.lastDatabaseSnapshot,
+                  let userUID = FirebaseService.logginnedUser?.uid
+            else {
+                print("userDatabaseSnapshot == nil")
+                return
+            }
+            let usersDictionary = userDatabaseSnapshot.value as? NSDictionary
+            let userData = usersDictionary?.object(forKey: userUID) as? NSDictionary
+            // find all the userData in Snapshot
+            let payedEvents = userData?.object(forKey: "payedEvents") as! Int
+            let eventsIdList = userData?.object(forKey: "eventsIdList") as! Array<String>
+            let accessLevelString = userData?.object(forKey: "userTypeRawValue") as! String
+            let accessLevelInt: Int = Int(accessLevelString) ?? 4
+            let accessLevel = UserTypes(rawValue: accessLevelInt)!
+            let coorganizersUIDs = (userData?.object(forKey: "coorganizersUIDs") as? [String])
+            let coorganizers = self.initSupportingUsers(uids: coorganizersUIDs)
+            let headOrganizersUIDs = userData?.object(forKey: "headOrganizersUIDs") as? [String]
+            let headOrganizers = self.initSupportingUsers(uids: headOrganizersUIDs)
+            let hostessesUIDs = userData?.object(forKey: "hostessesUIDs") as? [String]
+            let hostesses = self.initSupportingUsers(uids: hostessesUIDs)
+            
+            let delegatedEventIdList = self.initDelegatedEvents(users: [coorganizers, headOrganizers, hostesses])
+            
+            let name = userData?.object(forKey: "name") as! String
+            let surname = userData?.object(forKey: "surname") as! String
+            let email = userData?.object(forKey: "email") as! String
+            let active = userData?.object(forKey: "active") as! String
+            let agency = userData?.object(forKey: "agency") as! String
+            let avatarLinkString = userData?.object(forKey: "avatarLinkString") as! String
+            let registrationDate = userData?.object(forKey: "registrationDate") as! String
+            let signInProvider = userData?.object(forKey: "signInProvider") as! String
+            //create the userEntity
+            let user = UserEntity(uid: userUID,
+                                  payedEvents: payedEvents,
+                                  eventsIdList: eventsIdList,
+                                  delegatedEventIdList: delegatedEventIdList,
+                                  accessLevel: accessLevel,
+                                  coorganizers: coorganizers,
+                                  headOrganizers: headOrganizers,
+                                  hostesses: hostesses,
+                                  name: name,
+                                  surname: surname,
+                                  email: email,
+                                  active: active.bool!,
+                                  agency: agency,
+                                  avatarLinkString: avatarLinkString,
+                                  registrationDate: registrationDate,
+                                  signInProvider: signInProvider)
+            //set the user to app
+            FirebaseService.logginnedUser = user
+            DispatchQueue.main.async {
+                completion()
+            }
+        }
+        operationQueue.addOperation(setupUserOperation)
+        
+    }
+    //MARK: - Application methods
+    public func setNewEventIDInDatabase(eventID: [String],
+                                        completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
+        guard let databaseSnapshot = self.lastDatabaseSnapshot,
+              let userUID = FirebaseService.logginnedUser?.uid
+        else {
+            return
+        }
+        let allUsersDataDictionary = databaseSnapshot.value as? NSDictionary
+        let userData = allUsersDataDictionary?.object(forKey: userUID) as? NSDictionary
+
+        let existingEvents = userData?.object(forKey: "eventsIdList") as! Array<String>
+        let newEventsList = existingEvents + eventID
+        
+        self.database.child(userUID).updateChildValues(["eventsIdList": newEventsList as NSArray]) { error, databaseReference in
+            if error != nil {
+                completion(.failure(.error))
+            }
+            completion(.success("success"))
+        }
+    }
+    public func deleteEventIDInDatabase(eventID: String,
+                                        completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
+        guard let databaseSnapshot = self.lastDatabaseSnapshot,
+              let userUID = FirebaseService.logginnedUser?.uid
+        else {
+            return
+        }
+        let allUsersDataDictionary = databaseSnapshot.value as? NSDictionary
+        let userData = allUsersDataDictionary?.object(forKey: userUID) as? NSDictionary
+        
+        let existingEvents = userData?.object(forKey: "eventsIdList") as! Array<String>
+        let newEventsList = existingEvents.filter { $0 !=  eventID }
+
+        self.database.child(userUID).updateChildValues(["eventsIdList": newEventsList as NSArray]) { error, databaseReference in
+            if error != nil {
+                completion(.failure(.error))
+            }
+            completion(.success("success"))
+        }
+
+        
+    }
+
+    // MARK: -Supporting service methods
     private func updateDatabaseSnapshot() {
         guard firebase.currentUser != nil else {
             print("updateDatabaseSnapshot error")
@@ -244,7 +356,6 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
         }
         FirebaseDatabaseSemaphore.shared.wait()
     }
-    
     //MARK: -Future methods
     private func initSupportingUsers(uids: [String]?) -> [SupportingUserEntity]? {
         return nil
@@ -261,7 +372,8 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
     func getAllTheEventsFromTheDatabase() {
 
     }
-    private func updateValuesinDatabase(userUID: String,
+    
+    private func updateValuesInDatabase(userUID: String,
                       key: String,
                       value: String,
                       completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {

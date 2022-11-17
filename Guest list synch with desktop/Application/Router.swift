@@ -18,9 +18,9 @@ protocol RouterProtocol: AnyObject {
     // METHODS
     func showAuthModule()
     func showEventsListModule()
-    func showAddModifyEventModule(state: AddModifyEventPresenterState, eventID: String?)
+    func showAddModifyEventModule(state: AddModifyEventPresenterState, eventEntity: EventEntity?)
     func showProfileModule()
-    func showGuestslistModule(eventID: String)
+    func showGuestslistModule(eventEntity: EventEntity)
     func showOneGuestModule(guest: GuestEntity,
                             eventID: String)
     func showAddModifyGuestModule(state: AddModifyOneGuestPresenterState,
@@ -51,9 +51,9 @@ class Router: RouterProtocol {
             navigationController.viewControllers = [eventsListViewController]
         }
     }
-    public func showAddModifyEventModule(state: AddModifyEventPresenterState, eventID: String?) {
+    public func showAddModifyEventModule(state: AddModifyEventPresenterState, eventEntity: EventEntity?) {
         if let navigationController = navigationController {
-            guard let addModifyEventViewController = assemblyBuilder?.createAddModifyEventModule(router: self, state: state, eventID: eventID) else { return }
+            guard let addModifyEventViewController = assemblyBuilder?.createAddModifyEventModule(router: self, state: state, eventEntity: eventEntity) else { return }
             navigationController.pushViewController(addModifyEventViewController, animated: true)
         }
     }
@@ -63,9 +63,9 @@ class Router: RouterProtocol {
             navigationController.pushViewController(eventsListViewController, animated: true)
         }
     }
-    public func showGuestslistModule(eventID: String) {
+    public func showGuestslistModule(eventEntity: EventEntity) {
         if let navigationController = navigationController {
-            guard let eventsListViewController = assemblyBuilder?.createGuestslistModule(router: self, eventID: eventID) else { return }
+            guard let eventsListViewController = assemblyBuilder?.createGuestslistModule(router: self, eventEntity: eventEntity) else { return }
             navigationController.pushViewController(eventsListViewController, animated: true)
         }
     }

@@ -158,6 +158,6 @@ extension EventsListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.showEventGuestlist(eventID: self.presenter.eventsList[indexPath.row].eventUniqueIdentifier)
+        presenter.showEventGuestlist(eventEntity: self.presenter.eventsList[indexPath.row])
     }
 }

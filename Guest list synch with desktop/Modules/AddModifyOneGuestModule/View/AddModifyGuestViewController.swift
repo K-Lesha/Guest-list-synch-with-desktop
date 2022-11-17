@@ -231,26 +231,23 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
     }
     //MARK: -Checking and handleling errors  methods
     func checkFields() -> Bool {
+        var flag = true
         //Checking if textfields are OK ...
-        guard let guestName = nameTextfield.text, guestName.count >= 1 else {
+        if let guestName = nameTextfield.text, guestName.count >= 2 {
+            self.nameTextfield.backgroundColor = .white
+        } else {
+            flag = false
             handleGuestNameTextfieldError()
-            return false
         }
-        self.nameTextfield.backgroundColor = .white
         
-        guard let guestAmount = guestsAmountTextfield.text, guestAmount.count >= 1 else {
+        if let guestAmount = guestsAmountTextfield.text, guestAmount.count >= 1 {
+            guestsAmountTextfield.backgroundColor = .white
+
+        } else {
             handleGuestAmountTextfieldError()
-            return false
+            flag = false
         }
-        guestsAmountTextfield.backgroundColor = .white
-        
-        guard let guestGroup = guestGroupTextfield.text, guestGroup.count >= 1 else {
-            handleGuestGroupTextfieldError()
-            return false
-        }
-        guestGroupTextfield.backgroundColor = .white
-        
-        return true
+        return flag
     }
     func handleGuestNameTextfieldError() {
         self.nameTextfield.backgroundColor = .red
@@ -261,10 +258,5 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
         self.guestsAmountTextfield.backgroundColor = .red
         self.guestsAmountTextfield.text = ""
         self.guestsAmountTextfield.placeholder = "количество гостей должно быть больше 0"
-    }
-    func handleGuestGroupTextfieldError() {
-        self.guestGroupTextfield.backgroundColor = .red
-        self.guestGroupTextfield.text = ""
-        self.guestGroupTextfield.placeholder = "гостю должна быть присвоена группа"
     }
 }

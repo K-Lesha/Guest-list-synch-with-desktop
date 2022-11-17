@@ -15,11 +15,18 @@ protocol AddModifyEventInteractorProtocol {
     //init
     init(networkService: NetworkServiceProtocol, firebaseDatabase: FirebaseDatabaseProtocol)
     //Spreadsheet methods
-    func addNewEvent(completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ())
-    func modifyEvent(eventID: String, completion: @escaping (String) -> ())
+    func addNewEvent(eventName: String,
+                     eventVenue: String?,
+                     eventDate: String,
+                     eventTime: String?,
+                     eventClient: String?,
+                     completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) 
+    func modifyEvent(eventID: String, newEventData: EventEntity, completion: @escaping (String) -> ())
     func deleteEvent(eventID: String, completion: @escaping (String) -> ())
+}
 
-    
+enum AddModifyEventEnteractorError: Error {
+    case error
 }
 
 class AddModifyEventInteractor: AddModifyEventInteractorProtocol {
@@ -27,21 +34,83 @@ class AddModifyEventInteractor: AddModifyEventInteractorProtocol {
     var networkService: NetworkServiceProtocol!
     var firebaseDatabase: FirebaseDatabaseProtocol!
     
+    let operationQueue = OperationQueue()
+    
     required init(networkService: NetworkServiceProtocol, firebaseDatabase: FirebaseDatabaseProtocol) {
         self.networkService = networkService
         self.firebaseDatabase = firebaseDatabase
     }
     
-    func addNewEvent(completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ()) {
-        
+    func addNewEvent(eventName: String,
+                     eventVenue: String?,
+                     eventDate: String,
+                     eventTime: String?,
+                     eventClient: String?,
+                     completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
+        //TODO: обработка ошибок
+        //1. spreadsheet service creates new spreadsheed and gives eventID in completion
+        spreadsheetsServise.createDefaultSpreadsheet(named: eventName + " GUESTLIST", sheetType: .emptyEvent) { eventID in
+            self.operationQueue.addOperation {
+                //2. filling event spreadsheet with the nececcery data
+                let eventData: [[String]] = [[eventName],
+                                             ["Клиент"], [eventClient ?? " "],
+                                             ["Площадка"], [eventVenue ?? " "],
+                                             ["Дата"], [eventDate],
+                                             ["Время"], [eventTime ?? " "]]
+                guard let user = FirebaseService.logginnedUser else { return }
+                let userData: [[String]] = [[user.uid],
+                                           ["Мероприятие инициировано пользователем, имя:"], [user.name]]
+
+                self.spreadsheetsServise.sendBlockOfDataToCell(spreadsheetID: eventID, range: "A3:A11", data: eventData) { successAdditionData1 in
+                    AddModifyEventSemaphore.shared.signal()
+                }
+                self.spreadsheetsServise.sendBlockOfDataToCell(spreadsheetID: eventID, range: "A19:A21", data: userData) { successAdditionData2 in
+                    AddModifyEventSemaphore.shared.signal()
+                }
+            }
+            //3. saving new eventID to cloud database
+            self.operationQueue.addOperation {
+                AddModifyEventSemaphore.shared.wait()
+                AddModifyEventSemaphore.shared.wait()
+                self.firebaseDatabase.setNewEventIDInDatabase(eventID: [eventID]) {_ in
+                    //4. update current user in the app from cloud database data
+                    self.firebaseDatabase.updateUserData {
+                        DispatchQueue.main.async {
+                            //5. sending completion to the UI
+                            completion(.success("success"))
+                        }
+                    }
+                }
+            }
+            
+            
+        }
     }
     
-    func modifyEvent(eventID: String, completion: @escaping (String) -> ()) {
+    func modifyEvent(eventID: String, newEventData: EventEntity, completion: @escaping (String) -> ()) {
+        let newEventData: [[String]] = [[newEventData.eventName],
+                                        ["Клиент"], [newEventData.eventClient],
+                                        ["Площадка"], [newEventData.eventVenue],
+                                        ["Дата"], [newEventData.eventDate],
+                                        ["Время"], [newEventData.eventTime]]
+        spreadsheetsServise.sendBlockOfDataToCell(spreadsheetID: eventID, range: "A3:A11", data: newEventData, completionHandler: completion)
         
     }
     
     func deleteEvent(eventID: String, completion: @escaping (String) -> ()) {
-        
+        firebaseDatabase.deleteEventIDInDatabase(eventID: eventID) { result in
+            switch result {
+            case .success(_):
+                let deletedEventData: [[String]] = [["мероприятие удалено"],
+                                                    ["Клиент"], [" "],
+                                                    ["Площадка"], [" "],
+                                                    ["Дата"], [" "],
+                                                    ["Время"], [" "]]
+                self.spreadsheetsServise.sendBlockOfDataToCell(spreadsheetID: eventID, range: "A3:A11", data: deletedEventData, completionHandler: completion)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     

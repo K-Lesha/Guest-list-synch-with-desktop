@@ -19,4 +19,19 @@ struct EventEntity {
     var eventUniqueIdentifier: String
     var initedByUserUID: String
     var initedByUserName: String
+    //TODO: isOnline: Bool
+    
+    init() {
+        eventName = "empty data"
+        eventClient = "empty data"
+        eventVenue = "empty data"
+        eventDate = "empty data"
+        eventTime = "empty data"
+        totalGuest = "empty data"
+        totalCheckedInGuests = "empty data"
+        totalGiftsGaved = "empty data"
+        eventUniqueIdentifier = "empty data"
+        initedByUserUID = "empty data"
+        initedByUserName = "empty data"
+    }
 }

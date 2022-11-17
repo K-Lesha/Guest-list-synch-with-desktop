@@ -13,15 +13,18 @@ Files that could be interesting for you:
    2. AuthorisationModule
    3. EventListModule
    4. GuestListModule,
+   5. AddModifyGuestModule,
+   6. OneGuestModule,
 
 — In "Services" folder
-   5. FirebaseService
-   6. FirebaseDatabaseService
-   7. GoogleSpreadsheetService
+   7. FirebaseService
+   8. FirebaseDatabaseService
+   9. GoogleSpreadsheetService
+   10. AlertsFactory
 
 Application in current state can manage user registration and login process that I'll use for my future features.
 It already can:
-   1. write and read data in cloud database, 
+   1. read and write data in cloud database, 
    2. register user via Firebase +Facebook and +Google
    3. read and write information to Google Spreadsheets.
    4. shows everything at the users screen.

@@ -43,31 +43,11 @@ class EventsListInteractor: EventsListInteractorProtocol {
                 group.enter()
                 self.spreadsheetsServise.readSpreadsheetsData(range: .oneEventData, eventID: eventID, oneGuestRow: nil) { result in
                     switch result {
-                    case .success(let eventsDataAsStringsArray):
-                        //TODO: проверки чтобы не было пустых массивов
-                        let eventName = eventsDataAsStringsArray[2][0]
-                        let clientName = eventsDataAsStringsArray[4][0]
-                        let venueName = eventsDataAsStringsArray[6][0]
-                        let eventDate = eventsDataAsStringsArray[8][0]
-                        let eventTime = eventsDataAsStringsArray[10][0]
-                        let totalGuests = eventsDataAsStringsArray[12][0]
-                        let totalCheckedInGuests = eventsDataAsStringsArray[14][0]
-                        let totalGiftsGaved = eventsDataAsStringsArray[16][0]
-                        let initedByUserUID = eventsDataAsStringsArray[18][0]
-                        let initedByUserName = eventsDataAsStringsArray[20][0]
-                        
-                        let oneEvent = EventEntity(eventName: eventName,
-                                                   eventClient: clientName,
-                                                   eventVenue: venueName,
-                                                   eventDate: eventDate,
-                                                   eventTime: eventTime,
-                                                   totalGuest: totalGuests,
-                                                   totalCheckedInGuests: totalCheckedInGuests,
-                                                   totalGiftsGaved: totalGiftsGaved,
-                                                   eventUniqueIdentifier: eventID,
-                                                   initedByUserUID: initedByUserUID,
-                                                   initedByUserName: initedByUserName)
+                    case .success(let eventDataStringsArray):
+                        var oneEvent = self.createEventEntityWith(eventStringArray: eventDataStringsArray)
+                        oneEvent.eventUniqueIdentifier = eventID
                         userEventEntities.append(oneEvent)
+                        
                     case .failure(_):
                         completionHandler(.failure(.spreadsheetsServiceError))
                     }
@@ -83,7 +63,37 @@ class EventsListInteractor: EventsListInteractorProtocol {
             }
         }
     }
-    
+    private func createEventEntityWith(eventStringArray: [[String]]) -> EventEntity {
+        //TODO: перенести этот метод в энтити
+        var oneEvent = EventEntity()
+        for (index, eventData) in eventStringArray.enumerated() {
+            switch index {
+            case 0:
+                oneEvent.eventName = eventData.first ?? "event without name"
+            case 2:
+                oneEvent.eventClient = eventData.first ?? "no client data"
+            case 4:
+                oneEvent.eventVenue = eventData.first ?? "no venue data"
+            case 6:
+                oneEvent.eventDate = eventData.first ?? "unknown event date"
+            case 8:
+                oneEvent.eventTime = eventData.first ?? "unknown event time"
+            case 10:
+                oneEvent.totalGuest = eventData.first ?? "no info"
+            case 12:
+                oneEvent.totalCheckedInGuests = eventData.first ?? "no info"
+            case 14:
+                oneEvent.totalGiftsGaved = eventData.first ?? "no info"
+            case 16:
+                oneEvent.initedByUserUID = eventData.first ?? "no info"
+            case 18:
+                oneEvent.initedByUserName = eventData.first ?? "no info"
+            default:
+                break
+            }
+        }
+        return oneEvent
+    }
     
     
 }

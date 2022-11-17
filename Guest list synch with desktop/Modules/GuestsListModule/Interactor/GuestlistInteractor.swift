@@ -15,6 +15,7 @@ protocol GuestlistInteractorProtocol {
     //Spreadsheet methods
     func readEventGuests(eventID: String, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void)
     func checkGoogleSignIn(completion: @escaping (Bool) -> ())
+    func updateEventEntity(eventID: String, completion: @escaping (Result<EventEntity, GuestlistInteractorError>) -> ())
 }
 
 enum GuestlistInteractorError: Error {
@@ -51,7 +52,8 @@ class GuestListInteractor: GuestlistInteractorProtocol {
                     var rowCounter = 25
                     for guestStringArray in guestsDataAsStringsArray {
                         if guestStringArray.isEmpty {
-                            let oneEmptyGuest = GuestEntity()
+                            var oneEmptyGuest = GuestEntity()
+                            oneEmptyGuest.guestRowInSpreadSheet = String(rowCounter)
                             guestsArrayEntity.append(oneEmptyGuest)
                             rowCounter += 1
                         } else {
@@ -60,8 +62,12 @@ class GuestListInteractor: GuestlistInteractorProtocol {
                             rowCounter += 1
                         }
                     }
-                case .failure(_):
-                    completion(.failure(.spreadsheetsServiceError))
+                case .failure(let error):
+                    if error == .dataIsEmpty {
+                        completion(.failure(.noGuestsToShow))
+                    } else {
+                        completion(.failure(.spreadsheetsServiceError))
+                    }
                 }
                 group.leave()
             }
@@ -113,5 +119,49 @@ class GuestListInteractor: GuestlistInteractorProtocol {
     }
     func checkGoogleSignIn(completion: @escaping (Bool) -> ()) {
         firebaseService.checkSignInWithGoogle(completion: completion)
+    }
+    func updateEventEntity(eventID: String, completion: @escaping (Result<EventEntity, GuestlistInteractorError>) -> ()) {
+        spreadsheetsServise.readSpreadsheetsData(range: .oneEventData, eventID: eventID, oneGuestRow: nil) { result in
+            switch result {
+            case .success(let eventStringArray):
+                var updatedEventEntity = self.createEventEntityWith(eventStringArray: eventStringArray)
+                updatedEventEntity.eventUniqueIdentifier = eventID
+                completion (.success(updatedEventEntity))
+            case .failure(_):
+                completion(.failure(.spreadsheetsServiceError))
+            }
+        }
+    }
+    
+    private func createEventEntityWith(eventStringArray: [[String]]) -> EventEntity {
+        //TODO: перенести этот метод в энтити
+        var oneEvent = EventEntity()
+        for (index, eventData) in eventStringArray.enumerated() {
+            switch index {
+            case 0:
+                oneEvent.eventName = eventData.first ?? "event without name"
+            case 2:
+                oneEvent.eventClient = eventData.first ?? "no client data"
+            case 4:
+                oneEvent.eventVenue = eventData.first ?? "no venue data"
+            case 6:
+                oneEvent.eventDate = eventData.first ?? "unknown event date"
+            case 8:
+                oneEvent.eventTime = eventData.first ?? "unknown event time"
+            case 10:
+                oneEvent.totalGuest = eventData.first ?? "no info"
+            case 12:
+                oneEvent.totalCheckedInGuests = eventData.first ?? "no info"
+            case 14:
+                oneEvent.totalGiftsGaved = eventData.first ?? "no info"
+            case 16:
+                oneEvent.initedByUserUID = eventData.first ?? "no info"
+            case 18:
+                oneEvent.initedByUserName = eventData.first ?? "no info"
+            default:
+                break
+            }
+        }
+        return oneEvent
     }
 }

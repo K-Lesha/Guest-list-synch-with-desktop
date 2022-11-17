@@ -19,10 +19,10 @@ protocol AssemblyBuilderProtocol {
     func createAuthModule(router: RouterProtocol) -> UIViewController
     func createEventsListModule(router: RouterProtocol) -> UIViewController
     func createAddModifyEventModule(router: RouterProtocol,
-                                       state: AddModifyEventPresenterState,
-                                       eventID: String?) -> UIViewController
+                                    state: AddModifyEventPresenterState,
+                                    eventEntity: EventEntity?) -> UIViewController
     func createGuestslistModule(router: RouterProtocol,
-                                eventID: String) -> UIViewController
+                                eventEntity: EventEntity) -> UIViewController
     func createProfileModule(router: RouterProtocol) -> UIViewController
     func createOneGuestModule(router: RouterProtocol,
                               guest: GuestEntity,
@@ -64,19 +64,19 @@ class AssemblyModuleBuilder: AssemblyBuilderProtocol {
         return view
     }
     func createAddModifyEventModule(router: RouterProtocol,
-                                       state: AddModifyEventPresenterState,
-                                       eventID: String?) -> UIViewController {
+                                    state: AddModifyEventPresenterState,
+                                    eventEntity: EventEntity?) -> UIViewController {
         let view = AddModifyEventViewController(nibName: "AddModifyEventViewController", bundle: nil)
         let interactor = AddModifyEventInteractor(networkService: self.networkService, firebaseDatabase: self.firebaseDatabase)
-        let presenter = AddModifyEventPresenter(view: view, interactor: interactor, router: router, eventID: eventID, state: state)
+        let presenter = AddModifyEventPresenter(view: view, interactor: interactor, router: router, eventEntity: eventEntity, state: state)
         view.presenter = presenter
         return view
     }
     internal func createGuestslistModule(router: RouterProtocol,
-                                         eventID: String) -> UIViewController {
+                                         eventEntity: EventEntity) -> UIViewController {
         let guestListView = GuestlistViewController()
         let interactor = GuestListInteractor(firebaseService: self.firebaseService)
-        let presenter = GuestlistPresenter(guestlistView: guestListView, interactor: interactor, router: router, eventID: eventID)
+        let presenter = GuestlistPresenter(guestlistView: guestListView, interactor: interactor, router: router, eventEntity: eventEntity)
         guestListView.presenter = presenter
         return guestListView
     }

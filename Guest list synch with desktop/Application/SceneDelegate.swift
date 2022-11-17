@@ -31,6 +31,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // init correct screen by checking user condition
         let navigationController = UINavigationController()
         let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
+        
+//        firebaseService.logOutWithFirebase()
+        
         if let user = Auth.auth().currentUser {
             print("user != nil, eventsList module initialization")
             //Google restorePreviousSignIn

@@ -13,38 +13,38 @@ protocol GuestlistPresenterProtocol: AnyObject {
     var guestlistView: GuestlistViewProtocol! {get set}
     var interactor: GuestlistInteractorProtocol! {get set}
     var router: RouterProtocol! {get set}
-    init(guestlistView: GuestlistViewProtocol, interactor: GuestlistInteractorProtocol, router: RouterProtocol, eventID: String)
+    init(guestlistView: GuestlistViewProtocol, interactor: GuestlistInteractorProtocol, router: RouterProtocol, eventEntity: EventEntity)
     // Properties
-    var eventID: String! {get set}
+    var eventEntity: EventEntity! {get set}
     var guestlist: [GuestEntity] {get set}
     var guestlistFiltred: [GuestEntity] {get set}
     // METHODS
     func setGuestsToTheTable()
-    func popToTheEventsList()
+    func updateEventEntity()
+    //Navigation
     func showOneGuest(guest: GuestEntity)
     func addNewGuest()
+    func popToTheEventsList()
+    func showEventModifyModule()
 }
 
 //MARK: Presenter
 class GuestlistPresenter: GuestlistPresenterProtocol {
-
-    
     
     //MARK: VIPER protocol
     internal weak var guestlistView: GuestlistViewProtocol!
     internal var router: RouterProtocol!
     internal var interactor: GuestlistInteractorProtocol!
-    internal var userUID: String!
     
     //MARK: -INIT
-    required init(guestlistView: GuestlistViewProtocol, interactor: GuestlistInteractorProtocol, router: RouterProtocol, eventID: String) {
+    required init(guestlistView: GuestlistViewProtocol, interactor: GuestlistInteractorProtocol, router: RouterProtocol, eventEntity: EventEntity) {
         self.guestlistView = guestlistView
         self.interactor = interactor
         self.router = router
-        self.eventID = eventID
+        self.eventEntity = eventEntity
     }
     //MARK: Properties
-    var eventID: String!
+    var eventEntity: EventEntity!
     var guestlist: [GuestEntity] = [GuestEntity]() {
         didSet {
             guestlistFiltred = guestlist.filter { !$0.empty && $0.guestsAmount > 0 }
@@ -55,30 +55,46 @@ class GuestlistPresenter: GuestlistPresenterProtocol {
             self.guestlistView.reloadData()
         }
     }
-
-
+    
+    
     //MARK: -METHODS
     func setGuestsToTheTable() {
-        interactor.readEventGuests(eventID: eventID) { result in
+        interactor.readEventGuests(eventID: eventEntity.eventUniqueIdentifier) { result in
             switch result {
             case .success(let guestlist):
                 self.guestlist = guestlist
             case .failure(let error):
-                print(error.localizedDescription)
+                if error == .noGuestsToShow {
+                    self.guestlistView.noGuestToShowAlert()
+                }
                 self.guestlistView.showReadGuestsError()
             }
         }
     }
+    func updateEventEntity() {
+        interactor.updateEventEntity(eventID: self.eventEntity.eventUniqueIdentifier) { result in
+            switch result {
+            case .success(let newEventEntity):
+                self.eventEntity = newEventEntity
+            case .failure(_):
+                print("error")
+            }
+        }
+    }
+
     
     
-    
+    //MARK: -NAVIGATION
+    func showEventModifyModule() {
+        router.showAddModifyEventModule(state: .modifyEvent, eventEntity: self.eventEntity)
+    }
     func popToTheEventsList() {
         self.router.popOneController()
     }
     func showOneGuest(guest: GuestEntity) {
-        router.showOneGuestModule(guest: guest, eventID: self.eventID)
+        router.showOneGuestModule(guest: guest, eventID: self.eventEntity.eventUniqueIdentifier)
     }
     func addNewGuest() {
-        router.showAddModifyGuestModule(state: .addGuest, guest: nil, eventID: eventID)
+        router.showAddModifyGuestModule(state: .addGuest, guest: nil, eventID: eventEntity.eventUniqueIdentifier)
     }
 }

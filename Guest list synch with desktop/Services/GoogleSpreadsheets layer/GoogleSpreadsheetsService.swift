@@ -19,11 +19,13 @@ protocol GoogleSpreadsheetsServiceProtocol {
     func readSpreadsheetsData(range: SheetsRange, eventID: String, oneGuestRow: String?, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void)
     func appendData(spreadsheetID: String, range: SheetsRange, data: [String], completion: @escaping (String) -> Void)
     func sendDataToCell(spreadsheetID: String, range: String, data: [String], completionHandler: @escaping (String) -> Void)
+    func sendBlockOfDataToCell(spreadsheetID: String, range: String, data: [[String]], completionHandler: @escaping (String) -> Void)
     func createDefaultSpreadsheet(named name: String, sheetType: DefaultSheetsIds, completion: @escaping (String) -> ())
 }
 //MARK: -SheetsRange
 enum SheetsRange: String {
-    case oneEventData = "A1:A21"
+    case oneEventData = "A3:A21"
+    case oneEventDataForFilling = "A3"
     case guestsDataForReading = "B25:N"
     case guestsDataForAdding = "A25:N"
     case oneGuestData = "B"
@@ -79,7 +81,10 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
                 completionHandler(.failure(.error))
                 return
             }
-            let stringRows = result.values! as! [[String]]
+            guard let stringRows = result.values as? [[String]] else {
+                completionHandler(.failure(.dataIsEmpty))
+                return
+            }
             
             if stringRows.isEmpty {
                 completionHandler(.failure(.dataIsEmpty))
@@ -109,24 +114,46 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
     }
     
     func sendDataToCell(spreadsheetID: String, range: String, data: [String], completionHandler: @escaping (String) -> Void) {
-
-                let rangeToAppend = GTLRSheets_ValueRange.init();
-                    rangeToAppend.values = [data]
-
-                let query = GTLRSheetsQuery_SpreadsheetsValuesUpdate.query(withObject: rangeToAppend, spreadsheetId: spreadsheetID, range: range)
+        
+        let rangeToAppend = GTLRSheets_ValueRange.init();
+        rangeToAppend.values = [data]
+        
+        let query = GTLRSheetsQuery_SpreadsheetsValuesUpdate.query(withObject: rangeToAppend, spreadsheetId: spreadsheetID, range: range)
         //row = Any range on the sheet, for instance: "A5:B6"
-                    query.valueInputOption = "USER_ENTERED"
-
-                    sheetService.executeQuery(query) { (ticket, result, error) in
-                        if let error = error {
-                            print(error)
-                            completionHandler("Error in sending data:\n\(error.localizedDescription)")
-                        } else {
-                            print("Sending: \(data)")
-                            completionHandler("Sucess!")
-                        }
-                    }
+        query.valueInputOption = "USER_ENTERED"
+        
+        sheetService.executeQuery(query) { (ticket, result, error) in
+            if let error = error {
+                print(error)
+                completionHandler("Error in sending data:\n\(error.localizedDescription)")
+            } else {
+                print("Sending: \(data)")
+                completionHandler("Sucess!")
+            }
         }
+    }
+    
+    func sendBlockOfDataToCell(spreadsheetID: String, range: String, data: [[String]], completionHandler: @escaping (String) -> Void) {
+        
+        let rangeToAppend = GTLRSheets_ValueRange.init();
+        rangeToAppend.values = data
+        
+        let query = GTLRSheetsQuery_SpreadsheetsValuesUpdate.query(withObject: rangeToAppend, spreadsheetId: spreadsheetID, range: range)
+        //row = Any range on the sheet, for instance: "A5:B6"
+        query.valueInputOption = "USER_ENTERED"
+        
+        sheetService.executeQuery(query) { (ticket, result, error) in
+            if let error = error {
+                print(error)
+                completionHandler("Error in sending data:\n\(error.localizedDescription)")
+            } else {
+                print("Sending: \(data)")
+                completionHandler("Sucess!")
+            }
+        }
+    }
+
+    
     
     //MARK: -ADD NEW SPREADSHEET WITH (DEMO/EMPTY)EVENT
     public func createDefaultSpreadsheet(named name: String, sheetType: DefaultSheetsIds, completion: @escaping (String) -> ()) {

@@ -15,17 +15,23 @@ protocol AddModifyEventPresenterProtocol {
     init(view: AddModifyEventViewProtocol,
          interactor: AddModifyEventInteractorProtocol,
          router: RouterProtocol,
-         eventID: String?,
+         eventEntity: EventEntity?,
          state: AddModifyEventPresenterState)
     //Properties
-    var eventID: String? {get set}
+    var eventEntity: EventEntity? {get set}
     var state: AddModifyEventPresenterState {get set}
     var newEventData: EventEntity? {get set}
     //Methods
-    func addNewEvent(completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ())
+    func addNewEvent(eventName: String,
+                     eventVenue: String?,
+                     eventDate: String,
+                     eventTime: String?,
+                     eventClient: String?,
+                     completion: @escaping (Result<String, FirebaseDatabaseError>) -> ())
     func modifyEvent(completion: @escaping (String) -> ())
     func deleteEvent(completion: @escaping (String) -> ())
-
+    //Navigation
+    func popThisModule()
 }
 
 enum AddModifyEventPresenterState {
@@ -39,28 +45,53 @@ class AddModifyEventPresenter: AddModifyEventPresenterProtocol {
     var interactor: AddModifyEventInteractorProtocol!
     var router: RouterProtocol!
     //MARK: -INIT
-    required init(view: AddModifyEventViewProtocol, interactor: AddModifyEventInteractorProtocol, router: RouterProtocol, eventID: String?, state: AddModifyEventPresenterState) {
+    required init(view: AddModifyEventViewProtocol,
+                  interactor: AddModifyEventInteractorProtocol,
+                  router: RouterProtocol,
+                  eventEntity: EventEntity?,
+                  state: AddModifyEventPresenterState) {
         self.view = view
         self.interactor = interactor
         self.router = router
-        self.eventID = eventID
+        self.eventEntity = eventEntity
         self.state = state
     }
     //MARK: -PROPERTIES
-    var eventID: String?
+    var eventEntity: EventEntity?
     var state: AddModifyEventPresenterState
     var newEventData: EventEntity?
     
     //MARK: METHODS
-    func addNewEvent(completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ()) {
-        
+    func addNewEvent(eventName: String,
+                     eventVenue: String?,
+                     eventDate: String,
+                     eventTime: String?,
+                     eventClient: String?,
+                     completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
+        interactor.addNewEvent(eventName: eventName,
+                               eventVenue: eventVenue,
+                               eventDate: eventDate,
+                               eventTime: eventTime,
+                               eventClient: eventClient,
+                               completion: completion)
     }
     
     func modifyEvent(completion: @escaping (String) -> ()) {
-        
+        guard let newEventData else { return }
+        interactor.modifyEvent(eventID: eventEntity?.eventUniqueIdentifier ?? "", newEventData: newEventData, completion: completion)
     }
     
     func deleteEvent(completion: @escaping (String) -> ()) {
+        guard state == .modifyEvent,
+            let eventID = self.eventEntity?.eventUniqueIdentifier
+        else {
+            return
+        }
+        interactor.deleteEvent(eventID: eventID, completion: completion)
         
+    }
+    //MARK: Navigation
+    func popThisModule() {
+        router.popOneController()
     }
 }
