@@ -175,14 +175,20 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
         self.tryToAddNewGuest(sender: sender)
     }
     private func tryToAddNewGuest(sender: UIButton) {
-        guard presenter.state == .addGuest, self.checkFields() else {
-            return
-        }
-        guard let guestName = nameTextfield.text,
+        saveGuestButton.isEnabled = false
+        saveGuestAndAddOneMoreButton.isEnabled = false
+        
+        guard presenter.state == .addGuest,
+              self.checkFields(),
+              let guestName = nameTextfield.text,
               let guestGroup = guestGroupTextfield.text,
               let guestsStringAmount = guestsAmountTextfield.text,
               let guestsAmount = Int(guestsStringAmount)
-        else { return }
+        else {
+            saveGuestButton.isEnabled = true
+            saveGuestAndAddOneMoreButton.isEnabled = true
+            return
+        }
         
         let guestSurname = surnameTextfield.text
         
@@ -225,6 +231,8 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
         case .success(_):
             print("guest saved")
             clearTextfiles()
+            saveGuestButton.isEnabled = true
+            saveGuestAndAddOneMoreButton.isEnabled = true
         case .failure(let error):
             print(error.localizedDescription)
         }
@@ -258,5 +266,9 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
         self.guestsAmountTextfield.backgroundColor = .red
         self.guestsAmountTextfield.text = ""
         self.guestsAmountTextfield.placeholder = "количество гостей должно быть больше 0"
+    }
+    //MARK: Deinit
+    deinit {
+        print("AddModifyGuestViewController was deinited")
     }
 }

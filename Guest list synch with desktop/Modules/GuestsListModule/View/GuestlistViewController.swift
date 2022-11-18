@@ -119,6 +119,7 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
         }
     }
     func noGuestToShowAlert() {
+        reloadData()
         AlertsFactory.shared.showAlert(title: "NO GUEST TO SHOW HERE",
                                   message: "add some guests",
                                   viewController: self,
@@ -146,6 +147,11 @@ class GuestlistViewController: UIViewController, GuestlistViewProtocol {
     
     @objc func addGuestButtonPressed() {
         presenter.addNewGuest()
+    }
+    
+    //MARK: Deinit
+    deinit {
+        print("GuestlistViewController was deinited")
     }
 }
 

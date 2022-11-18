@@ -73,7 +73,7 @@ class AddModifyEventInteractor: AddModifyEventInteractorProtocol {
                 AddModifyEventSemaphore.shared.wait()
                 AddModifyEventSemaphore.shared.wait()
                 self.firebaseDatabase.setNewEventIDInDatabase(eventID: [eventID]) {_ in
-                    //4. update current user in the app from cloud database data
+                    //4. synch current user in the app with cloud database data
                     self.firebaseDatabase.updateUserData {
                         DispatchQueue.main.async {
                             //5. sending completion to the UI
@@ -94,24 +94,35 @@ class AddModifyEventInteractor: AddModifyEventInteractorProtocol {
                                         ["Дата"], [newEventData.eventDate],
                                         ["Время"], [newEventData.eventTime]]
         spreadsheetsServise.sendBlockOfDataToCell(spreadsheetID: eventID, range: "A3:A11", data: newEventData, completionHandler: completion)
-        
     }
     
     func deleteEvent(eventID: String, completion: @escaping (String) -> ()) {
-        firebaseDatabase.deleteEventIDInDatabase(eventID: eventID) { result in
-            switch result {
-            case .success(_):
-                let deletedEventData: [[String]] = [["мероприятие удалено"],
-                                                    ["Клиент"], [" "],
-                                                    ["Площадка"], [" "],
-                                                    ["Дата"], [" "],
-                                                    ["Время"], [" "]]
-                self.spreadsheetsServise.sendBlockOfDataToCell(spreadsheetID: eventID, range: "A3:A11", data: deletedEventData, completionHandler: completion)
-            case .failure(let error):
-                print(error.localizedDescription)
+        self.operationQueue.addOperation {
+            //1. firebase dabase event from database deletion
+            self.firebaseDatabase.deleteEventIDInDatabase(eventID: eventID) { result in
+                switch result {
+                case .success(_):
+                    //2. sending to spreadsheet info that event was deleted
+                    let deletedEventData: [[String]] = [["мероприятие удалено"],
+                                                        ["Клиент"], ["мероприятие удалено"],
+                                                        ["Площадка"], ["мероприятие удалено"],
+                                                        ["Дата"], ["мероприятие удалено"],
+                                                        ["Время"], ["мероприятие удалено"]]
+                    self.spreadsheetsServise.sendBlockOfDataToCell(spreadsheetID: eventID, range: "A3:A11", data: deletedEventData) {_ in
+                        AddModifyEventSemaphore.shared.signal()
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        self.operationQueue.addOperation {
+            //3. synch current user in the app with cloud database data
+            AddModifyEventSemaphore.shared.wait()
+            self.firebaseDatabase.updateUserData {
+                //4. sending completion to the UI
+                completion("success")
             }
         }
     }
-    
-    
 }

@@ -22,11 +22,14 @@ Files that could be interesting for you:
    9. GoogleSpreadsheetService
    10. AlertsFactory
 
-Application in current state can manage user registration and login process that I'll use for my future features.
-It already can:
-   1. read and write data in cloud database, 
-   2. register user via Firebase +Facebook and +Google
-   3. read and write information to Google Spreadsheets.
+Application in current state already can (for user):
+    1. To create, modify and delete events,
+    2. To create, modify and delete guests inside the event,
+    3. And synchronise this with the Google Spreadsheets.
+From developer part it looks like:
+   1. ability to read and write data in cloud database, 
+   2. register user via Firebase (+Facebook and +Google)
+   3. read and write information with Google Spreadsheets.
    4. shows everything at the users screen.
 
 I still have a lot of thing to do. 

@@ -78,7 +78,7 @@ class AddModifyEventViewController: UIViewController, AddModifyEventViewProtocol
     @IBAction func deleteEventButtonPushed(_ sender: Any) {
         presenter.deleteEvent { string in
             print(string)
-            self.presenter.popThisModule()
+            self.presenter.router.showEventsListModule()
         }
     }
     
@@ -113,12 +113,16 @@ class AddModifyEventViewController: UIViewController, AddModifyEventViewProtocol
 
     //Button methods
     @IBAction func addNewEventButtonPushed(_ sender: Any) {
+        
+        
         guard checkTextfields(),
               let eventName = eventNameTextfield.text,
               let eventDate = eventDateTextfield.text
         else {
             return
         }
+        addNewEventButton.isEnabled = false
+        addNewEventButton.backgroundColor = .gray
         
         let eventVenue = venueNameTextfield.text
         let eventTime = eventTimeTextfield.text
@@ -168,5 +172,9 @@ class AddModifyEventViewController: UIViewController, AddModifyEventViewProtocol
         self.eventDateTextfield.placeholder = "имя гостя должно содержать не менее 2-х символов"
     }
 
+    //MARK: Deinit
+    deinit {
+        print("AddModifyEventViewController was deinited")
+    }
     
 }

@@ -46,4 +46,8 @@ class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
         presenter.logOut()
     }
 
+    //MARK: Deinit
+    deinit {
+        print("ProfileViewController was deinited")
+    }
 }

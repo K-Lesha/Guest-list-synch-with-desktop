@@ -192,7 +192,10 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
             let userData = usersDictionary?.object(forKey: user.uid) as? NSDictionary
             // find all the userData in Snapshot
             let payedEvents = userData?.object(forKey: "payedEvents") as! Int
-            let eventsIdList = userData?.object(forKey: "eventsIdList") as! Array<String>
+            var eventsIdList = [String]()
+            if let eventsIdListInDatabase = userData?.object(forKey: "eventsIdList") as? Array<String> {
+                eventsIdList = eventsIdListInDatabase
+            }
             let accessLevelString = userData?.object(forKey: "userTypeRawValue") as! String
             let accessLevelInt: Int = Int(accessLevelString) ?? 4
             let accessLevel = UserTypes(rawValue: accessLevelInt)!
@@ -253,7 +256,10 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
             let userData = usersDictionary?.object(forKey: userUID) as? NSDictionary
             // find all the userData in Snapshot
             let payedEvents = userData?.object(forKey: "payedEvents") as! Int
-            let eventsIdList = userData?.object(forKey: "eventsIdList") as! Array<String>
+            var eventsIdList = Array<String>()
+            if let eventsIdListFromDatabase = userData?.object(forKey: "eventsIdList") as? Array<String> {
+                eventsIdList = eventsIdListFromDatabase
+            }
             let accessLevelString = userData?.object(forKey: "userTypeRawValue") as! String
             let accessLevelInt: Int = Int(accessLevelString) ?? 4
             let accessLevel = UserTypes(rawValue: accessLevelInt)!
@@ -311,7 +317,10 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
         let allUsersDataDictionary = databaseSnapshot.value as? NSDictionary
         let userData = allUsersDataDictionary?.object(forKey: userUID) as? NSDictionary
 
-        let existingEvents = userData?.object(forKey: "eventsIdList") as! Array<String>
+        var existingEvents = Array<String>()
+        if let existingEventsInDatabase = userData?.object(forKey: "eventsIdList") as? Array<String> {
+            existingEvents = existingEventsInDatabase
+        }
         let newEventsList = existingEvents + eventID
         
         self.database.child(userUID).updateChildValues(["eventsIdList": newEventsList as NSArray]) { error, databaseReference in
@@ -323,25 +332,29 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
     }
     public func deleteEventIDInDatabase(eventID: String,
                                         completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
-        guard let databaseSnapshot = self.lastDatabaseSnapshot,
-              let userUID = FirebaseService.logginnedUser?.uid
-        else {
-            return
+        let operation = BlockOperation {
+            self.updateDatabaseSnapshot()
         }
-        let allUsersDataDictionary = databaseSnapshot.value as? NSDictionary
-        let userData = allUsersDataDictionary?.object(forKey: userUID) as? NSDictionary
-        
-        let existingEvents = userData?.object(forKey: "eventsIdList") as! Array<String>
-        let newEventsList = existingEvents.filter { $0 !=  eventID }
-
-        self.database.child(userUID).updateChildValues(["eventsIdList": newEventsList as NSArray]) { error, databaseReference in
-            if error != nil {
-                completion(.failure(.error))
+        operation.completionBlock = {
+            guard let databaseSnapshot = self.lastDatabaseSnapshot,
+                  let userUID = FirebaseService.logginnedUser?.uid
+            else {
+                return
             }
-            completion(.success("success"))
+            let allUsersDataDictionary = databaseSnapshot.value as? NSDictionary
+            let userData = allUsersDataDictionary?.object(forKey: userUID) as? NSDictionary
+            
+            let existingEvents = userData?.object(forKey: "eventsIdList") as! Array<String>
+            let newEventsList = existingEvents.filter { $0 !=  eventID }
+            
+            self.database.child(userUID).updateChildValues(["eventsIdList": newEventsList as NSArray]) { error, databaseReference in
+                if error != nil {
+                    completion(.failure(.error))
+                }
+                completion(.success("success"))
+            }
         }
-
-        
+        operationQueue.addOperation(operation)
     }
 
     // MARK: -Supporting service methods

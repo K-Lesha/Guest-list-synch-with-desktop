@@ -263,4 +263,9 @@ class OneGuestViewController: UIViewController, OneGuestViewPortocol {
     @objc func editGuestButtonPushed() {
         presenter.showGuestEditModule()
     }
+    
+    //MARK: Deinit
+    deinit {
+        print("OneGuestViewController was deinited")
+    }
 }
