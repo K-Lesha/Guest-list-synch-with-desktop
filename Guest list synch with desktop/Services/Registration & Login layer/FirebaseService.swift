@@ -33,7 +33,7 @@ protocol FirebaseServiceProtocol: AnyObject {
                                 completion: @escaping (Result<String, FirebaseError>) -> ())
     func restorePasswordWithFirebase(email: String,
                                      completion: @escaping (Result<Bool, FirebaseError>) -> ())
-    func logOutWithFirebase()
+    func logOutWithFirebase(completion: @escaping (Bool) -> ())
     //Facebook methods
     func tryToLoginWithFacebook(viewController: SignInViewProtocol,
                                 completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ())
@@ -129,8 +129,10 @@ class FirebaseService: FirebaseServiceProtocol {
             completion(.success(true))
         }
     }
-    public func logOutWithFirebase() {
+    public func logOutWithFirebase(completion: @escaping (Bool) -> ()) {
         do {
+            // installed in app user delete
+            FirebaseService.logginnedUser = nil
             //firebase logout
             try firebase.signOut()
             //facebook log out
@@ -199,19 +201,19 @@ class FirebaseService: FirebaseServiceProtocol {
             }
         }
     }
-        public func checkUserLoginnedWithFacebook() -> Bool {
-            if let providerData = firebase.currentUser?.providerData {
-                for userInfo in providerData {
-                    switch userInfo.providerID {
-                    case "facebook.com":
-                        return true
-                    default:
-                        return false
-                    }
-                }
-            }
-            return false
-        }
+//        public func checkUserLoginnedWithFacebook() -> Bool {
+//            if let providerData = firebase.currentUser?.providerData {
+//                for userInfo in providerData {
+//                    switch userInfo.providerID {
+//                    case "facebook.com":
+//                        return true
+//                    default:
+//                        return false
+//                    }
+//                }
+//            }
+//            return false
+//        }
     //MARK: - GOOGLE
     internal func tryToSignInWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ()) {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }

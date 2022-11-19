@@ -32,7 +32,7 @@ protocol OneGuestPresenterProtocol {
 
 class OneGuestPresenter: OneGuestPresenterProtocol {
     //MARK: -VIPER PROTOCOL
-    var view: OneGuestViewPortocol!
+    weak var view: OneGuestViewPortocol!
     var interactor: OneGuestInteractorProtocol!
     var router: RouterProtocol!
     //MARK: -INIT

@@ -40,7 +40,7 @@ class AddModifyGuestPresenter: AddModifyGuestPresenterProtocol {
 
     
     //MARK: -VIPER protocol
-    var view: AddModifyGuestViewProtocol!
+    weak var view: AddModifyGuestViewProtocol!
     var interactor: AddModifyGuestInteractorProtocol!
     var router: RouterProtocol!
     

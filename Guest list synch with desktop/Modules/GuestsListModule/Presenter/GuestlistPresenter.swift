@@ -59,7 +59,7 @@ class GuestlistPresenter: GuestlistPresenterProtocol {
     
     //MARK: -METHODS
     func setGuestsToTheTable() {
-        interactor.readEventGuests(eventID: eventEntity.eventUniqueIdentifier) { result in
+        interactor.readEventGuests(eventID: eventEntity.eventID) { result in
             switch result {
             case .success(let guestlist):
                 self.guestlist = guestlist
@@ -72,7 +72,7 @@ class GuestlistPresenter: GuestlistPresenterProtocol {
         }
     }
     func updateEventEntity() {
-        interactor.updateEventEntity(eventID: self.eventEntity.eventUniqueIdentifier) { result in
+        interactor.updateEventEntity(eventID: self.eventEntity.eventID) { result in
             switch result {
             case .success(let newEventEntity):
                 self.eventEntity = newEventEntity
@@ -92,9 +92,9 @@ class GuestlistPresenter: GuestlistPresenterProtocol {
         self.router.popOneController()
     }
     func showOneGuest(guest: GuestEntity) {
-        router.showOneGuestModule(guest: guest, eventID: self.eventEntity.eventUniqueIdentifier)
+        router.showOneGuestModule(guest: guest, eventID: self.eventEntity.eventID)
     }
     func addNewGuest() {
-        router.showAddModifyGuestModule(state: .addGuest, guest: nil, eventID: eventEntity.eventUniqueIdentifier)
+        router.showAddModifyGuestModule(state: .addGuest, guest: nil, eventID: eventEntity.eventID)
     }
 }

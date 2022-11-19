@@ -28,12 +28,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let firebaseDatabase = FirebaseDatabase()
         let firebaseService = FirebaseService(database: firebaseDatabase)
         let assemblyBuilder = AssemblyModuleBuilder(networkService: networkService, firebaseService: firebaseService, firebaseDatabase: firebaseDatabase)
-        // init correct screen by checking user condition
+        // inti router
         let navigationController = UINavigationController()
         let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
         
 //        firebaseService.logOutWithFirebase()
         
+              
+        
+        // init correct screen by checking user condition
         if let user = Auth.auth().currentUser {
             print("user != nil, eventsList module initialization")
             //Google restorePreviousSignIn

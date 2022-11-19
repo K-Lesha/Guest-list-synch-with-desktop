@@ -189,50 +189,7 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
                 print("userDatabaseSnapshot == nil")
                 return}
             let usersDictionary = userDatabaseSnapshot.value as? NSDictionary
-            let userData = usersDictionary?.object(forKey: user.uid) as? NSDictionary
-            // find all the userData in Snapshot
-            let payedEvents = userData?.object(forKey: "payedEvents") as! Int
-            var eventsIdList = [String]()
-            if let eventsIdListInDatabase = userData?.object(forKey: "eventsIdList") as? Array<String> {
-                eventsIdList = eventsIdListInDatabase
-            }
-            let accessLevelString = userData?.object(forKey: "userTypeRawValue") as! String
-            let accessLevelInt: Int = Int(accessLevelString) ?? 4
-            let accessLevel = UserTypes(rawValue: accessLevelInt)!
-            let coorganizersUIDs = (userData?.object(forKey: "coorganizersUIDs") as? [String])
-            let coorganizers = self.initSupportingUsers(uids: coorganizersUIDs)
-            let headOrganizersUIDs = userData?.object(forKey: "headOrganizersUIDs") as? [String]
-            let headOrganizers = self.initSupportingUsers(uids: headOrganizersUIDs)
-            let hostessesUIDs = userData?.object(forKey: "hostessesUIDs") as? [String]
-            let hostesses = self.initSupportingUsers(uids: hostessesUIDs)
-            
-            let delegatedEventIdList = self.initDelegatedEvents(users: [coorganizers, headOrganizers, hostesses])
-            
-            let name = userData?.object(forKey: "name") as! String
-            let surname = userData?.object(forKey: "surname") as! String
-            let email = userData?.object(forKey: "email") as! String
-            let active = userData?.object(forKey: "active") as! String
-            let agency = userData?.object(forKey: "agency") as! String
-            let avatarLinkString = userData?.object(forKey: "avatarLinkString") as! String
-            let registrationDate = userData?.object(forKey: "registrationDate") as! String
-            let signInProvider = userData?.object(forKey: "signInProvider") as! String
-            //create the userEntity
-            let user = UserEntity(uid: user.uid,
-                                  payedEvents: payedEvents,
-                                  eventsIdList: eventsIdList,
-                                  delegatedEventIdList: delegatedEventIdList,
-                                  accessLevel: accessLevel,
-                                  coorganizers: coorganizers,
-                                  headOrganizers: headOrganizers,
-                                  hostesses: hostesses,
-                                  name: name,
-                                  surname: surname,
-                                  email: email,
-                                  active: active.bool!,
-                                  agency: agency,
-                                  avatarLinkString: avatarLinkString,
-                                  registrationDate: registrationDate,
-                                  signInProvider: signInProvider)
+            let user = UserEntity.createUserEntityWithData(usersDictionary: usersDictionary, userUID: user.uid)
             //set the user to app
             FirebaseService.logginnedUser = user
             DispatchQueue.main.async {
@@ -253,50 +210,7 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
                 return
             }
             let usersDictionary = userDatabaseSnapshot.value as? NSDictionary
-            let userData = usersDictionary?.object(forKey: userUID) as? NSDictionary
-            // find all the userData in Snapshot
-            let payedEvents = userData?.object(forKey: "payedEvents") as! Int
-            var eventsIdList = Array<String>()
-            if let eventsIdListFromDatabase = userData?.object(forKey: "eventsIdList") as? Array<String> {
-                eventsIdList = eventsIdListFromDatabase
-            }
-            let accessLevelString = userData?.object(forKey: "userTypeRawValue") as! String
-            let accessLevelInt: Int = Int(accessLevelString) ?? 4
-            let accessLevel = UserTypes(rawValue: accessLevelInt)!
-            let coorganizersUIDs = (userData?.object(forKey: "coorganizersUIDs") as? [String])
-            let coorganizers = self.initSupportingUsers(uids: coorganizersUIDs)
-            let headOrganizersUIDs = userData?.object(forKey: "headOrganizersUIDs") as? [String]
-            let headOrganizers = self.initSupportingUsers(uids: headOrganizersUIDs)
-            let hostessesUIDs = userData?.object(forKey: "hostessesUIDs") as? [String]
-            let hostesses = self.initSupportingUsers(uids: hostessesUIDs)
-            
-            let delegatedEventIdList = self.initDelegatedEvents(users: [coorganizers, headOrganizers, hostesses])
-            
-            let name = userData?.object(forKey: "name") as! String
-            let surname = userData?.object(forKey: "surname") as! String
-            let email = userData?.object(forKey: "email") as! String
-            let active = userData?.object(forKey: "active") as! String
-            let agency = userData?.object(forKey: "agency") as! String
-            let avatarLinkString = userData?.object(forKey: "avatarLinkString") as! String
-            let registrationDate = userData?.object(forKey: "registrationDate") as! String
-            let signInProvider = userData?.object(forKey: "signInProvider") as! String
-            //create the userEntity
-            let user = UserEntity(uid: userUID,
-                                  payedEvents: payedEvents,
-                                  eventsIdList: eventsIdList,
-                                  delegatedEventIdList: delegatedEventIdList,
-                                  accessLevel: accessLevel,
-                                  coorganizers: coorganizers,
-                                  headOrganizers: headOrganizers,
-                                  hostesses: hostesses,
-                                  name: name,
-                                  surname: surname,
-                                  email: email,
-                                  active: active.bool!,
-                                  agency: agency,
-                                  avatarLinkString: avatarLinkString,
-                                  registrationDate: registrationDate,
-                                  signInProvider: signInProvider)
+            let user = UserEntity.createUserEntityWithData(usersDictionary: usersDictionary, userUID: userUID)
             //set the user to app
             FirebaseService.logginnedUser = user
             DispatchQueue.main.async {
@@ -304,21 +218,21 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
             }
         }
         operationQueue.addOperation(setupUserOperation)
-        
     }
+    
     //MARK: - Application methods
     public func setNewEventIDInDatabase(eventID: [String],
                                         completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
         guard let databaseSnapshot = self.lastDatabaseSnapshot,
-              let userUID = FirebaseService.logginnedUser?.uid
+              let userUID = FirebaseService.logginnedUser?.uid,
+              let allUsersDataDictionary = databaseSnapshot.value as? NSDictionary,
+              let userData = allUsersDataDictionary.object(forKey: userUID) as? NSDictionary
         else {
             return
         }
-        let allUsersDataDictionary = databaseSnapshot.value as? NSDictionary
-        let userData = allUsersDataDictionary?.object(forKey: userUID) as? NSDictionary
 
         var existingEvents = Array<String>()
-        if let existingEventsInDatabase = userData?.object(forKey: "eventsIdList") as? Array<String> {
+        if let existingEventsInDatabase = userData.object(forKey: "eventsIdList") as? Array<String> {
             existingEvents = existingEventsInDatabase
         }
         let newEventsList = existingEvents + eventID
@@ -370,32 +284,8 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
         FirebaseDatabaseSemaphore.shared.wait()
     }
     //MARK: -Future methods
-    private func initSupportingUsers(uids: [String]?) -> [SupportingUserEntity]? {
-        return nil
-    }
-    private func initDelegatedEvents(users: [[SupportingUserEntity]?]) -> [String]? {
-        return nil
-    }
-    func deleteUserEntityFromApp() {
-        
-    }
-    func deleteUserEntityFromDatabase() {
-
-    }
     func getAllTheEventsFromTheDatabase() {
 
-    }
-    
-    private func updateValuesInDatabase(userUID: String,
-                      key: String,
-                      value: String,
-                      completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
-        self.database.child(userUID).updateChildValues([key: value]) { error, databaseReference in
-            if error != nil {
-                completion(.failure(.error))
-            }
-            completion(.success("success"))
-        }
     }
 }
 

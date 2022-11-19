@@ -34,7 +34,6 @@
 		8A4F444F2914159400594A3C /* AddModifyGuestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A4F444D2914159400594A3C /* AddModifyGuestViewController.xib */; };
 		8A54CE2B290C177900ADAB45 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE2A290C177900ADAB45 /* UserEntity.swift */; };
 		8A54CE2E290C3E2F00ADAB45 /* SupportingUserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */; };
-		8A54CE32290C893D00ADAB45 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE31290C893D00ADAB45 /* RealmService.swift */; };
 		8A54CE34290C894F00ADAB45 /* FirebaseDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A54CE33290C894F00ADAB45 /* FirebaseDatabaseService.swift */; };
 		8A5AFE38291E93F500449C51 /* FirebaseDatabaseSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5AFE37291E93F500449C51 /* FirebaseDatabaseSemaphore.swift */; };
 		8A654230292655D700DB50D5 /* AddModifyEventSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A65422F292655D700DB50D5 /* AddModifyEventSemaphore.swift */; };
@@ -94,7 +93,6 @@
 		8A4F444D2914159400594A3C /* AddModifyGuestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddModifyGuestViewController.xib; sourceTree = "<group>"; };
 		8A54CE2A290C177900ADAB45 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportingUserEntity.swift; sourceTree = "<group>"; };
-		8A54CE31290C893D00ADAB45 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		8A54CE33290C894F00ADAB45 /* FirebaseDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDatabaseService.swift; sourceTree = "<group>"; };
 		8A5AFE37291E93F500449C51 /* FirebaseDatabaseSemaphore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDatabaseSemaphore.swift; sourceTree = "<group>"; };
 		8A65422F292655D700DB50D5 /* AddModifyEventSemaphore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModifyEventSemaphore.swift; sourceTree = "<group>"; };
@@ -453,7 +451,6 @@
 			children = (
 				8A5AFE37291E93F500449C51 /* FirebaseDatabaseSemaphore.swift */,
 				8A54CE33290C894F00ADAB45 /* FirebaseDatabaseService.swift */,
-				8A54CE31290C893D00ADAB45 /* RealmService.swift */,
 			);
 			path = "Database layer";
 			sourceTree = "<group>";
@@ -738,7 +735,6 @@
 				8A0E9B7929101FA000DBF883 /* SignInModalView.swift in Sources */,
 				8AF83EB529066D1700614257 /* FirebaseService.swift in Sources */,
 				8A654230292655D700DB50D5 /* AddModifyEventSemaphore.swift in Sources */,
-				8A54CE32290C893D00ADAB45 /* RealmService.swift in Sources */,
 				8A0E9B7A29101FA000DBF883 /* FirebaseRegistrationModalView.swift in Sources */,
 				8A54CE34290C894F00ADAB45 /* FirebaseDatabaseService.swift in Sources */,
 				8A1AD3812914061200312DD8 /* AddModifyOneGuestPresenter.swift in Sources */,

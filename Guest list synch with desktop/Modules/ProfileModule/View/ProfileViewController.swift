@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ProfileViewControllerProtocol {
+protocol ProfileViewControllerProtocol: AnyObject {
     //VIPER protocol
     var presenter: ProfilePresenterProtocol! {get set}
     //Methods

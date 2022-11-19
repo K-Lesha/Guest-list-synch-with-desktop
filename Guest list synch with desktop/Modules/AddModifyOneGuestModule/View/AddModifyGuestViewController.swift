@@ -8,7 +8,7 @@
 import UIKit
 
 
-protocol AddModifyGuestViewProtocol {
+protocol AddModifyGuestViewProtocol: AnyObject {
     //VIPER protocol
     var presenter: AddModifyGuestPresenterProtocol! {get set}
 }

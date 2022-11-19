@@ -57,7 +57,7 @@ class GuestListInteractor: GuestlistInteractorProtocol {
                             guestsArrayEntity.append(oneEmptyGuest)
                             rowCounter += 1
                         } else {
-                            let oneGuest = self.createGuestEntityWith(guestStringArray: guestStringArray, row: rowCounter)
+                            let oneGuest = GuestEntity.createGuestEntityWith(guestStringArray: guestStringArray, row: rowCounter)
                             guestsArrayEntity.append(oneGuest)
                             rowCounter += 1
                         }
@@ -79,44 +79,6 @@ class GuestListInteractor: GuestlistInteractorProtocol {
             }
         }
     }
-    func createGuestEntityWith(guestStringArray: [String], row: Int) -> GuestEntity {
-        var oneGuest = GuestEntity()
-        for (index, guestData) in guestStringArray.enumerated() {
-            switch index {
-            case 0:
-                oneGuest.guestName = guestData
-            case 1:
-                oneGuest.guestSurname = guestData
-            case 2:
-                oneGuest.companyName = guestData
-            case 3:
-                oneGuest.positionInCompany = guestData
-            case 4:
-                oneGuest.guestGroup = guestData
-            case 5:
-                oneGuest.guestsAmount = Int(guestData)!
-            case 6:
-                oneGuest.guestsEntered = Int(guestData)!
-            case 7:
-                oneGuest.giftsGifted = Int(guestData)!
-            case 8:
-                oneGuest.photoURL = guestData
-            case 9:
-                oneGuest.phoneNumber = guestData
-            case 10:
-                oneGuest.guestEmail = guestData
-            case 11:
-                oneGuest.internalNotes = guestData
-            case 12:
-                oneGuest.additionDate = guestData
-            default:
-                break
-            }
-            oneGuest.guestRowInSpreadSheet = String(row)
-            oneGuest.empty = false
-        }
-        return oneGuest
-    }
     func checkGoogleSignIn(completion: @escaping (Bool) -> ()) {
         firebaseService.checkSignInWithGoogle(completion: completion)
     }
@@ -124,44 +86,11 @@ class GuestListInteractor: GuestlistInteractorProtocol {
         spreadsheetsServise.readSpreadsheetsData(range: .oneEventData, eventID: eventID, oneGuestRow: nil) { result in
             switch result {
             case .success(let eventStringArray):
-                var updatedEventEntity = self.createEventEntityWith(eventStringArray: eventStringArray)
-                updatedEventEntity.eventUniqueIdentifier = eventID
+                let updatedEventEntity = EventEntity.createOnlineEventEntityWith(eventStringArray: eventStringArray, eventID: eventID)
                 completion (.success(updatedEventEntity))
             case .failure(_):
                 completion(.failure(.spreadsheetsServiceError))
             }
         }
-    }
-    
-    private func createEventEntityWith(eventStringArray: [[String]]) -> EventEntity {
-        //TODO: перенести этот метод в энтити
-        var oneEvent = EventEntity()
-        for (index, eventData) in eventStringArray.enumerated() {
-            switch index {
-            case 0:
-                oneEvent.eventName = eventData.first ?? "event without name"
-            case 2:
-                oneEvent.eventClient = eventData.first ?? "no client data"
-            case 4:
-                oneEvent.eventVenue = eventData.first ?? "no venue data"
-            case 6:
-                oneEvent.eventDate = eventData.first ?? "unknown event date"
-            case 8:
-                oneEvent.eventTime = eventData.first ?? "unknown event time"
-            case 10:
-                oneEvent.totalGuest = eventData.first ?? "no info"
-            case 12:
-                oneEvent.totalCheckedInGuests = eventData.first ?? "no info"
-            case 14:
-                oneEvent.totalGiftsGaved = eventData.first ?? "no info"
-            case 16:
-                oneEvent.initedByUserUID = eventData.first ?? "no info"
-            case 18:
-                oneEvent.initedByUserName = eventData.first ?? "no info"
-            default:
-                break
-            }
-        }
-        return oneEvent
     }
 }

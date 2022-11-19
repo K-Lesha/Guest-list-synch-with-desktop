@@ -34,6 +34,7 @@ class AuthInteractor: AuthInteractorProtocol {
         self.firebaseService = firebaseService
     }
     //MARK: -Network methods
+    // AuthViewController
     internal func checkInternetConnection() -> Bool {
         networkService.checkInternetConnection()
     }
@@ -41,11 +42,7 @@ class AuthInteractor: AuthInteractorProtocol {
         networkService.downloadImage(urlString: urlString, completionBlock: completionBlock)
     }
     //MARK: -Firebase calls
-    internal func tryToRegisterWithFirebase(email: String, name: String, surname: String, agency: String, userTypeRawValue: Int, password: String, completion: @escaping (Result<String, FirebaseError>) -> ()) {
-        spreadsheetService.createDefaultSpreadsheet(named: "Demo guestlist", sheetType: .demoEvent) { eventID in
-            self.firebaseService.tryToRegisterWithFirebase(email: email, name: name, surname: surname, agency: agency, userTypeRawValue: userTypeRawValue, demoEventID: eventID, password: password, completion: completion)
-        }
-    }
+    // PasswordModalView
     internal func tryToLogInWithFirebase(email: String, password: String, completion: @escaping (Result<String, FirebaseError>) -> ()) {
         firebaseService.tryToLogInWithFirebase(email: email, password: password, completion: completion)
     }
@@ -58,6 +55,13 @@ class AuthInteractor: AuthInteractorProtocol {
     internal func restorePasswordWithFirebase(email: String, completion: @escaping (Result<Bool, FirebaseError>) -> ()) {
         firebaseService.restorePasswordWithFirebase(email: email, completion: completion)
     }
+    // FirebaseRegistrationModalView
+    internal func tryToRegisterWithFirebase(email: String, name: String, surname: String, agency: String, userTypeRawValue: Int, password: String, completion: @escaping (Result<String, FirebaseError>) -> ()) {
+        spreadsheetService.createDefaultSpreadsheet(named: "Demo guestlist", sheetType: .demoEvent) { eventID in
+            self.firebaseService.tryToRegisterWithFirebase(email: email, name: name, surname: surname, agency: agency, userTypeRawValue: userTypeRawValue, demoEventID: eventID, password: password, completion: completion)
+        }
+    }
+    // FinishFbGModalView
     internal func finishFacebookGoogleRegistrationProcess(userUID: String, surname: String, agency: String, userTypeRawValue: Int, completion: @escaping (Result<String, FirebaseError>) -> ()) {
         spreadsheetService.createDefaultSpreadsheet(named: "Demo guestlist", sheetType: .demoEvent) { eventID in
             self.firebaseService.finishRegistrationWithFacebookGoogle(userUID: userUID, surname: surname, agency: agency, userTypeRawValue: userTypeRawValue, demoEventID: eventID, completion: completion)

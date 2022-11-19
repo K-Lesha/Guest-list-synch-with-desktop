@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol AddModifyEventViewProtocol {
+protocol AddModifyEventViewProtocol: AnyObject {
     //VIPER protocol
     var presenter: AddModifyEventPresenterProtocol! {get set}
 }

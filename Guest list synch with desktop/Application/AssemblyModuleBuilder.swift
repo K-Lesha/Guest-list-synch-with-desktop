@@ -48,7 +48,9 @@ class AssemblyModuleBuilder: AssemblyBuilderProtocol {
     //MARK: -METHODS
     internal func createAuthModule(router: RouterProtocol) -> UIViewController {
         // just in case clean all the coockies
-        self.firebaseService.logOutWithFirebase()
+        self.firebaseService.logOutWithFirebase() {_ in
+            
+        }
         //init AuthModule
         let view = AuthViewController()
         let interactor = AuthInteractor(networkService: self.networkService, firebaseService: self.firebaseService)

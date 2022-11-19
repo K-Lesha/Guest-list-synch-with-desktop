@@ -41,7 +41,7 @@ enum AddModifyEventPresenterState {
 
 class AddModifyEventPresenter: AddModifyEventPresenterProtocol {
     //MARK: -VIPER PROTOCOL
-    var view: AddModifyEventViewProtocol!
+    weak var view: AddModifyEventViewProtocol!
     var interactor: AddModifyEventInteractorProtocol!
     var router: RouterProtocol!
     //MARK: -INIT
@@ -78,12 +78,12 @@ class AddModifyEventPresenter: AddModifyEventPresenterProtocol {
     
     func modifyEvent(completion: @escaping (String) -> ()) {
         guard let newEventData else { return }
-        interactor.modifyEvent(eventID: eventEntity?.eventUniqueIdentifier ?? "", newEventData: newEventData, completion: completion)
+        interactor.modifyEvent(eventID: eventEntity?.eventID ?? "", newEventData: newEventData, completion: completion)
     }
     
     func deleteEvent(completion: @escaping (String) -> ()) {
         guard state == .modifyEvent,
-            let eventID = self.eventEntity?.eventUniqueIdentifier
+            let eventID = self.eventEntity?.eventID
         else {
             return
         }

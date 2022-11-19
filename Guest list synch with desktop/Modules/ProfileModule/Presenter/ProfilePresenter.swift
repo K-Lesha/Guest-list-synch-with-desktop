@@ -20,7 +20,7 @@ protocol ProfilePresenterProtocol {
 
 
 class ProfilePresenter: ProfilePresenterProtocol {
-    var view: ProfileViewControllerProtocol!
+    weak var view: ProfileViewControllerProtocol!
     var interactor: ProfileInteractorProtocol!
     var router: RouterProtocol!
     

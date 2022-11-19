@@ -26,7 +26,7 @@ protocol EventsListPresenterProtocol: AnyObject {
 //MARK: Presenter
 class EventsListPresenter: EventsListPresenterProtocol {
     //MARK: VIPER protocol
-    internal var view: EventsListViewControllerProtocol!
+    internal weak var view: EventsListViewControllerProtocol!
     internal var router: RouterProtocol!
     internal var interactor: EventsListInteractorProtocol!
     internal var userUID: String!

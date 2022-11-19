@@ -80,52 +80,11 @@ class OneGuestInteractor: OneGuestInteractorProtocol {
                 guard let guestArray = oneGuestData.first,
                       let guestRow = Int(guest.guestRowInSpreadSheet!)
                 else {return}
-                let updatedGuest = self.createGuestEntityWith(guestStringArray: guestArray, row: guestRow)
+                let updatedGuest = GuestEntity.createGuestEntityWith(guestStringArray: guestArray, row: guestRow)
                 completion(.success(updatedGuest))
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
     }
-    func createGuestEntityWith(guestStringArray: [String], row: Int) -> GuestEntity {
-        //TODO: перетащить этот метод в гэст энтити
-        var oneGuest = GuestEntity()
-        for (index, guestData) in guestStringArray.enumerated() {
-            switch index {
-            case 0:
-                oneGuest.guestName = guestData
-            case 1:
-                oneGuest.guestSurname = guestData
-            case 2:
-                oneGuest.companyName = guestData
-            case 3:
-                oneGuest.positionInCompany = guestData
-            case 4:
-                oneGuest.guestGroup = guestData
-            case 5:
-                oneGuest.guestsAmount = Int(guestData)!
-            case 6:
-                oneGuest.guestsEntered = Int(guestData)!
-            case 7:
-                oneGuest.giftsGifted = Int(guestData)!
-            case 8:
-                oneGuest.photoURL = guestData
-            case 9:
-                oneGuest.phoneNumber = guestData
-            case 10:
-                oneGuest.guestEmail = guestData
-            case 11:
-                oneGuest.internalNotes = guestData
-            case 12:
-                oneGuest.additionDate = guestData
-            default:
-                break
-            }
-            oneGuest.guestRowInSpreadSheet = String(row)
-            oneGuest.empty = false
-        }
-        return oneGuest
-    }
-    
-    
 }

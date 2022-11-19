@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol OneGuestViewPortocol {
+protocol OneGuestViewPortocol: AnyObject {
     //VIPER protocol
     var presenter: OneGuestPresenterProtocol! {get set}
     //Methods

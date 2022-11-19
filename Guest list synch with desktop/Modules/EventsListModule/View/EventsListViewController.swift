@@ -154,7 +154,7 @@ extension EventsListViewController: UITableViewDelegate, UITableViewDataSource {
         cell.eventNameLabel.text = self.presenter.eventsList[indexPath.row].eventName
         cell.venueLabel.text = self.presenter.eventsList[indexPath.row].eventVenue
         cell.eventDateAndTimeLabel.text = "\(self.presenter.eventsList[indexPath.row].eventDate ), \(self.presenter.eventsList[indexPath.row].eventTime)"
-        cell.guestsAmountLabel.text = self.presenter.eventsList[indexPath.row].totalGuest
+        cell.guestsAmountLabel.text = self.presenter.eventsList[indexPath.row].totalGuests
         return cell
     }
     
