@@ -13,7 +13,7 @@ protocol GuestlistInteractorProtocol {
     //init
     init(firebaseService: FirebaseServiceProtocol)
     //Spreadsheet methods
-    func readEventGuests(eventID: String, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void)
+    func readEventGuests(event: EventEntity, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void)
     func checkGoogleSignIn(completion: @escaping (Bool) -> ())
     func updateEventEntity(eventID: String, completion: @escaping (Result<EventEntity, GuestlistInteractorError>) -> ())
 }
@@ -37,7 +37,15 @@ class GuestListInteractor: GuestlistInteractorProtocol {
     }
 
     //MARK: -Spreadsheets methods
-    func readEventGuests(eventID: String, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void) {
+    func readEventGuests(event: EventEntity, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void) {
+        
+        if event.isOnline {
+            readOnlineEventGuests(eventID: event.eventID, completion: completion)
+        } else {
+            readOfflineEvent(event: event, completion: completion)
+        }
+    }
+    func readOnlineEventGuests(eventID: String, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void) {
         // temp properties
         //TODO: make an operation queue with completion
         let group = DispatchGroup()
@@ -79,6 +87,15 @@ class GuestListInteractor: GuestlistInteractorProtocol {
             }
         }
     }
+    func readOfflineEvent(event: EventEntity, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void) {
+        if let guestEntities = event.guestsEntites {
+            completion(.success(guestEntities))
+        } else {
+            completion(.failure(.noGuestsToShow))
+        }
+    }
+    
+    
     func checkGoogleSignIn(completion: @escaping (Bool) -> ()) {
         firebaseService.checkSignInWithGoogle(completion: completion)
     }

@@ -60,7 +60,7 @@ class AssemblyModuleBuilder: AssemblyBuilderProtocol {
     }
     internal func createEventsListModule(router: RouterProtocol) -> UIViewController {
         let view = EventsListViewController()
-        let interactor = EventsListInteractor()
+        let interactor = EventsListInteractor(firebaseDatabase: self.firebaseDatabase)
         let presenter = EventsListPresenter(view: view, interactor: interactor, router: router)
         view.presenter = presenter
         return view

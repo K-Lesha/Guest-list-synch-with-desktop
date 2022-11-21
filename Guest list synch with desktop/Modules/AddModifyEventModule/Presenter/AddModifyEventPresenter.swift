@@ -27,6 +27,7 @@ protocol AddModifyEventPresenterProtocol {
                      eventDate: String,
                      eventTime: String?,
                      eventClient: String?,
+                     isOnline: Bool,
                      completion: @escaping (Result<String, FirebaseDatabaseError>) -> ())
     func modifyEvent(completion: @escaping (String) -> ())
     func deleteEvent(completion: @escaping (String) -> ())
@@ -67,12 +68,14 @@ class AddModifyEventPresenter: AddModifyEventPresenterProtocol {
                      eventDate: String,
                      eventTime: String?,
                      eventClient: String?,
+                     isOnline: Bool,
                      completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
         interactor.addNewEvent(eventName: eventName,
                                eventVenue: eventVenue,
                                eventDate: eventDate,
                                eventTime: eventTime,
                                eventClient: eventClient,
+                               isOnline: isOnline,
                                completion: completion)
     }
     

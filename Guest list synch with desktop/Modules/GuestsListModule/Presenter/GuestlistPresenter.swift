@@ -52,22 +52,26 @@ class GuestlistPresenter: GuestlistPresenterProtocol {
     }
     var guestlistFiltred: [GuestEntity] = [GuestEntity]() {
         didSet {
-            self.guestlistView.reloadData()
+            DispatchQueue.main.async {
+                self.guestlistView.reloadData()
+            }
         }
     }
     
     
     //MARK: -METHODS
     func setGuestsToTheTable() {
-        interactor.readEventGuests(eventID: eventEntity.eventID) { result in
+        interactor.readEventGuests(event: eventEntity) { result in
             switch result {
             case .success(let guestlist):
                 self.guestlist = guestlist
             case .failure(let error):
-                if error == .noGuestsToShow {
-                    self.guestlistView.noGuestToShowAlert()
+                DispatchQueue.main.async {
+                    if error == .noGuestsToShow {
+                        self.guestlistView.noGuestToShowAlert()
+                    }
+                    self.guestlistView.showReadGuestsError()
                 }
-                self.guestlistView.showReadGuestsError()
             }
         }
     }

@@ -136,7 +136,7 @@ struct GuestEntity {
                                           companyName: randomCompanyNames[index],
                                           positionInCompany: randomPositions[index],
                                           guestGroup: randomGroup[index],
-                                          guestsAmount: Int.random(in: 0...3),
+                                          guestsAmount: Int.random(in: 1...3),
                                           photoURL: randomPhotoURLs[index],
                                           phoneNumber: randomPhoneNumbers[index],
                                           guestEmail: randomEmails[index],
@@ -146,5 +146,55 @@ struct GuestEntity {
         }
         //Return temp array
         return tempGuestsArray
+    }
+    static func createGuestsArrayFromDict() -> [GuestEntity] {
+        
+        return [GuestEntity()]
+    }
+    static func createGuestsDictFromArray(_ guestsArray: [GuestEntity]?) -> [NSDictionary] {
+        if let guestsArray {
+            var guestsDictionary = [[String : Any]]()
+            
+            for guest in guestsArray {
+                let guestDictionary = [
+                    "guestName": guest.guestName,
+                    "guestSurname": guest.guestSurname ?? " ",
+                    "companyName": guest.companyName ?? " ",
+                    "positionInCompany": guest.positionInCompany ?? " ",
+                    "guestGroup": guest.guestGroup ?? " ",
+                    "guestsAmount": String(guest.guestsAmount),
+                    "guestsEntered": String(guest.guestsEntered),
+                    "giftsGifted": String(guest.giftsGifted),
+                    "photoURL": guest.photoURL ?? " ",
+                    "phoneNumber": guest.phoneNumber ?? " ",
+                    "guestEmail": guest.guestEmail ?? " ",
+                    "internalNotes": guest.internalNotes ?? " ",
+                    "additionDate": guest.additionDate
+                ] as [String : Any]
+                guestsDictionary.append(guestDictionary)
+            }
+            
+            return guestsDictionary as [NSDictionary]
+        } else {
+            return [NSDictionary()]
+        }
+    }
+    
+    static func createOneGuestFrom(_ nsDictionary: NSDictionary) -> GuestEntity {
+        var guest = GuestEntity()
+        guest.guestName = nsDictionary.object(forKey: "guestName") as! String
+        guest.guestSurname = nsDictionary.object(forKey: "guestSurname") as? String
+        guest.companyName = nsDictionary.object(forKey: "companyName") as? String
+        guest.positionInCompany = nsDictionary.object(forKey: "positionInCompany") as? String
+        guest.guestGroup = nsDictionary.object(forKey: "guestGroup") as? String
+        guest.guestsAmount = Int(nsDictionary.object(forKey: "guestsAmount") as? String ?? "0")!
+        guest.guestsEntered = Int(nsDictionary.object(forKey: "guestsEntered") as? String ?? "0")!
+        guest.giftsGifted = Int(nsDictionary.object(forKey: "giftsGifted") as? String ?? "0")!
+        guest.photoURL = nsDictionary.object(forKey: "photoURL") as? String
+        guest.phoneNumber = nsDictionary.object(forKey: "phoneNumber") as? String
+        guest.guestEmail = nsDictionary.object(forKey: "guestEmail") as? String
+        guest.internalNotes = nsDictionary.object(forKey: "internalNotes") as? String
+        guest.additionDate = nsDictionary.object(forKey: "additionDate") as! String
+        return guest
     }
 }

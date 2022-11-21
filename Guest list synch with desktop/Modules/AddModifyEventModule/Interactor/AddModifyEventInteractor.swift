@@ -20,6 +20,7 @@ protocol AddModifyEventInteractorProtocol {
                      eventDate: String,
                      eventTime: String?,
                      eventClient: String?,
+                     isOnline: Bool,
                      completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) 
     func modifyEvent(eventID: String, newEventData: EventEntity, completion: @escaping (String) -> ())
     func deleteEvent(eventID: String, completion: @escaping (String) -> ())
@@ -30,6 +31,7 @@ enum AddModifyEventEnteractorError: Error {
 }
 
 class AddModifyEventInteractor: AddModifyEventInteractorProtocol {
+    
     var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
     var networkService: NetworkServiceProtocol!
     var firebaseDatabase: FirebaseDatabaseProtocol!
@@ -41,12 +43,67 @@ class AddModifyEventInteractor: AddModifyEventInteractorProtocol {
         self.firebaseDatabase = firebaseDatabase
     }
     
+    
     func addNewEvent(eventName: String,
                      eventVenue: String?,
                      eventDate: String,
                      eventTime: String?,
                      eventClient: String?,
+                     isOnline: Bool,
                      completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
+        if isOnline {
+            addNewOnlineEvent(eventName: eventName, eventVenue: eventVenue, eventDate: eventDate, eventTime: eventTime, eventClient: eventClient, completion: completion)
+        } else {
+            addNewOfflineEvent(eventName: eventName, eventVenue: eventVenue, eventDate: eventDate, eventTime: eventTime, eventClient: eventClient, completion: completion)
+        }
+    }
+    
+    func addNewOfflineEvent(eventName: String,
+                            eventVenue: String?,
+                            eventDate: String,
+                            eventTime: String?,
+                            eventClient: String?,
+                            completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
+        guard let user = FirebaseService.logginnedUser else {
+            return
+        }
+        //1. Add emptyEventEntity
+//        let emptyOfflineEvent = EventEntity.createEmptyOfflineEvent(eventName: eventName,
+//                                                                    eventClient: eventClient,
+//                                                                    eventVenue: eventVenue,
+//                                                                    eventDate: eventDate,
+//                                                                    eventTime: eventTime,
+//                                                                    userUID: user.uid,
+//                                                                    userName: user.name)
+        let emptyOfflineEvent = EventEntity.createDemoOfflineEvent(userUID: user.uid, userName: user.name)
+            
+        //2. Send it to database
+        firebaseDatabase.setOfflineEventToDatabase(event: emptyOfflineEvent) { result in
+            switch result {
+            case .success(_):
+                //3. synch current user in the app with cloud database data
+                self.firebaseDatabase.updateUserData {
+                    DispatchQueue.main.async {
+                        //4. sending completion to the UI
+                        completion(.success("success"))
+                    }
+                }
+            case .failure(_):
+                DispatchQueue.main.async {
+                    //4. sending completion to the UI
+                    completion(.failure(.error))
+                }
+            }
+        }
+    }
+    
+    
+    func addNewOnlineEvent(eventName: String,
+                           eventVenue: String?,
+                           eventDate: String,
+                           eventTime: String?,
+                           eventClient: String?,
+                           completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
         //TODO: обработка ошибок
         //1. spreadsheet service creates new spreadsheed and gives eventID in completion
         spreadsheetsServise.createDefaultSpreadsheet(named: eventName + " GUESTLIST", sheetType: .emptyEvent) { eventID in
@@ -59,8 +116,8 @@ class AddModifyEventInteractor: AddModifyEventInteractorProtocol {
                                              ["Время"], [eventTime ?? " "]]
                 guard let user = FirebaseService.logginnedUser else { return }
                 let userData: [[String]] = [[user.uid],
-                                           ["Мероприятие инициировано пользователем, имя:"], [user.name]]
-
+                                            ["Мероприятие инициировано пользователем, имя:"], [user.name]]
+                
                 self.spreadsheetsServise.sendBlockOfDataToCell(spreadsheetID: eventID, range: "A3:A11", data: eventData) { successAdditionData1 in
                     AddModifyEventSemaphore.shared.signal()
                 }
@@ -72,7 +129,7 @@ class AddModifyEventInteractor: AddModifyEventInteractorProtocol {
             self.operationQueue.addOperation {
                 AddModifyEventSemaphore.shared.wait()
                 AddModifyEventSemaphore.shared.wait()
-                self.firebaseDatabase.setNewEventIDInDatabase(eventID: [eventID]) {_ in
+                self.firebaseDatabase.setNewOnlineEventIDInDatabase(eventID: eventID) {_ in
                     //4. synch current user in the app with cloud database data
                     self.firebaseDatabase.updateUserData {
                         DispatchQueue.main.async {
@@ -82,8 +139,6 @@ class AddModifyEventInteractor: AddModifyEventInteractorProtocol {
                     }
                 }
             }
-            
-            
         }
     }
     
@@ -99,7 +154,7 @@ class AddModifyEventInteractor: AddModifyEventInteractorProtocol {
     func deleteEvent(eventID: String, completion: @escaping (String) -> ()) {
         self.operationQueue.addOperation {
             //1. firebase dabase event from database deletion
-            self.firebaseDatabase.deleteEventIDInDatabase(eventID: eventID) { result in
+            self.firebaseDatabase.deleteOnlineEventIDInDatabase(eventID: eventID) { result in
                 switch result {
                 case .success(_):
                     //2. sending to spreadsheet info that event was deleted

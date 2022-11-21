@@ -10,7 +10,7 @@ import FirebaseDatabase
 import FirebaseAuth
 import FirebaseCore
 
-protocol FirebaseDatabaseProtocol {
+protocol FirebaseDatabaseProtocol: OnlineEventsDatabaseProtocol, OfflineEventsDatabaseProtocol {
     
     func saveNewFirebaseUserToTheDatabase(userUID: String,
                                           email: String,
@@ -34,10 +34,6 @@ protocol FirebaseDatabaseProtocol {
                                                          completion: @escaping (Result<String, FirebaseDatabaseError>) -> ())
     func setupUserFromDatabaseToTheApp(user: User, completion: @escaping () -> ())
     func updateUserData(completion: @escaping () -> ())
-    func setNewEventIDInDatabase(eventID: [String],
-                      completion: @escaping (Result<String, FirebaseDatabaseError>) -> ())
-    func deleteEventIDInDatabase(eventID: String,
-                                 completion: @escaping (Result<String, FirebaseDatabaseError>) -> ())
 }
 
 
@@ -48,11 +44,11 @@ enum FirebaseDatabaseError: String, Error {
 
 class FirebaseDatabase: FirebaseDatabaseProtocol {
     //MARK: -PROPERTIES
-    private let database = Database.database(url: "https://guest-list-295cc-default-rtdb.europe-west1.firebasedatabase.app/").reference().child("users")
-    private var lastDatabaseSnapshot: DataSnapshot? = nil
-    private let firebase = Auth.auth()
-    private let operationQueue = OperationQueue()
-
+    internal let database = Database.database(url: "https://guest-list-295cc-default-rtdb.europe-west1.firebasedatabase.app/").reference().child("users")
+    internal var lastDatabaseSnapshot: DataSnapshot? = nil
+    internal let firebase = Auth.auth()
+    internal let operationQueue = OperationQueue()
+    
     //MARK: -User registration methods
     public func saveNewFirebaseUserToTheDatabase(userUID: String,
                                                  email: String,
@@ -219,62 +215,10 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
         }
         operationQueue.addOperation(setupUserOperation)
     }
-    
-    //MARK: - Application methods
-    public func setNewEventIDInDatabase(eventID: [String],
-                                        completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
-        guard let databaseSnapshot = self.lastDatabaseSnapshot,
-              let userUID = FirebaseService.logginnedUser?.uid,
-              let allUsersDataDictionary = databaseSnapshot.value as? NSDictionary,
-              let userData = allUsersDataDictionary.object(forKey: userUID) as? NSDictionary
-        else {
-            return
-        }
-
-        var existingEvents = Array<String>()
-        if let existingEventsInDatabase = userData.object(forKey: "eventsIdList") as? Array<String> {
-            existingEvents = existingEventsInDatabase
-        }
-        let newEventsList = existingEvents + eventID
-        
-        self.database.child(userUID).updateChildValues(["eventsIdList": newEventsList as NSArray]) { error, databaseReference in
-            if error != nil {
-                completion(.failure(.error))
-            }
-            completion(.success("success"))
-        }
-    }
-    public func deleteEventIDInDatabase(eventID: String,
-                                        completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
-        let operation = BlockOperation {
-            self.updateDatabaseSnapshot()
-        }
-        operation.completionBlock = {
-            guard let databaseSnapshot = self.lastDatabaseSnapshot,
-                  let userUID = FirebaseService.logginnedUser?.uid
-            else {
-                return
-            }
-            let allUsersDataDictionary = databaseSnapshot.value as? NSDictionary
-            let userData = allUsersDataDictionary?.object(forKey: userUID) as? NSDictionary
-            
-            let existingEvents = userData?.object(forKey: "eventsIdList") as! Array<String>
-            let newEventsList = existingEvents.filter { $0 !=  eventID }
-            
-            self.database.child(userUID).updateChildValues(["eventsIdList": newEventsList as NSArray]) { error, databaseReference in
-                if error != nil {
-                    completion(.failure(.error))
-                }
-                completion(.success("success"))
-            }
-        }
-        operationQueue.addOperation(operation)
-    }
-
     // MARK: -Supporting service methods
-    private func updateDatabaseSnapshot() {
+    internal func updateDatabaseSnapshot() {
         guard firebase.currentUser != nil else {
-            print("updateDatabaseSnapshot error")
+            print("can't update database, user == nil")
             return
         }
         self.database.queryOrderedByKey().observeSingleEvent(of: .value) { snapshot in
@@ -282,10 +226,6 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
             FirebaseDatabaseSemaphore.shared.signal()
         }
         FirebaseDatabaseSemaphore.shared.wait()
-    }
-    //MARK: -Future methods
-    func getAllTheEventsFromTheDatabase() {
-
     }
 }
 

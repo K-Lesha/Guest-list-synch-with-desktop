@@ -83,7 +83,7 @@ struct EventEntity {
         isOnline = false
         guestsEntites = nil
     }
-    //MARK: -METHODS
+    //MARK: -ONLINE EVENT METHODS
     static func createOnlineEventEntityWith(eventStringArray: [[String]], eventID: String) -> EventEntity {
         var oneEvent = EventEntity()
         for (index, eventData) in eventStringArray.enumerated() {
@@ -118,6 +118,7 @@ struct EventEntity {
         return oneEvent
     }
     
+    //MARK: OFFLINE EVENT METHODS
     static func createDemoOfflineEvent(userUID: String,
                                        userName: String) -> EventEntity {
         var offlineDemoEntity = EventEntity()
@@ -137,7 +138,7 @@ struct EventEntity {
                                         eventClient: String?,
                                         eventVenue: String?,
                                         eventDate: String,
-                                        eventTime: String,
+                                        eventTime: String?,
                                         userUID: String,
                                         userName: String) -> EventEntity {
         var emptyOfflineEventEntity = EventEntity()
@@ -145,12 +146,47 @@ struct EventEntity {
         emptyOfflineEventEntity.eventClient = eventClient ?? " "
         emptyOfflineEventEntity.eventVenue = eventVenue ?? " "
         emptyOfflineEventEntity.eventDate = eventDate
-        emptyOfflineEventEntity.eventTime = eventTime
+        emptyOfflineEventEntity.eventTime = eventTime ?? " "
         emptyOfflineEventEntity.eventID = UUID().uuidString
         emptyOfflineEventEntity.initedByUserUID = userUID
         emptyOfflineEventEntity.initedByUserName = userName
         emptyOfflineEventEntity.guestsEntites = [GuestEntity]()
         emptyOfflineEventEntity.isOnline = false
         return emptyOfflineEventEntity
+    }
+    static func createOfflineEventsFromDict(_ nsDictionary: NSDictionary) -> [EventEntity] {
+        var eventsArray = [EventEntity]()
+        
+        let eventsDictionary = nsDictionary as! Dictionary<String, NSDictionary>
+        
+        for (_, value) in eventsDictionary {
+            let eventEntity = createOfflineEventFromDict(value)
+            eventsArray.append(eventEntity)
+        }
+        
+        return eventsArray
+    }
+    static func createOfflineEventFromDict(_ dictionary: NSDictionary) -> EventEntity {
+        var eventEntity = EventEntity()
+        eventEntity.eventName = dictionary.object(forKey: "eventName") as! String
+        eventEntity.eventClient = dictionary.object(forKey: "eventClient") as? String ?? "no data about client"
+        eventEntity.eventDate = dictionary.object(forKey: "eventDate") as! String
+        eventEntity.eventID = dictionary.object(forKey: "eventID") as! String
+        eventEntity.eventTime = dictionary.object(forKey: "eventTime") as? String ?? "no info about time"
+        eventEntity.eventVenue = dictionary.object(forKey: "eventVenue") as? String ?? "no venue data"
+        eventEntity.initedByUserUID = dictionary.object(forKey: "initedByUserUID") as! String
+        eventEntity.initedByUserName = dictionary.object(forKey: "initedByUserName") as! String
+        eventEntity.isOnline = dictionary.object(forKey: "isOnline") as! Bool
+        
+        var guestlist = [GuestEntity]()
+        if let dictGuestlist = dictionary.object(forKey: "guestEntities") as? NSArray {
+            for value in dictGuestlist {
+                let guest = GuestEntity.createOneGuestFrom(value as! NSDictionary)
+                guestlist.append(guest)
+            }
+        }
+        eventEntity.guestsEntites = guestlist
+        
+        return eventEntity
     }
 }

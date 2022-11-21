@@ -113,8 +113,6 @@ class AddModifyEventViewController: UIViewController, AddModifyEventViewProtocol
 
     //Button methods
     @IBAction func addNewEventButtonPushed(_ sender: Any) {
-        
-        
         guard checkTextfields(),
               let eventName = eventNameTextfield.text,
               let eventDate = eventDateTextfield.text
@@ -127,12 +125,14 @@ class AddModifyEventViewController: UIViewController, AddModifyEventViewProtocol
         let eventVenue = venueNameTextfield.text
         let eventTime = eventTimeTextfield.text
         let eventClient = eventClientTextfield.text
+        let isOnlineEvent = synchWithGoogleSwitch.isOn
         
         presenter.addNewEvent(eventName: eventName,
                               eventVenue: eventVenue,
                               eventDate: eventDate,
                               eventTime: eventTime,
-                              eventClient: eventClient) { result in
+                              eventClient: eventClient,
+                              isOnline: isOnlineEvent) { result in
             switch result {
             case .success(_):
                 self.presenter.popThisModule()

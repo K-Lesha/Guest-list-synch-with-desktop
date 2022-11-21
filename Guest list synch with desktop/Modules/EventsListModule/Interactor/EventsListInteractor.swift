@@ -11,6 +11,9 @@ import UIKit
 protocol EventsListInteractorProtocol {
     //VIPER protocol
     var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol {get set}
+    var firebaseDatabase: FirebaseDatabaseProtocol! {get set}
+    //INIT
+    init(firebaseDatabase: FirebaseDatabaseProtocol)
     //Spreadsheet methods
     func readAllTheEvents(completionHandler: @escaping (Result<[EventEntity], EventListInteractorError>) -> Void)
 }
@@ -25,16 +28,62 @@ class EventsListInteractor: EventsListInteractorProtocol {
     
     //MARK: -VIPER protocol
     internal var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
+    var firebaseDatabase: FirebaseDatabaseProtocol!
     
+    //MARK: INIT
+    required init(firebaseDatabase: FirebaseDatabaseProtocol) {
+        self.firebaseDatabase = firebaseDatabase
+    }
+
     //MARK: -Spreadsheets methods
     func readAllTheEvents(completionHandler: @escaping (Result<[EventEntity], EventListInteractorError>) -> Void) {
+        
+        let group = DispatchGroup()
+        
+        var eventsArray = [EventEntity]()
+
+        group.enter()
+        DispatchQueue.global().async {
+            self.readOnlineEvents() { result in
+                switch result {
+                case .success(let spreadsheetsEventsArray):
+                    eventsArray.append(contentsOf: spreadsheetsEventsArray)
+                    group.leave()
+                case .failure(_):
+                    print("EventsListInteractor readOnlineEvents error")
+                    group.leave()
+                }
+            }
+        }
+
+        group.enter()
+        readOfflineEvents() { result in
+            switch result {
+            case .success(let offlineEventsArray):
+                eventsArray.append(contentsOf: offlineEventsArray)
+                group.leave()
+            case .failure(_):
+                print("EventsListInteractor readOfflineEvents error")
+                group.leave()
+            }
+        }
+        
+        DispatchQueue.global().async {
+            group.wait()
+            DispatchQueue.main.async {
+                completionHandler(.success(eventsArray))
+            }
+        }
+    }
+    
+    func readOnlineEvents(completionHandler: @escaping (Result<[EventEntity], EventListInteractorError>) -> Void) {
         // temp properties
         let group = DispatchGroup()
         let concurrentQueue = DispatchQueue(label: "concurrent", qos: .userInteractive, attributes: .concurrent)
         var userEventEntities = Array<EventEntity>()
         concurrentQueue.async() {
             // get user events ids
-            guard let userEventIdList = FirebaseService.logginnedUser?.eventsIdList else {
+            guard let userEventIdList = FirebaseService.logginnedUser?.onlineEventsIDList else {
                 completionHandler(.failure(.noEventsToShow))
                 return
             }
@@ -61,4 +110,15 @@ class EventsListInteractor: EventsListInteractorProtocol {
             }
         }
     }
+    
+    
+    func readOfflineEvents(completionHandler: @escaping (Result<[EventEntity], EventListInteractorError>) -> Void) {
+        if let events = FirebaseService.logginnedUser?.offlineEvents {
+            completionHandler(.success(events))
+        } else {
+            completionHandler(.failure(.noEventsToShow))
+        }
+    }
+    
+    
 }

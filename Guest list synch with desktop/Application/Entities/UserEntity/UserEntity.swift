@@ -28,7 +28,8 @@ enum UserTypes: Int {
 struct UserEntity {
     var uid: String
     var payedEvents: Int
-    var eventsIdList: [String]
+    var onlineEventsIDList: [String]
+    var offlineEvents: [EventEntity]?
     var delegatedEventIdList: [String]?
     var accessLevel: UserTypes
     var coorganizers: [SupportingUserEntity]?
@@ -47,9 +48,14 @@ struct UserEntity {
         let userData = usersDictionary?.object(forKey: userUID) as? NSDictionary
         // find all the userData in Snapshot
         let payedEvents = userData?.object(forKey: "payedEvents") as! Int
-        var eventsIdList = Array<String>()
-        if let eventsIdListFromDatabase = userData?.object(forKey: "eventsIdList") as? Array<String> {
-            eventsIdList = eventsIdListFromDatabase
+        var onlineEventsIdList = Array<String>()
+        if let eventsIdListFromDatabase = userData?.object(forKey: "onlineEventsIDList") as? Array<String> {
+            onlineEventsIdList = eventsIdListFromDatabase
+        }
+        var offlineEventsEntites: [EventEntity]? = nil
+        if let offlineEventsIdListFromDatabase = userData?.object(forKey: "offlineEvents") as? NSDictionary {
+            let offlineEventEntites = EventEntity.createOfflineEventsFromDict(offlineEventsIdListFromDatabase)
+            offlineEventsEntites = offlineEventEntites
         }
         let accessLevelString = userData?.object(forKey: "userTypeRawValue") as! String
         let accessLevelInt: Int = Int(accessLevelString) ?? 4
@@ -74,7 +80,8 @@ struct UserEntity {
         //create the userEntity
         let user = UserEntity(uid: userUID,
                               payedEvents: payedEvents,
-                              eventsIdList: eventsIdList,
+                              onlineEventsIDList: onlineEventsIdList,
+                              offlineEvents: offlineEventsEntites,
                               delegatedEventIdList: delegatedEventIdList,
                               accessLevel: accessLevel,
                               coorganizers: coorganizers,
