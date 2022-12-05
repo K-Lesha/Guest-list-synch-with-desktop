@@ -83,21 +83,21 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
                 return
             }
             // Name
-            nameTextfield.text = guest.guestName
+            nameTextfield.text = guest.name
             // optional Surname
-            if let surname = guest.guestSurname {
+            if let surname = guest.surname {
                 surnameTextfield.text = surname
             }
             // optional Company
-            if let company = guest.companyName {
+            if let company = guest.company {
                 companyTextfield.text = company
             }
             //optional Position
-            if let position = guest.positionInCompany {
+            if let position = guest.position {
                 guestPositionTextfield.text = position
             }
             //optional Group
-            if let group = guest.guestGroup {
+            if let group = guest.group {
                 guestGroupTextfield.text = group
             }
             // Amount
@@ -123,7 +123,7 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
                 phoneTextfiled.text = phone
             }
             //optional Email
-            if let email = guest.guestEmail {
+            if let email = guest.email {
                 emailTextfield.text = email
             }
             //optional Internal notes
@@ -146,16 +146,16 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
         else {
             return
         }
-        modifiedGuest.guestName = nameTextfield.text ?? " "
-        modifiedGuest.guestSurname = surnameTextfield.text
-        modifiedGuest.companyName = companyTextfield.text
-        modifiedGuest.positionInCompany = guestPositionTextfield.text
-        modifiedGuest.guestGroup = guestGroupTextfield.text
+        modifiedGuest.name = nameTextfield.text ?? " "
+        modifiedGuest.surname = surnameTextfield.text
+        modifiedGuest.company = companyTextfield.text
+        modifiedGuest.position = guestPositionTextfield.text
+        modifiedGuest.group = guestGroupTextfield.text
         let guestsStringAmount: String = guestsAmountTextfield.text ?? "1"
         modifiedGuest.guestsAmount = Int(guestsStringAmount)!
         modifiedGuest.photoURL = self.photoURLString
         modifiedGuest.phoneNumber = phoneTextfiled.text
-        modifiedGuest.guestEmail = emailTextfield.text
+        modifiedGuest.email = emailTextfield.text
         modifiedGuest.internalNotes = internalNotesTextfield.text
 
         presenter.modifiedGuestData = modifiedGuest

@@ -29,6 +29,8 @@ class EventsListInteractor: EventsListInteractorProtocol {
     //MARK: -VIPER protocol
     internal var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
     var firebaseDatabase: FirebaseDatabaseProtocol!
+    let operationQueue = OperationQueue()
+    let dispatchGroup = DispatchGroup()
     
     //MARK: INIT
     required init(firebaseDatabase: FirebaseDatabaseProtocol) {
@@ -37,57 +39,59 @@ class EventsListInteractor: EventsListInteractorProtocol {
 
     //MARK: -Spreadsheets methods
     func readAllTheEvents(completionHandler: @escaping (Result<[EventEntity], EventListInteractorError>) -> Void) {
-        
-        let group = DispatchGroup()
-        
         var eventsArray = [EventEntity]()
-
-        group.enter()
-        DispatchQueue.global().async {
+        let readOnlineEventsBlock = BlockOperation {
+            self.dispatchGroup.enter()
             self.readOnlineEvents() { result in
                 switch result {
                 case .success(let spreadsheetsEventsArray):
                     eventsArray.append(contentsOf: spreadsheetsEventsArray)
-                    group.leave()
                 case .failure(_):
                     print("EventsListInteractor readOnlineEvents error")
-                    group.leave()
+                }
+                self.dispatchGroup.leave()
+            }
+        }
+        let readOfflineEventsBlock = BlockOperation {
+            self.dispatchGroup.enter()
+            self.readOfflineEvents() { result in
+                switch result {
+                case .success(let offlineEventsArray):
+                    eventsArray.append(contentsOf: offlineEventsArray)
+                case .failure(_):
+                    print("EventsListInteractor readOfflineEvents error")
+                }
+                self.dispatchGroup.leave()
+            }
+        }
+        let sendCompletionBlock = BlockOperation {
+            self.dispatchGroup.wait()
+            DispatchQueue.main.async {
+                if eventsArray.isEmpty {
+                    completionHandler(.failure(.noEventsToShow))
+                } else {
+                    completionHandler(.success(eventsArray))
                 }
             }
         }
-
-        group.enter()
-        readOfflineEvents() { result in
-            switch result {
-            case .success(let offlineEventsArray):
-                eventsArray.append(contentsOf: offlineEventsArray)
-                group.leave()
-            case .failure(_):
-                print("EventsListInteractor readOfflineEvents error")
-                group.leave()
-            }
-        }
-        
-        DispatchQueue.global().async {
-            group.wait()
-            DispatchQueue.main.async {
-                completionHandler(.success(eventsArray))
-            }
-        }
+        operationQueue.addOperations([readOnlineEventsBlock, readOfflineEventsBlock], waitUntilFinished: false)
+        operationQueue.waitUntilAllOperationsAreFinished()
+        operationQueue.addOperation(sendCompletionBlock)
     }
     
     func readOnlineEvents(completionHandler: @escaping (Result<[EventEntity], EventListInteractorError>) -> Void) {
         // temp properties
         let group = DispatchGroup()
-        let concurrentQueue = DispatchQueue(label: "concurrent", qos: .userInteractive, attributes: .concurrent)
+//        let concurrentQueue = DispatchQueue(label: "concurrent", qos: .userInteractive, attributes: .concurrent)
+        let onlineOperationQueue = OperationQueue()
         var userEventEntities = Array<EventEntity>()
-        concurrentQueue.async() {
-            // get user events ids
-            guard let userEventIdList = FirebaseService.logginnedUser?.onlineEventsIDList else {
-                completionHandler(.failure(.noEventsToShow))
-                return
-            }
-            // download and create entites all the user events
+        // get user events ids
+        guard let userEventIdList = FirebaseService.logginnedUser?.onlineEventsIDList else {
+            completionHandler(.failure(.noEventsToShow))
+            return
+        }
+        // download and create entites all the user events
+        let readOnlineEventsOperation = BlockOperation {
             for eventID in userEventIdList {
                 group.enter()
                 self.spreadsheetsServise.readSpreadsheetsData(range: .oneEventData, eventID: eventID, oneGuestRow: nil) { result in
@@ -101,7 +105,8 @@ class EventsListInteractor: EventsListInteractorProtocol {
                     group.leave()
                 }
             }
-            print(Thread.current)
+        }
+        readOnlineEventsOperation.completionBlock = {
             group.wait()
             if userEventEntities.isEmpty {
                 completionHandler(.failure(.noEventsToShow))
@@ -109,9 +114,8 @@ class EventsListInteractor: EventsListInteractorProtocol {
                 completionHandler(.success(userEventEntities))
             }
         }
+        operationQueue.addOperation(readOnlineEventsOperation)
     }
-    
-    
     func readOfflineEvents(completionHandler: @escaping (Result<[EventEntity], EventListInteractorError>) -> Void) {
         if let events = FirebaseService.logginnedUser?.offlineEvents {
             completionHandler(.success(events))
@@ -119,6 +123,4 @@ class EventsListInteractor: EventsListInteractorProtocol {
             completionHandler(.failure(.noEventsToShow))
         }
     }
-    
-    
 }

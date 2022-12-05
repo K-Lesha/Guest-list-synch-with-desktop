@@ -20,29 +20,29 @@ protocol FirebaseServiceProtocol: AnyObject {
     init(database: FirebaseDatabaseProtocol)
     //METHODS
     //Firebase methods
-    func tryToRegisterWithFirebase(email: String,
+    func createUserProfileUsingFirebase(email: String,
                                     name: String,
                                     surname: String,
                                     agency: String,
                                     userTypeRawValue: Int,
-                                    demoEventID: String,
                                     password: String,
                                     completion: @escaping (Result<String, FirebaseError>) -> ())
-    func tryToLogInWithFirebase(email: String,
+    func signInWithFirebase(email: String,
                                 password: String,
                                 completion: @escaping (Result<String, FirebaseError>) -> ())
-    func restorePasswordWithFirebase(email: String,
+    func resetPasswordWithFirebase(email: String,
                                      completion: @escaping (Result<Bool, FirebaseError>) -> ())
     func logOutWithFirebase(completion: @escaping (Bool) -> ())
     //Facebook methods
-    func tryToLoginWithFacebook(viewController: SignInViewProtocol,
+    func loginWithFacebook(viewController: SignInViewProtocol,
                                 completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ())
     //Google methods
-    func tryToSignInWithGoogle(viewController: SignInViewProtocol,
+    func loginWithGoogle(viewController: SignInViewProtocol,
                          completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ())
-    func checkSignInWithGoogle(completion: @escaping (Bool) -> ())
+    func loginedWithGoogleCheck(completion: @escaping (Bool) -> ())
+    func requestGoogleScopes(viewController: UIViewController, googleUser: GIDGoogleUser, completionHandler: @escaping (Bool) -> Void)
     //Common methods
-    func finishRegistrationWithFacebookGoogle(userUID: String, surname: String, agency: String, userTypeRawValue: Int, demoEventID: String, completion: @escaping (Result<String, FirebaseError>) -> ())
+    func finishRegistrationWithFacebookOrGoogle(userUID: String, surname: String, agency: String, userTypeRawValue: Int, completion: @escaping (Result<String, FirebaseError>) -> ())
 }
 //MARK: Firebase errors
 enum FirebaseError: String, Error {
@@ -65,6 +65,7 @@ enum FirebaseError: String, Error {
 }
 //MARK: Firebase Service
 class FirebaseService: FirebaseServiceProtocol {
+    
     //MARK: Firebase properties
     static var logginnedUser: UserEntity? = nil
     private let firebase = Auth.auth()
@@ -77,12 +78,11 @@ class FirebaseService: FirebaseServiceProtocol {
     
     //MARK: METHODS
     //MARK: - FIREBASE
-    public func tryToRegisterWithFirebase(email: String,
+    public func createUserProfileUsingFirebase(email: String,
                                           name: String,
                                           surname: String,
                                           agency: String,
                                           userTypeRawValue: Int,
-                                          demoEventID: String,
                                           password: String,
                                           completion: @escaping (Result<String, FirebaseError>) -> ()) {
         firebase.createUser(withEmail: email, password: password) { result, error in
@@ -96,8 +96,7 @@ class FirebaseService: FirebaseServiceProtocol {
                                                            surname: surname,
                                                            agency: agency,
                                                            userTypeRawValue: userTypeRawValue,
-                                                           signInProvider: "Firebase",
-                                                           demoEventID: demoEventID) { savingResult in
+                                                           signInProvider: "Firebase") { savingResult in
                 switch savingResult {
                 case .success(_):
                     completion(.success(result.user.uid))
@@ -107,7 +106,7 @@ class FirebaseService: FirebaseServiceProtocol {
             }
         }
     }
-    public func tryToLogInWithFirebase(email: String,
+    public func signInWithFirebase(email: String,
                                        password: String,
                                        completion: @escaping (Result<String, FirebaseError>) -> ()) {
         firebase.signIn(withEmail: email, password: password) {result, error in
@@ -115,12 +114,12 @@ class FirebaseService: FirebaseServiceProtocol {
                 completion(.failure(.loginError))
                 return
             }
-            self.database.setupUserFromDatabaseToTheApp(user: user) {
+            self.database.downloadUserDataToTheApp(userUID: user.uid) {
                 completion(.success(user.uid))
             }
         }
     }
-    public func restorePasswordWithFirebase(email: String, completion: @escaping (Result<Bool, FirebaseError>) -> ()) {
+    public func resetPasswordWithFirebase(email: String, completion: @escaping (Result<Bool, FirebaseError>) -> ()) {
         firebase.sendPasswordReset(withEmail: email) { error in
             guard error == nil else {
                 completion(.failure(.restoringPasswordError))
@@ -130,30 +129,31 @@ class FirebaseService: FirebaseServiceProtocol {
         }
     }
     public func logOutWithFirebase(completion: @escaping (Bool) -> ()) {
+        let cookies = HTTPCookieStorage.shared
         do {
-            // installed in app user delete
-            FirebaseService.logginnedUser = nil
-            //firebase logout
-            try firebase.signOut()
-            //facebook log out
-            LoginManager().logOut()
-            let cookies = HTTPCookieStorage.shared
-            let facebookCookies = cookies.cookies(for: URL(string: "https://facebook.com/")!)
-            for cookie in facebookCookies! {
-                cookies.deleteCookie(cookie)
-            }
             //google log out
             GIDSignIn.sharedInstance.signOut()
             let googleCookies = cookies.cookies(for: URL(string: "https://google.com/")!)
             for cookie in googleCookies! {
                 cookies.deleteCookie(cookie)
             }
+            //facebook log out
+            LoginManager().logOut()
+            let facebookCookies = cookies.cookies(for: URL(string: "https://facebook.com/")!)
+            for cookie in facebookCookies! {
+                cookies.deleteCookie(cookie)
+            }
+            //firebase logout
+            try firebase.signOut()
+            // installed in app user delete
+            FirebaseService.logginnedUser = nil
+            completion(true)
         } catch {
-            print("can't log out")
+            completion(false)
         }
     }
     //MARK: - FACEBOOK
-    public func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ()) {
+    public func loginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ()) {
         //log in with facebook
         let login = LoginManager()
         login.logIn(permissions: ["email", "public_profile"], from: viewController as? UIViewController) { result, error in
@@ -201,21 +201,8 @@ class FirebaseService: FirebaseServiceProtocol {
             }
         }
     }
-//        public func checkUserLoginnedWithFacebook() -> Bool {
-//            if let providerData = firebase.currentUser?.providerData {
-//                for userInfo in providerData {
-//                    switch userInfo.providerID {
-//                    case "facebook.com":
-//                        return true
-//                    default:
-//                        return false
-//                    }
-//                }
-//            }
-//            return false
-//        }
     //MARK: - GOOGLE
-    internal func tryToSignInWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ()) {
+    internal func loginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ()) {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.signIn(with: config,
@@ -257,34 +244,34 @@ class FirebaseService: FirebaseServiceProtocol {
             }
         }
     }
-//    public func requestScopes(viewController: UIViewController, googleUser: GIDGoogleUser, completionHandler: @escaping (Bool) -> Void) {
-//        let grantedScopes = googleUser.grantedScopes
-//        if grantedScopes == nil || !grantedScopes!.contains(GoogleSpreadsheetsService.grantedScopes) {
-//            let additionalScopes = GoogleSpreadsheetsService.additionalScopes
-//            GIDSignIn.sharedInstance.addScopes(additionalScopes, presenting: viewController) { user, scopeError in
-//                if scopeError == nil {
-//                    user?.authentication.do { authentication, error in
-//                        if error == nil {
-//                            guard let authentication = authentication else { return }
-//                            // Get the access token to attach it to a REST or gRPC request.
-////                             let accessToken = authentication.accessToken
-//                            completionHandler(true)
-//                        } else {
-//                            print("Error with auth: \(String(describing: error?.localizedDescription))")
-//                            completionHandler(false)
-//                        }
-//                    }
-//                } else {
-//                    completionHandler(false)
-//                    print("Error with adding scopes: \(String(describing: scopeError?.localizedDescription))")
-//                }
-//            }
-//        } else {
-//            print("Already contains the scopes!")
-//            completionHandler(true)
-//        }
-//    }
-    public func checkSignInWithGoogle(completion: @escaping (Bool) -> ()) {
+    public func requestGoogleScopes(viewController: UIViewController, googleUser: GIDGoogleUser, completionHandler: @escaping (Bool) -> Void) {
+        let grantedScopes = googleUser.grantedScopes
+        if grantedScopes == nil || !grantedScopes!.contains(GoogleSpreadsheetsService.grantedScopes) {
+            let additionalScopes = GoogleSpreadsheetsService.additionalScopes
+            GIDSignIn.sharedInstance.addScopes(additionalScopes, presenting: viewController) { user, scopeError in
+                if scopeError == nil {
+                    user?.authentication.do { authentication, error in
+                        if error == nil {
+                            guard let authentication = authentication else { return }
+                            // Get the access token to attach it to a REST or gRPC request.
+//                             let accessToken = authentication.accessToken
+                            completionHandler(true)
+                        } else {
+                            print("Error with auth: \(String(describing: error?.localizedDescription))")
+                            completionHandler(false)
+                        }
+                    }
+                } else {
+                    completionHandler(false)
+                    print("Error with adding scopes: \(String(describing: scopeError?.localizedDescription))")
+                }
+            }
+        } else {
+            print("Already contains the scopes!")
+            completionHandler(true)
+        }
+    }
+    public func loginedWithGoogleCheck(completion: @escaping (Bool) -> ()) {
         if GIDSignIn.sharedInstance.currentUser != nil {
             completion(true)
         } else {
@@ -292,16 +279,14 @@ class FirebaseService: FirebaseServiceProtocol {
         }
     }
     //MARK: -Common methods
-    public func finishRegistrationWithFacebookGoogle(userUID: String,
+    public func finishRegistrationWithFacebookOrGoogle(userUID: String,
                                                      surname: String,
                                                      agency: String,
                                                      userTypeRawValue: Int,
-                                                     demoEventID: String,
                                                      completion: @escaping (Result<String, FirebaseError>) -> ()) {
         database.finishStepSavingFacebookGoogleUserToTheDatabase(userUID: userUID,
                                                                  surname: surname,
                                                                  userTypeRawValue: userTypeRawValue,
-                                                                 demoEventID: demoEventID,
                                                                  agency: agency) { result in
             switch result {
             case .success(let string):

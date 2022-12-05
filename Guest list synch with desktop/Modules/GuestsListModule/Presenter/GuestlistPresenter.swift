@@ -76,7 +76,7 @@ class GuestlistPresenter: GuestlistPresenterProtocol {
         }
     }
     func updateEventEntity() {
-        interactor.updateEventEntity(eventID: self.eventEntity.eventID) { result in
+        interactor.updateEventEntity(eventEntity: self.eventEntity) { result in
             switch result {
             case .success(let newEventEntity):
                 self.eventEntity = newEventEntity

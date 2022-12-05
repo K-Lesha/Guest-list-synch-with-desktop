@@ -164,7 +164,7 @@ extension GuestlistViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "guest", for: indexPath) as! GuestTableViewCell
         cell.guestEntity = self.presenter.guestlistFiltred[indexPath.row]
-        cell.guestNameAndSurnameLabel.text = cell.guestEntity.guestName + " " + (cell.guestEntity.guestSurname ?? " ")
+        cell.guestNameAndSurnameLabel.text = cell.guestEntity.name + " " + (cell.guestEntity.surname ?? " ")
         return cell
     }
     

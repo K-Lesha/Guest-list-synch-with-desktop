@@ -27,12 +27,12 @@ extension FirebaseDatabase {
         }
 
         var existingEvents = Array<String>()
-        if let existingEventsInDatabase = userData.object(forKey: "eventsIdList") as? Array<String> {
+        if let existingEventsInDatabase = userData.object(forKey: "onlineEventsIDList") as? Array<String> {
             existingEvents = existingEventsInDatabase
         }
         let newEventsList = existingEvents + [eventID]
         
-        self.database.child(userUID).updateChildValues(["eventsIdList": newEventsList as NSArray]) { error, databaseReference in
+        self.database.child(userUID).updateChildValues(["onlineEventsIDList": newEventsList as NSArray]) { error, databaseReference in
             if error != nil {
                 completion(.failure(.error))
             }
@@ -50,13 +50,14 @@ extension FirebaseDatabase {
             else {
                 return
             }
+            
             let allUsersDataDictionary = databaseSnapshot.value as? NSDictionary
             let userData = allUsersDataDictionary?.object(forKey: userUID) as? NSDictionary
             
-            let existingEvents = userData?.object(forKey: "eventsIdList") as! Array<String>
+            let existingEvents = userData?.object(forKey: "onlineEventsIDList") as! Array<String>
             let newEventsList = existingEvents.filter { $0 != eventID }
             
-            self.database.child(userUID).updateChildValues(["eventsIdList": newEventsList as NSArray]) { error, databaseReference in
+            self.database.child(userUID).updateChildValues(["onlineEventsIDList": newEventsList as NSArray]) { error, databaseReference in
                 if error != nil {
                     completion(.failure(.error))
                 }

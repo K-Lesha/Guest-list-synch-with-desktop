@@ -300,7 +300,7 @@
 			children = (
 				8A0E9B9329102CF000DBF883 /* GuestEntity */,
 				8A0E9B5D29101E2400DBF883 /* EventEntity */,
-				8A54CE29290C176900ADAB45 /* UserEntity */,
+				8A54CE29290C176900ADAB45 /* UsersEntities */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -436,13 +436,13 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		8A54CE29290C176900ADAB45 /* UserEntity */ = {
+		8A54CE29290C176900ADAB45 /* UsersEntities */ = {
 			isa = PBXGroup;
 			children = (
 				8A54CE2A290C177900ADAB45 /* UserEntity.swift */,
 				8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */,
 			);
-			path = UserEntity;
+			path = UsersEntities;
 			sourceTree = "<group>";
 		};
 		8A7E92FC29074BCF005E5B33 /* GoogleSpreadsheets layer */ = {

@@ -47,17 +47,17 @@ class AddModifyGuestInteractor: AddModifyGuestInteractorProtocol {
             //completion false
             return
         }
-        let newGuestDataForRow: [String] = [newGuestData.guestName,
-                                            newGuestData.guestSurname ?? "",
-                                            newGuestData.companyName ?? "",
-                                            newGuestData.positionInCompany ?? "",
-                                            newGuestData.guestGroup ?? "",
+        let newGuestDataForRow: [String] = [newGuestData.name,
+                                            newGuestData.surname ?? "",
+                                            newGuestData.company ?? "",
+                                            newGuestData.position ?? "",
+                                            newGuestData.group ?? "",
                                             String(newGuestData.guestsAmount),
                                             String(newGuestData.guestsEntered),
                                             String(newGuestData.giftsGifted),
                                             newGuestData.photoURL ?? "",
                                             newGuestData.phoneNumber ?? "",
-                                            newGuestData.guestEmail ?? "",
+                                            newGuestData.email ?? "",
                                             newGuestData.internalNotes ?? ""]
         spreadsheetsServise.sendDataToCell(spreadsheetID: eventID, range: "B\(row)", data: newGuestDataForRow, completionHandler: completion)
     }
@@ -75,17 +75,17 @@ class AddModifyGuestInteractor: AddModifyGuestInteractorProtocol {
     
     func addNewGuest(eventID: String, guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ()) {
         self.spreadsheetsServise.appendData(spreadsheetID: eventID, range: .guestsDataForAdding, data: [" ",
-                                                                                                        guest.guestName,
-                                                                                                        guest.guestSurname ?? " ",
-                                                                                                        guest.companyName ?? " ",
-                                                                                                        guest.positionInCompany ?? " ",
-                                                                                                        guest.guestGroup ?? " ",
+                                                                                                        guest.name,
+                                                                                                        guest.surname ?? " ",
+                                                                                                        guest.company ?? " ",
+                                                                                                        guest.position ?? " ",
+                                                                                                        guest.group ?? " ",
                                                                                                         String(guest.guestsAmount),
                                                                                                         String(guest.guestsEntered),
                                                                                                         String(guest.giftsGifted),
                                                                                                         guest.photoURL ?? " ",
                                                                                                         guest.phoneNumber ?? " ",
-                                                                                                        guest.guestEmail ?? " ",
+                                                                                                        guest.email ?? " ",
                                                                                                         guest.internalNotes ?? " ",
                                                                                                         guest.additionDate]) { string in
             completion(.success(true))
@@ -96,17 +96,17 @@ class AddModifyGuestInteractor: AddModifyGuestInteractorProtocol {
             //completion false
             return
         }
-        let deletedGuestDataForRow: [String] = [guest.guestName,
-                                                guest.guestSurname ?? "",
-                                                guest.companyName ?? "",
-                                                guest.positionInCompany ?? "",
+        let deletedGuestDataForRow: [String] = [guest.name,
+                                                guest.surname ?? "",
+                                                guest.company ?? "",
+                                                guest.position ?? "",
                                                 "удалённые",
                                                 "0",
                                                 "0",
                                                 "0",
                                                 guest.photoURL ?? "",
                                                 guest.phoneNumber ?? "",
-                                                guest.guestEmail ?? "",
+                                                guest.email ?? "",
                                                 guest.internalNotes ?? ""]
         spreadsheetsServise.sendDataToCell(spreadsheetID: eventID, range: "B\(row)", data: deletedGuestDataForRow, completionHandler: completion)
     }

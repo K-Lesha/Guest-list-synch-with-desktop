@@ -32,7 +32,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController()
         let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
         
-//        firebaseService.logOutWithFirebase()
+//        firebaseService.logOutWithFirebase() { _ in
+//             
+//        }
         
               
         
@@ -56,7 +58,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
     }
     func setupUserToDatabaseAndShowViewController(firebaseDatabase: FirebaseDatabaseProtocol, router: RouterProtocol, user: User) {
-        firebaseDatabase.setupUserFromDatabaseToTheApp(user: user) {
+        firebaseDatabase.downloadUserDataToTheApp(userUID: user.uid) {
             print("userSettedUpToTheApp")
             DispatchQueue.main.async {
                 router.showEventsListModule()

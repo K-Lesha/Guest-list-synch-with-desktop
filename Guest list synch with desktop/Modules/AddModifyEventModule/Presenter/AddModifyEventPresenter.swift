@@ -80,17 +80,21 @@ class AddModifyEventPresenter: AddModifyEventPresenterProtocol {
     }
     
     func modifyEvent(completion: @escaping (String) -> ()) {
-        guard let newEventData else { return }
-        interactor.modifyEvent(eventID: eventEntity?.eventID ?? "", newEventData: newEventData, completion: completion)
+        guard let newEventData,
+        let eventEntity
+        else {
+            return
+        }
+        interactor.modifyEvent(eventEntity: eventEntity, newEventData: newEventData, completion: completion)
     }
     
     func deleteEvent(completion: @escaping (String) -> ()) {
         guard state == .modifyEvent,
-            let eventID = self.eventEntity?.eventID
+            let eventEntity = self.eventEntity
         else {
             return
         }
-        interactor.deleteEvent(eventID: eventID, completion: completion)
+        interactor.deleteEvent(eventEntity: eventEntity, completion: completion)
         
     }
     //MARK: Navigation

@@ -8,15 +8,15 @@
 import Foundation
 
 protocol OfflineEventsDatabaseProtocol {
-    func setOfflineEventToDatabase(event: EventEntity, completion: @escaping (Result<EventEntity, FirebaseError>) -> ())
+    func addOfflineEventToUserDatabase(event: EventEntity, completion: @escaping (Result<EventEntity, FirebaseError>) -> ())
     func readOfflineEventsFromDatabase(completion: @escaping (Result<NSDictionary, FirebaseError>) -> ())
     func readOneOfflineEventFromDatabase(offlineEventID: String, completion: @escaping (Result<NSDictionary, FirebaseError>) -> ())
+    func deleteOfflineEventInDatabase(eventID: String,
+                                        completion: @escaping (Result<String, FirebaseDatabaseError>) -> ())
 }
 
 extension FirebaseDatabase {
-    
-    func setOfflineEventToDatabase(event: EventEntity, completion: @escaping (Result<EventEntity, FirebaseError>) -> ()) {
-        
+    func addOfflineEventToUserDatabase(event: EventEntity, completion: @escaping (Result<EventEntity, FirebaseError>) -> ()) {
         guard let databaseSnapshot = self.lastDatabaseSnapshot,
               let userUID = FirebaseService.logginnedUser?.uid,
               let allUsersDataDictionary = databaseSnapshot.value as? NSDictionary,
@@ -30,11 +30,11 @@ extension FirebaseDatabase {
         let guestEntitiesArray = event.guestsEntites
         let guestsDict = GuestEntity.createGuestsDictFromArray(guestEntitiesArray)
 
-        let newDictionaryEvent: Dictionary<String, Any> = [event.eventID: ["eventName": event.eventName,
-                                                                "eventClient": event.eventClient,
-                                                                "eventVenue": event.eventVenue,
-                                                                "eventDate": event.eventDate,
-                                                                "eventTime": event.eventTime,
+        let newDictionaryEvent: Dictionary<String, Any> = [event.eventID: ["name": event.name,
+                                                                "client": event.client,
+                                                                "venue": event.venue,
+                                                                "date": event.date,
+                                                                "time": event.time,
                                                                 "eventID": event.eventID,
                                                                 "initedByUserUID": event.initedByUserUID,
                                                                 "initedByUserName": event.initedByUserName,
@@ -56,8 +56,6 @@ extension FirebaseDatabase {
             completion(.success(event))
         }
     }
-    
-    
     func readOfflineEventsFromDatabase(completion: @escaping (Result<NSDictionary, FirebaseError>) -> ()) {
         let operation = BlockOperation {
             self.updateDatabaseSnapshot()
@@ -94,5 +92,15 @@ extension FirebaseDatabase {
             completion(.success(offlineEvent))
         }
         operationQueue.addOperation(operation)
+    }
+    public func deleteOfflineEventInDatabase(eventID: String,
+                                        completion: @escaping (Result<String, FirebaseDatabaseError>) -> ()) {
+            guard let userUID = FirebaseService.logginnedUser?.uid
+            else {
+                return
+            }
+        self.database.child(userUID).child("offlineEvents").child(eventID).removeValue() {_,_ in
+            completion(.success("ok"))
+        }
     }
 }

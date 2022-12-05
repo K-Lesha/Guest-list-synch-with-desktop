@@ -53,7 +53,7 @@ class AssemblyModuleBuilder: AssemblyBuilderProtocol {
         }
         //init AuthModule
         let view = AuthViewController()
-        let interactor = AuthInteractor(networkService: self.networkService, firebaseService: self.firebaseService)
+        let interactor = AuthInteractor(networkService: self.networkService, firebaseService: self.firebaseService, database: self.firebaseDatabase)
         let presenter = AuthPresenter(view: view, interactor: interactor, router: router)
         view.presenter = presenter
         return view
@@ -77,7 +77,7 @@ class AssemblyModuleBuilder: AssemblyBuilderProtocol {
     internal func createGuestslistModule(router: RouterProtocol,
                                          eventEntity: EventEntity) -> UIViewController {
         let guestListView = GuestlistViewController()
-        let interactor = GuestListInteractor(firebaseService: self.firebaseService)
+        let interactor = GuestListInteractor(firebaseService: self.firebaseService, database: self.firebaseDatabase)
         let presenter = GuestlistPresenter(guestlistView: guestListView, interactor: interactor, router: router, eventEntity: eventEntity)
         guestListView.presenter = presenter
         return guestListView

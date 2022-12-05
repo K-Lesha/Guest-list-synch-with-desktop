@@ -65,16 +65,14 @@ class AddModifyEventViewController: UIViewController, AddModifyEventViewProtocol
         else {
             return
         }
-        eventNameTextfield.text = event.eventName
-        venueNameTextfield.text = event.eventVenue
-        eventDateTextfield.text = event.eventDate
-        eventTimeTextfield.text = event.eventTime
-        eventClientTextfield.text = event.eventClient
+        eventNameTextfield.text = event.name
+        venueNameTextfield.text = event.venue
+        eventDateTextfield.text = event.date
+        eventTimeTextfield.text = event.time
+        eventClientTextfield.text = event.client
         //TODO: synchWithGoogleSwitch = event.isOnline
     }
     //Button methods
-
-
     @IBAction func deleteEventButtonPushed(_ sender: Any) {
         presenter.deleteEvent { string in
             print(string)
@@ -92,11 +90,11 @@ class AddModifyEventViewController: UIViewController, AddModifyEventViewProtocol
         }
         
         var newEventEntity = oldEventEntity
-        newEventEntity.eventName = eventName
-        newEventEntity.eventDate = eventDate
-        newEventEntity.eventVenue = venueNameTextfield.text ?? " "
-        newEventEntity.eventTime = eventTimeTextfield.text ?? " "
-        newEventEntity.eventClient = eventClientTextfield.text ?? " "
+        newEventEntity.name = eventName
+        newEventEntity.date = eventDate
+        newEventEntity.venue = venueNameTextfield.text ?? " "
+        newEventEntity.time = eventTimeTextfield.text ?? " "
+        newEventEntity.client = eventClientTextfield.text ?? " "
         
         self.presenter.newEventData = newEventEntity
         

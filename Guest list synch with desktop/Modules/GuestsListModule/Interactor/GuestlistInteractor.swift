@@ -10,12 +10,13 @@ import Foundation
 protocol GuestlistInteractorProtocol {
     //VIPER protocol
     var firebaseService: FirebaseServiceProtocol! {get set}
+    var database: FirebaseDatabaseProtocol! {get set}
     //init
-    init(firebaseService: FirebaseServiceProtocol)
+    init(firebaseService: FirebaseServiceProtocol, database: FirebaseDatabaseProtocol)
     //Spreadsheet methods
     func readEventGuests(event: EventEntity, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void)
     func checkGoogleSignIn(completion: @escaping (Bool) -> ())
-    func updateEventEntity(eventID: String, completion: @escaping (Result<EventEntity, GuestlistInteractorError>) -> ())
+    func updateEventEntity(eventEntity: EventEntity, completion: @escaping (Result<EventEntity, GuestlistInteractorError>) -> ())
 }
 
 enum GuestlistInteractorError: Error {
@@ -30,22 +31,24 @@ class GuestListInteractor: GuestlistInteractorProtocol {
     //MARK: -VIPER protocol
     private var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
     internal var firebaseService: FirebaseServiceProtocol!
+    internal var database: FirebaseDatabaseProtocol!
     
     //MARK: INIT
-    required init(firebaseService: FirebaseServiceProtocol) {
+    required init(firebaseService: FirebaseServiceProtocol, database: FirebaseDatabaseProtocol) {
         self.firebaseService = firebaseService
+        self.database = database
     }
 
     //MARK: -Spreadsheets methods
+    //readEventGuests
     func readEventGuests(event: EventEntity, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void) {
-        
         if event.isOnline {
             readOnlineEventGuests(eventID: event.eventID, completion: completion)
         } else {
             readOfflineEvent(event: event, completion: completion)
         }
     }
-    func readOnlineEventGuests(eventID: String, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void) {
+    private func readOnlineEventGuests(eventID: String, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void) {
         // temp properties
         //TODO: make an operation queue with completion
         let group = DispatchGroup()
@@ -87,19 +90,26 @@ class GuestListInteractor: GuestlistInteractorProtocol {
             }
         }
     }
-    func readOfflineEvent(event: EventEntity, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void) {
+    private func readOfflineEvent(event: EventEntity, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void) {
         if let guestEntities = event.guestsEntites {
             completion(.success(guestEntities))
         } else {
             completion(.failure(.noGuestsToShow))
         }
     }
-    
-    
+    //checkGoogleSignIn
     func checkGoogleSignIn(completion: @escaping (Bool) -> ()) {
-        firebaseService.checkSignInWithGoogle(completion: completion)
+        firebaseService.loginedWithGoogleCheck(completion: completion)
     }
-    func updateEventEntity(eventID: String, completion: @escaping (Result<EventEntity, GuestlistInteractorError>) -> ()) {
+    //Update event entity
+    func updateEventEntity(eventEntity: EventEntity, completion: @escaping (Result<EventEntity, GuestlistInteractorError>) -> ()) {
+        if eventEntity.isOnline {
+            self.updateOnlineEventEntity(eventID: eventEntity.eventID, completion: completion)
+        } else {
+            self.updateOfflineEventEntity(eventID: eventEntity.eventID, completion: completion)
+        }
+    }
+    private func updateOnlineEventEntity(eventID: String, completion: @escaping (Result<EventEntity, GuestlistInteractorError>) -> ()) {
         spreadsheetsServise.readSpreadsheetsData(range: .oneEventData, eventID: eventID, oneGuestRow: nil) { result in
             switch result {
             case .success(let eventStringArray):
@@ -107,6 +117,17 @@ class GuestListInteractor: GuestlistInteractorProtocol {
                 completion (.success(updatedEventEntity))
             case .failure(_):
                 completion(.failure(.spreadsheetsServiceError))
+            }
+        }
+    }
+    private func updateOfflineEventEntity(eventID: String, completion: @escaping (Result<EventEntity, GuestlistInteractorError>) -> ()) {
+        self.database.readOneOfflineEventFromDatabase(offlineEventID: eventID) { result in
+            switch result {
+            case .success(let eventDictionary):
+                let event = EventEntity.createOfflineEventFromDict(eventDictionary)
+                completion(.success(event))
+            case .failure(_):
+                completion(.failure(.error))
             }
         }
     }

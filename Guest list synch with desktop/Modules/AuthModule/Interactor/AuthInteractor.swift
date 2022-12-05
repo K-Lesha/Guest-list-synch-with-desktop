@@ -11,7 +11,9 @@ protocol AuthInteractorProtocol {
     //VIPER protocol
     var networkService: NetworkServiceProtocol! {get set}
     var firebaseService: FirebaseServiceProtocol! {get set}
-    init (networkService: NetworkServiceProtocol, firebaseService: FirebaseServiceProtocol)
+    var database: FirebaseDatabaseProtocol! {get set}
+    // Init
+    init (networkService: NetworkServiceProtocol, firebaseService: FirebaseServiceProtocol, database: FirebaseDatabaseProtocol)
     //Network methods
     func checkInternetConnection() -> Bool
     func downloadImage(urlString: String, completionBlock: @escaping (Result<Data, NetworkError>) -> Void)
@@ -28,11 +30,16 @@ class AuthInteractor: AuthInteractorProtocol {
     //MARK: -VIPER protocol
     internal var networkService: NetworkServiceProtocol!
     internal var firebaseService: FirebaseServiceProtocol!
+    var database: FirebaseDatabaseProtocol!
     private let spreadsheetService: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
-    internal required init (networkService: NetworkServiceProtocol, firebaseService: FirebaseServiceProtocol) {
+    //MARK: -INIT
+    internal required init (networkService: NetworkServiceProtocol, firebaseService: FirebaseServiceProtocol, database: FirebaseDatabaseProtocol) {
         self.networkService = networkService
         self.firebaseService = firebaseService
+        self.database = database
     }
+    //MARK: -PROPERTIES
+    let operationQueue = OperationQueue()
     //MARK: -Network methods
     // AuthViewController
     internal func checkInternetConnection() -> Bool {
@@ -44,27 +51,65 @@ class AuthInteractor: AuthInteractorProtocol {
     //MARK: -Firebase calls
     // PasswordModalView
     internal func tryToLogInWithFirebase(email: String, password: String, completion: @escaping (Result<String, FirebaseError>) -> ()) {
-        firebaseService.tryToLogInWithFirebase(email: email, password: password, completion: completion)
+        firebaseService.signInWithFirebase(email: email, password: password, completion: completion)
     }
     internal func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ()) {
-        firebaseService.tryToLoginWithFacebook(viewController: viewController, completion: completion)
+        firebaseService.loginWithFacebook(viewController: viewController, completion: completion)
     }
     internal func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<(String, String, String, Bool), FirebaseError>) -> ()) {
-        firebaseService.tryToSignInWithGoogle(viewController: viewController, completion: completion)
+        firebaseService.loginWithGoogle(viewController: viewController, completion: completion)
     }
     internal func restorePasswordWithFirebase(email: String, completion: @escaping (Result<Bool, FirebaseError>) -> ()) {
-        firebaseService.restorePasswordWithFirebase(email: email, completion: completion)
+        firebaseService.resetPasswordWithFirebase(email: email, completion: completion)
     }
     // FirebaseRegistrationModalView
     internal func tryToRegisterWithFirebase(email: String, name: String, surname: String, agency: String, userTypeRawValue: Int, password: String, completion: @escaping (Result<String, FirebaseError>) -> ()) {
-        spreadsheetService.createDefaultSpreadsheet(named: "Demo guestlist", sheetType: .demoEvent) { eventID in
-            self.firebaseService.tryToRegisterWithFirebase(email: email, name: name, surname: surname, agency: agency, userTypeRawValue: userTypeRawValue, demoEventID: eventID, password: password, completion: completion)
+        //1. create user data in firebathe auth service
+        self.firebaseService.createUserProfileUsingFirebase(email: email, name: name, surname: surname, agency: agency, userTypeRawValue: userTypeRawValue, password: password) {_ in 
+            // 2. create demo offline event
+            let demoEvent = EventEntity.createDemoOfflineEvent(userUID: "demo event", userName: name)
+            // 3. set offline demo event to user database
+            self.database.addOfflineEventToUserDatabase(event: demoEvent) { result in
+                switch result {
+                case .success(_):
+                    //3. set user data to database
+                        completion(.success("ok"))
+                case .failure(_):
+                    completion(.failure(.databaseError))
+                }
+            }
         }
     }
     // FinishFbGModalView
     internal func finishFacebookGoogleRegistrationProcess(userUID: String, surname: String, agency: String, userTypeRawValue: Int, completion: @escaping (Result<String, FirebaseError>) -> ()) {
-        spreadsheetService.createDefaultSpreadsheet(named: "Demo guestlist", sheetType: .demoEvent) { eventID in
-            self.firebaseService.finishRegistrationWithFacebookGoogle(userUID: userUID, surname: surname, agency: agency, userTypeRawValue: userTypeRawValue, demoEventID: eventID, completion: completion)
+        let createNewUserInDatabaseBlock = BlockOperation {
+            //1. create user data in database
+            self.firebaseService.finishRegistrationWithFacebookOrGoogle(userUID: userUID, surname: surname, agency: agency, userTypeRawValue: userTypeRawValue) { asdsad in
+                // 2. create demo offline event
+                let demoEvent = EventEntity.createDemoOfflineEvent(userUID: userUID, userName: surname)
+                // 3. set offline demo event to user database
+                self.database.addOfflineEventToUserDatabase(event: demoEvent) { result in
+                    switch result {
+                    case .success(_):
+                        //3. set user data to database
+                            AuthenticationSemaphore.shared.signal()
+                    case .failure(_):
+                        completion(.failure(.databaseError))
+                    }
+                }
+            }
         }
+        let updateUserDataFromDatabaseToTheApp = BlockOperation {
+            //4. update user data from database to app
+            AuthenticationSemaphore.shared.wait()
+            self.database.updateUserDataInTheApp {
+                //5. send completion to UI
+                completion(.success("ok"))
+            }
+        }
+        operationQueue.addOperations([createNewUserInDatabaseBlock, updateUserDataFromDatabaseToTheApp], waitUntilFinished: false)
     }
+    
+    
+    
 }

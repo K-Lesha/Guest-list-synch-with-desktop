@@ -9,23 +9,23 @@ import Foundation
 
 struct GuestEntity {
     //MARK: PROPERTIES
-    var guestName: String
-    var guestSurname: String?
-    var companyName: String?
-    var positionInCompany: String?
-    var guestGroup: String?
+    var name: String
+    var surname: String?
+    var company: String?
+    var position: String?
+    var group: String?
     var guestsAmount: Int
     var guestsEntered: Int
     var giftsGifted: Int
     var photoURL: String?
     var phoneNumber: String?
-    var guestEmail: String?
+    var email: String?
     var internalNotes: String?
     var additionDate: String
     
     var guestRowInSpreadSheet: String?
     var empty: Bool {
-        if guestName == "" || guestName == "empty_name" || guestName == " "  {
+        if name == "" || name == "empty_name" || name == " "  {
             return true
         } else {
             return false
@@ -34,8 +34,8 @@ struct GuestEntity {
     
     //MARK: - INIT
     init() {
-        self.guestName = "empty_name"
-        self.guestGroup = "empty"
+        self.name = "empty_name"
+        self.group = "empty"
         self.guestsAmount = 0
         self.guestsEntered = 0
         self.giftsGifted = 0
@@ -52,17 +52,17 @@ struct GuestEntity {
          guestEmail: String?,
          internalNotes: String?,
          guestRowInSpreadSheet: Int?) {
-        self.guestName = guestName
-        self.guestSurname = guestSurname
-        self.companyName = companyName
-        self.positionInCompany = positionInCompany
-        self.guestGroup = guestGroup
+        self.name = guestName
+        self.surname = guestSurname
+        self.company = companyName
+        self.position = positionInCompany
+        self.group = guestGroup
         self.guestsAmount = guestsAmount
         self.guestsEntered = 0
         self.giftsGifted = 0
         self.photoURL = photoURL
         self.phoneNumber = phoneNumber
-        self.guestEmail = guestEmail
+        self.email = guestEmail
         self.internalNotes = internalNotes
         self.additionDate = Date().description.localizedLowercase
         if let guestRowInSpreadSheet {
@@ -77,15 +77,15 @@ struct GuestEntity {
         for (index, guestData) in guestStringArray.enumerated() {
             switch index {
             case 0:
-                oneGuest.guestName = guestData
+                oneGuest.name = guestData
             case 1:
-                oneGuest.guestSurname = guestData
+                oneGuest.surname = guestData
             case 2:
-                oneGuest.companyName = guestData
+                oneGuest.company = guestData
             case 3:
-                oneGuest.positionInCompany = guestData
+                oneGuest.position = guestData
             case 4:
-                oneGuest.guestGroup = guestData
+                oneGuest.group = guestData
             case 5:
                 oneGuest.guestsAmount = Int(guestData)!
             case 6:
@@ -97,7 +97,7 @@ struct GuestEntity {
             case 9:
                 oneGuest.phoneNumber = guestData
             case 10:
-                oneGuest.guestEmail = guestData
+                oneGuest.email = guestData
             case 11:
                 oneGuest.internalNotes = guestData
             case 12:
@@ -110,7 +110,6 @@ struct GuestEntity {
         return oneGuest
     }
     
-         
     static func createGuestsArrayForDemo() -> [GuestEntity] {
         var tempGuestsArray = [GuestEntity]()
         //Data for demo guests
@@ -157,17 +156,17 @@ struct GuestEntity {
             
             for guest in guestsArray {
                 let guestDictionary = [
-                    "guestName": guest.guestName,
-                    "guestSurname": guest.guestSurname ?? " ",
-                    "companyName": guest.companyName ?? " ",
-                    "positionInCompany": guest.positionInCompany ?? " ",
-                    "guestGroup": guest.guestGroup ?? " ",
+                    "name": guest.name,
+                    "surname": guest.surname ?? " ",
+                    "company": guest.company ?? " ",
+                    "position": guest.position ?? " ",
+                    "group": guest.group ?? " ",
                     "guestsAmount": String(guest.guestsAmount),
                     "guestsEntered": String(guest.guestsEntered),
                     "giftsGifted": String(guest.giftsGifted),
                     "photoURL": guest.photoURL ?? " ",
                     "phoneNumber": guest.phoneNumber ?? " ",
-                    "guestEmail": guest.guestEmail ?? " ",
+                    "email": guest.email ?? " ",
                     "internalNotes": guest.internalNotes ?? " ",
                     "additionDate": guest.additionDate
                 ] as [String : Any]
@@ -182,17 +181,17 @@ struct GuestEntity {
     
     static func createOneGuestFrom(_ nsDictionary: NSDictionary) -> GuestEntity {
         var guest = GuestEntity()
-        guest.guestName = nsDictionary.object(forKey: "guestName") as! String
-        guest.guestSurname = nsDictionary.object(forKey: "guestSurname") as? String
-        guest.companyName = nsDictionary.object(forKey: "companyName") as? String
-        guest.positionInCompany = nsDictionary.object(forKey: "positionInCompany") as? String
-        guest.guestGroup = nsDictionary.object(forKey: "guestGroup") as? String
+        guest.name = nsDictionary.object(forKey: "name") as! String
+        guest.surname = nsDictionary.object(forKey: "surname") as? String
+        guest.company = nsDictionary.object(forKey: "company") as? String
+        guest.position = nsDictionary.object(forKey: "position") as? String
+        guest.group = nsDictionary.object(forKey: "group") as? String
         guest.guestsAmount = Int(nsDictionary.object(forKey: "guestsAmount") as? String ?? "0")!
         guest.guestsEntered = Int(nsDictionary.object(forKey: "guestsEntered") as? String ?? "0")!
         guest.giftsGifted = Int(nsDictionary.object(forKey: "giftsGifted") as? String ?? "0")!
         guest.photoURL = nsDictionary.object(forKey: "photoURL") as? String
         guest.phoneNumber = nsDictionary.object(forKey: "phoneNumber") as? String
-        guest.guestEmail = nsDictionary.object(forKey: "guestEmail") as? String
+        guest.email = nsDictionary.object(forKey: "email") as? String
         guest.internalNotes = nsDictionary.object(forKey: "internalNotes") as? String
         guest.additionDate = nsDictionary.object(forKey: "additionDate") as! String
         return guest

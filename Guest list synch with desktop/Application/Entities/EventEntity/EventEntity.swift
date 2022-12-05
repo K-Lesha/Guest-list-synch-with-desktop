@@ -8,11 +8,11 @@
 import Foundation
 
 struct EventEntity {
-    var eventName: String
-    var eventClient: String
-    var eventVenue: String
-    var eventDate: String
-    var eventTime: String
+    var name: String
+    var client: String
+    var venue: String
+    var date: String
+    var time: String
     var eventID: String
     var initedByUserUID: String
     var initedByUserName: String
@@ -72,11 +72,11 @@ struct EventEntity {
     
     //MARK: -INIT
     init() {
-        eventName = "empty data"
-        eventClient = "empty data"
-        eventVenue = "empty data"
-        eventDate = "empty data"
-        eventTime = "empty data"
+        name = "empty data"
+        client = "empty data"
+        venue = "empty data"
+        date = "empty data"
+        time = "empty data"
         eventID = "empty data"
         initedByUserUID = "empty data"
         initedByUserName = "empty data"
@@ -89,15 +89,15 @@ struct EventEntity {
         for (index, eventData) in eventStringArray.enumerated() {
             switch index {
             case 0:
-                oneEvent.eventName = eventData.first ?? "event without name"
+                oneEvent.name = eventData.first ?? "event without name"
             case 2:
-                oneEvent.eventClient = eventData.first ?? "no client data"
+                oneEvent.client = eventData.first ?? "no client data"
             case 4:
-                oneEvent.eventVenue = eventData.first ?? "no venue data"
+                oneEvent.venue = eventData.first ?? "no venue data"
             case 6:
-                oneEvent.eventDate = eventData.first ?? "unknown event date"
+                oneEvent.date = eventData.first ?? "unknown event date"
             case 8:
-                oneEvent.eventTime = eventData.first ?? "unknown event time"
+                oneEvent.time = eventData.first ?? "unknown event time"
             case 10:
                 oneEvent.totalGuestsOnline = eventData.first ?? "no info"
             case 12:
@@ -122,11 +122,11 @@ struct EventEntity {
     static func createDemoOfflineEvent(userUID: String,
                                        userName: String) -> EventEntity {
         var offlineDemoEntity = EventEntity()
-        offlineDemoEntity.eventName = "Demo event"
-        offlineDemoEntity.eventClient = "Demo client"
-        offlineDemoEntity.eventVenue = "Demo venue"
-        offlineDemoEntity.eventDate = Date().formatted(date: .abbreviated, time: .omitted)
-        offlineDemoEntity.eventTime = Date().formatted(date: .omitted, time: .shortened)
+        offlineDemoEntity.name = "Demo event"
+        offlineDemoEntity.client = "Demo client"
+        offlineDemoEntity.venue = "Demo venue"
+        offlineDemoEntity.date = Date().formatted(date: .abbreviated, time: .omitted)
+        offlineDemoEntity.time = Date().formatted(date: .omitted, time: .shortened)
         offlineDemoEntity.eventID = UUID().uuidString
         offlineDemoEntity.initedByUserUID = userUID
         offlineDemoEntity.initedByUserName = userName
@@ -142,11 +142,11 @@ struct EventEntity {
                                         userUID: String,
                                         userName: String) -> EventEntity {
         var emptyOfflineEventEntity = EventEntity()
-        emptyOfflineEventEntity.eventName = eventName
-        emptyOfflineEventEntity.eventClient = eventClient ?? " "
-        emptyOfflineEventEntity.eventVenue = eventVenue ?? " "
-        emptyOfflineEventEntity.eventDate = eventDate
-        emptyOfflineEventEntity.eventTime = eventTime ?? " "
+        emptyOfflineEventEntity.name = eventName
+        emptyOfflineEventEntity.client = eventClient ?? " "
+        emptyOfflineEventEntity.venue = eventVenue ?? " "
+        emptyOfflineEventEntity.date = eventDate
+        emptyOfflineEventEntity.time = eventTime ?? " "
         emptyOfflineEventEntity.eventID = UUID().uuidString
         emptyOfflineEventEntity.initedByUserUID = userUID
         emptyOfflineEventEntity.initedByUserName = userName
@@ -168,12 +168,12 @@ struct EventEntity {
     }
     static func createOfflineEventFromDict(_ dictionary: NSDictionary) -> EventEntity {
         var eventEntity = EventEntity()
-        eventEntity.eventName = dictionary.object(forKey: "eventName") as! String
-        eventEntity.eventClient = dictionary.object(forKey: "eventClient") as? String ?? "no data about client"
-        eventEntity.eventDate = dictionary.object(forKey: "eventDate") as! String
+        eventEntity.name = dictionary.object(forKey: "name") as! String
+        eventEntity.client = dictionary.object(forKey: "client") as? String ?? "no data about client"
+        eventEntity.date = dictionary.object(forKey: "date") as! String
         eventEntity.eventID = dictionary.object(forKey: "eventID") as! String
-        eventEntity.eventTime = dictionary.object(forKey: "eventTime") as? String ?? "no info about time"
-        eventEntity.eventVenue = dictionary.object(forKey: "eventVenue") as? String ?? "no venue data"
+        eventEntity.time = dictionary.object(forKey: "time") as? String ?? "no info about time"
+        eventEntity.venue = dictionary.object(forKey: "venue") as? String ?? "no venue data"
         eventEntity.initedByUserUID = dictionary.object(forKey: "initedByUserUID") as! String
         eventEntity.initedByUserName = dictionary.object(forKey: "initedByUserName") as! String
         eventEntity.isOnline = dictionary.object(forKey: "isOnline") as! Bool

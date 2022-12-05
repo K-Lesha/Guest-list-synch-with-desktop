@@ -151,9 +151,9 @@ extension EventsListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "event", for: indexPath) as! EventTableViewCell
-        cell.eventNameLabel.text = self.presenter.eventsList[indexPath.row].eventName
-        cell.venueLabel.text = self.presenter.eventsList[indexPath.row].eventVenue
-        cell.eventDateAndTimeLabel.text = "\(self.presenter.eventsList[indexPath.row].eventDate ), \(self.presenter.eventsList[indexPath.row].eventTime)"
+        cell.eventNameLabel.text = self.presenter.eventsList[indexPath.row].name
+        cell.venueLabel.text = self.presenter.eventsList[indexPath.row].venue
+        cell.eventDateAndTimeLabel.text = "\(self.presenter.eventsList[indexPath.row].date ), \(self.presenter.eventsList[indexPath.row].time)"
         cell.guestsAmountLabel.text = self.presenter.eventsList[indexPath.row].totalGuests
         return cell
     }

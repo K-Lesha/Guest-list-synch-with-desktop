@@ -67,13 +67,13 @@ class OneGuestViewController: UIViewController, OneGuestViewPortocol {
         if guest.guestsAmount == 0 {
             self.view.backgroundColor = .lightGray
         }
-        self.nameLabel.text = guest.guestName
-        if let surname = guest.guestSurname {
+        self.nameLabel.text = guest.name
+        if let surname = guest.surname {
             self.surnameLabel.text = surname
         } else {
             self.surnameLabel.isHidden = true
         }
-        if let guestGroup = guest.guestGroup, guestGroup.count > 1 {
+        if let guestGroup = guest.group, guestGroup.count > 1 {
             guestGroupLabel.text = guestGroup
         } else {
             guestGroupLabel.text = "группа не присвоена"
@@ -96,13 +96,13 @@ class OneGuestViewController: UIViewController, OneGuestViewPortocol {
         } else {
             
         }
-        if let company = guest.companyName, company.count > 0 {
+        if let company = guest.company, company.count > 0 {
             comapanyNameLabel.text = company
         } else {
             comapanyNameLabel.text = "нет информации о компании"
             comapanyNameLabel.textColor = .gray
         }
-        if let position = guest.positionInCompany, position.count > 0 {
+        if let position = guest.position, position.count > 0 {
             positionInCompanyLabel.text = position
         } else {
             positionInCompanyLabel.text = "неизвестно"
@@ -114,7 +114,7 @@ class OneGuestViewController: UIViewController, OneGuestViewPortocol {
             phoneNumberLabel.text = "неизвестно"
             phoneNumberLabel.textColor = .gray
         }
-        if let email = guest.guestEmail, email.count > 0 {
+        if let email = guest.email, email.count > 0 {
             emailLabel.text = email
         } else {
             emailLabel.text = "неизвестно"
