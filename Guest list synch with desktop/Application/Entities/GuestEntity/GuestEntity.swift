@@ -22,8 +22,8 @@ struct GuestEntity {
     var email: String?
     var internalNotes: String?
     var additionDate: String
-    
     var guestRowInSpreadSheet: String?
+    var offlineUID: String?
     var empty: Bool {
         if name == "" || name == "empty_name" || name == " "  {
             return true
@@ -69,9 +69,10 @@ struct GuestEntity {
             self.guestRowInSpreadSheet = String(guestRowInSpreadSheet)
         } else {
             self.guestRowInSpreadSheet = nil
+            self.offlineUID = UUID().uuidString
         }
     }
-    
+    //MARK: -ONLINE EVENT METHODS
     static func createGuestEntityWith(guestStringArray: [String], row: Int) -> GuestEntity {
         var oneGuest = GuestEntity()
         for (index, guestData) in guestStringArray.enumerated() {
@@ -109,7 +110,7 @@ struct GuestEntity {
         }
         return oneGuest
     }
-    
+    //MARK: -OFFLINE EVENT METHODS
     static func createGuestsArrayForDemo() -> [GuestEntity] {
         var tempGuestsArray = [GuestEntity]()
         //Data for demo guests
@@ -127,7 +128,7 @@ struct GuestEntity {
                                "https://images.unsplash.com/photo-1509399693673-755307bfc4e1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjJ8fG1hbiUyMGZhY2V8ZW58MHwyfDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60"]
         let randomPhoneNumbers =  ["+0(123)456-78-90", nil, "+0(123)456-78-90", "+0(123)456-78-90", nil, "+0(123)456-78-90", nil]
         let randomEmails = ["abcdef@ghigk.lmn", "abcdef@ghigk.lmn", nil, "abcdef@ghigk.lmn", "abcdef@ghigk.lmn", nil, "abcdef@ghigk.lmn"]
-        let randomInternalNotes = Array<String>.init(repeating: "Here you can add some notes", count: 7)
+        let randomInternalNotes = Array<String>.init(repeating: "Some notes about the guest", count: 7)
         // Appending random guests to temp array
         for index in 0..<randomNames.count {
             let randomGuest = GuestEntity(guestName: randomNames[index],
@@ -146,13 +147,13 @@ struct GuestEntity {
         //Return temp array
         return tempGuestsArray
     }
-    static func createGuestsArrayFromDict() -> [GuestEntity] {
-        
-        return [GuestEntity()]
-    }
-    static func createGuestsDictFromArray(_ guestsArray: [GuestEntity]?) -> [NSDictionary] {
+//    static func createGuestsArrayFromDict() -> [GuestEntity] {
+//
+//        return [GuestEntity()]
+//    }
+    static func createGuestsDictFrom(_ guestsArray: [GuestEntity]?) -> Dictionary<String, NSDictionary> {
         if let guestsArray {
-            var guestsDictionary = [[String : Any]]()
+            var guestsDictionary = Dictionary<String, NSDictionary>()
             
             for guest in guestsArray {
                 let guestDictionary = [
@@ -168,17 +169,17 @@ struct GuestEntity {
                     "phoneNumber": guest.phoneNumber ?? " ",
                     "email": guest.email ?? " ",
                     "internalNotes": guest.internalNotes ?? " ",
-                    "additionDate": guest.additionDate
-                ] as [String : Any]
-                guestsDictionary.append(guestDictionary)
+                    "additionDate": guest.additionDate,
+                    "offlineUID": guest.offlineUID ?? " "
+                ] as NSDictionary
+                guestsDictionary[(guest.offlineUID ?? " ")] = guestDictionary
             }
             
-            return guestsDictionary as [NSDictionary]
+            return guestsDictionary
         } else {
-            return [NSDictionary()]
+            return Dictionary<String, NSDictionary>()
         }
     }
-    
     static func createOneGuestFrom(_ nsDictionary: NSDictionary) -> GuestEntity {
         var guest = GuestEntity()
         guest.name = nsDictionary.object(forKey: "name") as! String
@@ -194,6 +195,7 @@ struct GuestEntity {
         guest.email = nsDictionary.object(forKey: "email") as? String
         guest.internalNotes = nsDictionary.object(forKey: "internalNotes") as? String
         guest.additionDate = nsDictionary.object(forKey: "additionDate") as! String
+        guest.offlineUID = nsDictionary.object(forKey: "offlineUID") as? String
         return guest
     }
 }

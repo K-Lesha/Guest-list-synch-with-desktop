@@ -220,7 +220,7 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
     @objc private func tryToLoginWithFirebase() {
         animateButton(button: tryToLoginButton)
         if checkPasswordTextFeild() {
-            presenter.password = self.passwordTextField.text ?? ""
+            presenter.registeringUser.password = self.passwordTextField.text ?? ""
             presenter.tryToLoginWithFirebase { result in
                 switch result {
                 case .success(_):
@@ -239,7 +239,7 @@ class PasswordModalViewController: UIViewController, PasswordViewProtocol {
         animateButton(button: createAccountButton)
         if checkPasswordTextFeild() {
             passwordTextField.resignFirstResponder()
-            presenter.password = self.passwordTextField.text ?? ""
+            presenter.registeringUser.password = self.passwordTextField.text ?? ""
             //change view vize to normal
             preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight)
             //show next modal view

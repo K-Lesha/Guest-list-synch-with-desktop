@@ -124,7 +124,7 @@ class GuestListInteractor: GuestlistInteractorProtocol {
         self.database.readOneOfflineEventFromDatabase(offlineEventID: eventID) { result in
             switch result {
             case .success(let eventDictionary):
-                let event = EventEntity.createOfflineEventFromDict(eventDictionary)
+                let event = EventEntity.createOneOfflineEventFrom(eventDictionary)
                 completion(.success(event))
             case .failure(_):
                 completion(.failure(.error))

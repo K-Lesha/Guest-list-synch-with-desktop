@@ -45,6 +45,7 @@
 		8A7218562925346300716096 /* AddModifyEventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A7218542925346300716096 /* AddModifyEventViewController.xib */; };
 		8A7218582925347900716096 /* AddModifyEventPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7218572925347900716096 /* AddModifyEventPresenter.swift */; };
 		8A72185A2925349300716096 /* AddModifyEventInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7218592925349300716096 /* AddModifyEventInteractor.swift */; };
+		8A7ACABA294285A800A93DF7 /* RegisteringUserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7ACAB9294285A800A93DF7 /* RegisteringUserEntity.swift */; };
 		8A7E93072907F78B005E5B33 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 8A7E93062907F78B005E5B33 /* BottomSheet */; };
 		8A7E9309290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7E9308290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift */; };
 		8AAE641E292B70AE0096C0B8 /* FirebaseDatabaseService(online events).swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAE641D292B70AE0096C0B8 /* FirebaseDatabaseService(online events).swift */; };
@@ -107,6 +108,7 @@
 		8A7218542925346300716096 /* AddModifyEventViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddModifyEventViewController.xib; sourceTree = "<group>"; };
 		8A7218572925347900716096 /* AddModifyEventPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModifyEventPresenter.swift; sourceTree = "<group>"; };
 		8A7218592925349300716096 /* AddModifyEventInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModifyEventInteractor.swift; sourceTree = "<group>"; };
+		8A7ACAB9294285A800A93DF7 /* RegisteringUserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteringUserEntity.swift; sourceTree = "<group>"; };
 		8A7E9308290AC2AB005E5B33 /* GoogleSpreadsheetsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSpreadsheetsService.swift; sourceTree = "<group>"; };
 		8AAE641D292B70AE0096C0B8 /* FirebaseDatabaseService(online events).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseDatabaseService(online events).swift"; sourceTree = "<group>"; };
 		8AAE641F292B70C40096C0B8 /* FirebaseDatabaseService(offline events).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseDatabaseService(offline events).swift"; sourceTree = "<group>"; };
@@ -441,6 +443,7 @@
 			children = (
 				8A54CE2A290C177900ADAB45 /* UserEntity.swift */,
 				8A54CE2D290C3E2F00ADAB45 /* SupportingUserEntity.swift */,
+				8A7ACAB9294285A800A93DF7 /* RegisteringUserEntity.swift */,
 			);
 			path = UsersEntities;
 			sourceTree = "<group>";
@@ -490,8 +493,8 @@
 			isa = PBXGroup;
 			children = (
 				8ACB2D32291447AC009AE476 /* Alerts factory */,
-				8A7E92FD29074BEF005E5B33 /* Database layer */,
 				8A7E92FC29074BCF005E5B33 /* GoogleSpreadsheets layer */,
+				8A7E92FD29074BEF005E5B33 /* Database layer */,
 				8AF83EB129066CF000614257 /* Registration & Login layer */,
 				8AF83EB029066CE900614257 /* Network layer */,
 			);
@@ -712,6 +715,7 @@
 			files = (
 				8A5AFE38291E93F500449C51 /* FirebaseDatabaseSemaphore.swift in Sources */,
 				8A0E9B7329101F9700DBF883 /* AuthPresenter.swift in Sources */,
+				8A7ACABA294285A800A93DF7 /* RegisteringUserEntity.swift in Sources */,
 				8AF83E8F2906655100614257 /* AppDelegate.swift in Sources */,
 				8AF83E912906655100614257 /* SceneDelegate.swift in Sources */,
 				8A72185029223F9100716096 /* OneGuestPresenter.swift in Sources */,

@@ -220,7 +220,7 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
     private func checkUserDataAndContinue() {
         if let emailString = self.emailTextField.text, self.isValidEmail(email: emailString) {
             emailTextField.resignFirstResponder()
-            presenter.email = emailString
+            presenter.registeringUser.email = emailString
             finishRegistrationWithFirebase()
         } else {
             showError()
@@ -239,38 +239,26 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
     }
     @objc private func facebookButtonTapped() {
         presenter.tryToLoginWithFacebook(viewController: self) { result in
-            switch result {
-            case .success((let userUID, let email, let name, let newUser)):
-                if newUser {
-                    self.presenter.userUID = userUID
-                    self.presenter.email = email
-                    self.presenter.userName = name
-                    self.finishRegistrationAfterGoogleFacebookLogin()
-                } else {
-                    self.presenter.showEventsListModule()
-                    self.dismiss(animated: true)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+            self.facebookGoogleRegsitrationContinue(result: result)
         }
     }
     @objc func googleButtonTapped() {
         presenter.tryToLoginWithGoogle(viewController: self) { result in
-            switch result {
-            case .success((let userUID, let email, let name, let newUser)):
-                if newUser {
-                    self.presenter.userUID = userUID
-                    self.presenter.email = email
-                    self.presenter.userName = name
-                    self.finishRegistrationAfterGoogleFacebookLogin()
-                } else {
-                    self.presenter.showEventsListModule()
-                    self.dismiss(animated: true)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
+            self.facebookGoogleRegsitrationContinue(result: result)
+        }
+    }
+    private func facebookGoogleRegsitrationContinue(result: Result<RegisteringUser, FirebaseError>) {
+        switch result {
+        case .success(let registeringUser):
+            if registeringUser.isNew {
+                self.presenter.registeringUser = registeringUser
+                self.finishRegistrationAfterGoogleFacebookLogin()
+            } else {
+                self.presenter.showEventsListModule()
+                self.dismiss(animated: true)
             }
+        case .failure(let error):
+            print(error.localizedDescription)
         }
     }
     //MARK: -Navigation

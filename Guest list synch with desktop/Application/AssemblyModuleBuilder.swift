@@ -26,7 +26,7 @@ protocol AssemblyBuilderProtocol {
     func createProfileModule(router: RouterProtocol) -> UIViewController
     func createOneGuestModule(router: RouterProtocol,
                               guest: GuestEntity,
-                              eventID: String) -> UIViewController
+                              event: EventEntity) -> UIViewController
     func createAddModifyOneGuestModule(router: RouterProtocol,
                                        state: AddModifyOneGuestPresenterState,
                                        guest: GuestEntity?,
@@ -91,10 +91,10 @@ class AssemblyModuleBuilder: AssemblyBuilderProtocol {
     }
     func createOneGuestModule(router: RouterProtocol,
                               guest: GuestEntity,
-                              eventID: String) -> UIViewController {
+                              event: EventEntity) -> UIViewController {
         let view = OneGuestViewController(nibName: "OneGuestViewController", bundle: nil)
-        let interactor = OneGuestInteractor(networkService: self.networkService)
-        let presenter = OneGuestPresenter(view: view, interactor: interactor, router: router, guest: guest, eventID: eventID)
+        let interactor = OneGuestInteractor(networkService: self.networkService, database: self.firebaseDatabase)
+        let presenter = OneGuestPresenter(view: view, interactor: interactor, router: router, guest: guest, event: event)
         view.presenter = presenter
         return view
     }

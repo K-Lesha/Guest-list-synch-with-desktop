@@ -154,19 +154,19 @@ struct EventEntity {
         emptyOfflineEventEntity.isOnline = false
         return emptyOfflineEventEntity
     }
-    static func createOfflineEventsFromDict(_ nsDictionary: NSDictionary) -> [EventEntity] {
+    static func createEventsArrayFrom(_ nsDictionary: NSDictionary) -> [EventEntity] {
         var eventsArray = [EventEntity]()
         
         let eventsDictionary = nsDictionary as! Dictionary<String, NSDictionary>
         
         for (_, value) in eventsDictionary {
-            let eventEntity = createOfflineEventFromDict(value)
+            let eventEntity = createOneOfflineEventFrom(value)
             eventsArray.append(eventEntity)
         }
         
         return eventsArray
     }
-    static func createOfflineEventFromDict(_ dictionary: NSDictionary) -> EventEntity {
+    static func createOneOfflineEventFrom(_ dictionary: NSDictionary) -> EventEntity {
         var eventEntity = EventEntity()
         eventEntity.name = dictionary.object(forKey: "name") as! String
         eventEntity.client = dictionary.object(forKey: "client") as? String ?? "no data about client"
@@ -179,8 +179,8 @@ struct EventEntity {
         eventEntity.isOnline = dictionary.object(forKey: "isOnline") as! Bool
         
         var guestlist = [GuestEntity]()
-        if let dictGuestlist = dictionary.object(forKey: "guestEntities") as? NSArray {
-            for value in dictGuestlist {
+        if let dictGuestlist = dictionary.object(forKey: "guestEntities") as? NSDictionary {
+            for (key, value) in dictGuestlist {
                 let guest = GuestEntity.createOneGuestFrom(value as! NSDictionary)
                 guestlist.append(guest)
             }

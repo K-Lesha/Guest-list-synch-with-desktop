@@ -25,23 +25,23 @@ extension FirebaseDatabase {
             completion(.failure(.databaseError))
             return
         }
-
         
+        //TODO: HERE
         let guestEntitiesArray = event.guestsEntites
-        let guestsDict = GuestEntity.createGuestsDictFromArray(guestEntitiesArray)
-
-        let newDictionaryEvent: Dictionary<String, Any> = [event.eventID: ["name": event.name,
-                                                                "client": event.client,
-                                                                "venue": event.venue,
-                                                                "date": event.date,
-                                                                "time": event.time,
-                                                                "eventID": event.eventID,
-                                                                "initedByUserUID": event.initedByUserUID,
-                                                                "initedByUserName": event.initedByUserName,
-                                                                "isOnline": event.isOnline,
-                                                                "guestEntities": guestsDict]]
+        let guestsDict = GuestEntity.createGuestsDictFrom(guestEntitiesArray)
         
-
+        let newDictionaryEvent: Dictionary<String, Any> = [event.eventID: ["name": event.name,
+                                                                           "client": event.client,
+                                                                           "venue": event.venue,
+                                                                           "date": event.date,
+                                                                           "time": event.time,
+                                                                           "eventID": event.eventID,
+                                                                           "initedByUserUID": event.initedByUserUID,
+                                                                           "initedByUserName": event.initedByUserName,
+                                                                           "isOnline": event.isOnline,
+                                                                           "guestEntities": guestsDict]]
+        
+        
         var dictionatyToUpload = newDictionaryEvent
         
         if let existingOfflineEventsDicts = userData.object(forKey: "offlineEvents") as? Dictionary<String, Any> {

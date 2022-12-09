@@ -32,9 +32,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController()
         let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
         
-//        firebaseService.logOutWithFirebase() { _ in
-//             
-//        }
+        firebaseService.logOutWithFirebase() { _ in
+             
+        }
         
               
         

@@ -48,7 +48,7 @@ class FinishRegistrationModalView: UIViewController, FinishRegistrationModalView
     private var agencyTextfield: UITextField!
     private var userTypeTextfield: UITextField!
     private var userTypePicker: UIPickerView!
-    private var userTypeState: UserTypes?
+    private var userTypeState: UserType?
     private var finishRegistrationButton: UIButton!
 
     //MARK: -viewDidLoad
@@ -81,7 +81,7 @@ class FinishRegistrationModalView: UIViewController, FinishRegistrationModalView
         emailTextfield = UITextField()
         view.addSubview(emailTextfield)
         emailTextfield.placeholder = "email"
-        emailTextfield.text = presenter.email
+        emailTextfield.text = presenter.registeringUser.email
         emailTextfield.font = Appearance.buttomsFont
         emailTextfield.clearButtonMode = .whileEditing
         emailTextfield.keyboardType = .emailAddress
@@ -108,7 +108,7 @@ class FinishRegistrationModalView: UIViewController, FinishRegistrationModalView
         userNameTextfield.font = Appearance.buttomsFont
         userNameTextfield.borderStyle = UITextField.BorderStyle.none
         userNameTextfield.clearButtonMode = .whileEditing
-        userNameTextfield.text = presenter.userName
+        userNameTextfield.text = presenter.registeringUser.name
         let bottomLineLoginEmail = CALayer()
         bottomLineLoginEmail.backgroundColor = UIColor.lightGray.cgColor
         userNameTextfield.layer.addSublayer(bottomLineLoginEmail)
@@ -289,17 +289,17 @@ class FinishRegistrationModalView: UIViewController, FinishRegistrationModalView
         // send to presenter all the parameters
         //name
         if let userName = self.userNameTextfield.text, userName.count >= 1 {
-            presenter.userName = userName
+            presenter.registeringUser.name = userName
         } else {
             return
         }
         //surname
         if let userSurname = self.userSurnameTextfield.text {
-            presenter.userSurname = userSurname
+            presenter.registeringUser.surname = userSurname
         }
         //agency
         if let userAgency = self.agencyTextfield.text {
-            presenter.userAgency = userAgency
+            presenter.registeringUser.agency = userAgency
         }
         // userType
         guard userTypeTextfield.text?.isEmpty == false else {
@@ -364,15 +364,17 @@ extension FinishRegistrationModalView: UIPickerViewDataSource, UIPickerViewDeleg
         return 1
     }
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return UserTypes.count
+        return UserType.count
     }
     // UIPickerViewDelegate
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return UserTypes(rawValue: row)?.description
+        self.userTypeTextfield.text = UserType(rawValue: 0)?.description
+        self.presenter.registeringUser.userTypeRawValue = 0
+        return UserType(rawValue: row)?.description
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.userTypeTextfield.text = UserTypes(rawValue: row)?.description
-        self.presenter.userType = UserTypes(rawValue: row)!
+        self.userTypeTextfield.text = UserType(rawValue: row)?.description
+        self.presenter.registeringUser.userTypeRawValue = row
 //        self.userTypeTextfield.resignFirstResponder()
     }
 }

@@ -7,14 +7,14 @@
 
 import Foundation
 
-
-enum UserTypes: Int {
+//MARK: UserType
+enum UserType: Int {
     case organizer = 0 // can create events and manage them, can create guestlists and manage them, can see other organizer events
     case hostess = 1 // can see events by organizer, cant create own events, can manage guestlist
     case client = 2 // can see events by organizer, cant create own events, can manage guestlist
     
     static var count: Int {
-        return UserTypes.client.rawValue + 1
+        return UserType.client.rawValue + 1
     }
     var description: String {
         switch self {
@@ -24,14 +24,14 @@ enum UserTypes: Int {
         }
     }
 }
-
+//MARK: UserEntity
 struct UserEntity {
     var uid: String
     var payedEvents: Int
     var onlineEventsIDList: [String]
     var offlineEvents: [EventEntity]?
     var delegatedEventIdList: [String]?
-    var accessLevel: UserTypes
+    var userType: UserType
     var coorganizers: [SupportingUserEntity]?
     var headOrganizers: [SupportingUserEntity]?
     var hostesses: [SupportingUserEntity]?
@@ -54,12 +54,12 @@ struct UserEntity {
         }
         var offlineEventsEntites: [EventEntity]? = nil
         if let offlineEventsIdListFromDatabase = userData?.object(forKey: "offlineEvents") as? NSDictionary {
-            let offlineEventEntites = EventEntity.createOfflineEventsFromDict(offlineEventsIdListFromDatabase)
+            let offlineEventEntites = EventEntity.createEventsArrayFrom(offlineEventsIdListFromDatabase)
             offlineEventsEntites = offlineEventEntites
         }
-        let accessLevelString = userData?.object(forKey: "userTypeRawValue") as! String
-        let accessLevelInt: Int = Int(accessLevelString) ?? 4
-        let accessLevel = UserTypes(rawValue: accessLevelInt)!
+        let userTypeRawValueString = userData?.object(forKey: "userTypeRawValue") as! String
+        let userTypeRawValueInt: Int = Int(userTypeRawValueString) ?? 3
+        let userTypeRawValue = UserType(rawValue: userTypeRawValueInt) ?? .hostess
         let coorganizersUIDs = (userData?.object(forKey: "coorganizersUIDs") as? [String])
         let coorganizers = UserEntity.initSupportingUsers(uids: coorganizersUIDs)
         let headOrganizersUIDs = userData?.object(forKey: "headOrganizersUIDs") as? [String]
@@ -83,7 +83,7 @@ struct UserEntity {
                               onlineEventsIDList: onlineEventsIdList,
                               offlineEvents: offlineEventsEntites,
                               delegatedEventIdList: delegatedEventIdList,
-                              accessLevel: accessLevel,
+                              userType: userTypeRawValue,
                               coorganizers: coorganizers,
                               headOrganizers: headOrganizers,
                               hostesses: hostesses,

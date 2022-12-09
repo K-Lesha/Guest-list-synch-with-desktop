@@ -10,12 +10,13 @@ import Foundation
 protocol OneGuestInteractorProtocol {
     // VIPER PROTOCOL
     var networkService: NetworkServiceProtocol! {get set}
+    var database: FirebaseDatabaseProtocol! {get set}
     // Init
-    init(networkService: NetworkServiceProtocol)
+    init(networkService: NetworkServiceProtocol, database: FirebaseDatabaseProtocol)
     // Methods
     func setGuestPhoto(stringURL: String, completion: @escaping (Result<Data, NetworkError>) -> Void)
     //Guest check-in/out methods
-    func oneGuestEntered(eventID: String, guest: GuestEntity, completion: @escaping (String) -> ())
+    func oneGuestEntered(event: EventEntity, guest: GuestEntity, completion: @escaping (String) -> ())
     func canselAllTheGuestCheckins(eventID: String, guest: GuestEntity, completion: @escaping (String) -> ())
     // Gift methods
     func presentOneGift(eventID: String, guest: GuestEntity, completion: @escaping (String) -> ())
@@ -27,16 +28,26 @@ protocol OneGuestInteractorProtocol {
 class OneGuestInteractor: OneGuestInteractorProtocol {
     //MARK: -VIPER PROTOCOL
     var networkService: NetworkServiceProtocol!
+    var database: FirebaseDatabaseProtocol!
     private var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
 
     //MARK: -INIT
-    required init(networkService: NetworkServiceProtocol) {
+    required init(networkService: NetworkServiceProtocol, database: FirebaseDatabaseProtocol) {
         self.networkService = networkService
+        self.database = database
     }
     
     //MARK: -METHODS
     //MARK: Guest check-in/out methods
-    func oneGuestEntered(eventID: String, guest: GuestEntity, completion: @escaping (String) -> ()) {
+    // oneGuestEntered
+    func oneGuestEntered(event: EventEntity, guest: GuestEntity, completion: @escaping (String) -> ()) {
+        if event.isOnline {
+            self.oneGuestEnteredOnlineEvent(eventID: event.eventID, guest: guest, completion: completion)
+        } else {
+            self.oneGuestEnteredOfflineEvent(eventID: event.eventID, guest: guest, completion: completion)
+        }
+    }
+    private func oneGuestEnteredOnlineEvent(eventID: String, guest: GuestEntity, completion: @escaping (String) -> ()) {
         guard let row = guest.guestRowInSpreadSheet else {
             //completion false
             return
@@ -44,6 +55,10 @@ class OneGuestInteractor: OneGuestInteractorProtocol {
         let newEnteredGuestAmount = String(guest.guestsEntered + 1)
         self.spreadsheetsServise.sendDataToCell(spreadsheetID: eventID, range: "H\(row)", data: [newEnteredGuestAmount], completionHandler: completion)
     }
+    private func oneGuestEnteredOfflineEvent(eventID: String, guest: GuestEntity, completion: @escaping (String) -> ()) {
+        //TODO: HERE
+    }
+    // canselAllTheGuestCheckins
     func canselAllTheGuestCheckins(eventID: String, guest: GuestEntity, completion: @escaping (String) -> ()) {
         guard let row = guest.guestRowInSpreadSheet else {
             //completion false

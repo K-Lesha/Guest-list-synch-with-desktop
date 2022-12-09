@@ -96,7 +96,7 @@ class GuestlistPresenter: GuestlistPresenterProtocol {
         self.router.popOneController()
     }
     func showOneGuest(guest: GuestEntity) {
-        router.showOneGuestModule(guest: guest, eventID: self.eventEntity.eventID)
+        router.showOneGuestModule(guest: guest, event: self.eventEntity)
     }
     func addNewGuest() {
         router.showAddModifyGuestModule(state: .addGuest, guest: nil, eventID: eventEntity.eventID)

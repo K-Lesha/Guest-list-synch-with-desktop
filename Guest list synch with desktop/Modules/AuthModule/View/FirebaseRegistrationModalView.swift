@@ -49,7 +49,7 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
     private var agencyTextfield: UITextField!
     private var userTypeTextfield: UITextField!
     private var userTypePicker: UIPickerView!
-    private var userTypeState: UserTypes?
+    private var userTypeState: UserType?
     private var registerButton: UIButton!
     private var errorLabel: UILabel? = nil
     
@@ -83,7 +83,7 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
         emailTextfield = UITextField()
         view.addSubview(emailTextfield)
         emailTextfield.placeholder = "email"
-        emailTextfield.text = presenter.email
+        emailTextfield.text = presenter.registeringUser.email
         emailTextfield.font = Appearance.buttomsFont
         emailTextfield.clearButtonMode = .whileEditing
         emailTextfield.keyboardType = .emailAddress
@@ -106,9 +106,7 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
         passwordTextfield = UITextField()
         view.addSubview(passwordTextfield)
         passwordTextfield.placeholder = "пароль"
-        if presenter.password.count > 0 {
-            passwordTextfield.text = self.presenter.password
-        }
+        passwordTextfield.text = self.presenter.registeringUser.password
         passwordTextfield.isSecureTextEntry = true
         passwordTextfield.font = Appearance.buttomsFont
         passwordTextfield.autocorrectionType = .no
@@ -353,29 +351,29 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
         // send to presenter all the parameters
         // email
         if let userEmail = self.emailTextfield.text, isValidEmail(email: userEmail) {
-            presenter.email = userEmail
+            presenter.registeringUser.email = userEmail
         } else {
             return
         }
         // password
         if let userPassword = self.passwordTextfield.text, userPassword.count >= 6 {
-            presenter.password = userPassword
+            presenter.registeringUser.password = userPassword
         } else {
             return
         }
         //name
         if let userName = self.userNameTextfield.text, userName.count >= 1 {
-            presenter.userName = userName
+            presenter.registeringUser.name = userName
         } else {
             return
         }
         //surname
         if let userSurname = self.userSurnameTextfield.text {
-            presenter.userSurname = userSurname
+            presenter.registeringUser.surname = userSurname
         }
         //agency
         if let userAgency = self.agencyTextfield.text {
-            presenter.userAgency = userAgency
+            presenter.registeringUser.agency = userAgency
         }
         // userType
         guard userTypeTextfield.text?.isEmpty == false else {
@@ -431,15 +429,17 @@ extension RegistrationModalViewController: UIPickerViewDataSource, UIPickerViewD
         return 1
     }
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return UserTypes.count
+        return UserType.count
     }
     // UIPickerViewDelegate
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return UserTypes(rawValue: row)?.description
+        self.userTypeTextfield.text = UserType(rawValue: 0)?.description
+        self.presenter.registeringUser.userTypeRawValue = 0
+        return UserType(rawValue: row)?.description
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.userTypeTextfield.text = UserTypes(rawValue: row)?.description
-        self.presenter.userType = UserTypes(rawValue: row)!
+        self.userTypeTextfield.text = UserType(rawValue: row)?.description
+        self.presenter.registeringUser.userTypeRawValue = row
 //        self.userTypeTextfield.resignFirstResponder()
     }
 }
