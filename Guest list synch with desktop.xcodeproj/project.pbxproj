@@ -495,7 +495,7 @@
 				8ACB2D32291447AC009AE476 /* Alerts factory */,
 				8A7E92FC29074BCF005E5B33 /* GoogleSpreadsheets layer */,
 				8A7E92FD29074BEF005E5B33 /* Database layer */,
-				8AF83EB129066CF000614257 /* Registration & Login layer */,
+				8AF83EB129066CF000614257 /* Firebase layer */,
 				8AF83EB029066CE900614257 /* Network layer */,
 			);
 			path = Services;
@@ -559,13 +559,13 @@
 			path = "Network layer";
 			sourceTree = "<group>";
 		};
-		8AF83EB129066CF000614257 /* Registration & Login layer */ = {
+		8AF83EB129066CF000614257 /* Firebase layer */ = {
 			isa = PBXGroup;
 			children = (
 				8AF83EA22906666300614257 /* GoogleService-Info.plist */,
 				8AF83EB429066D1700614257 /* FirebaseService.swift */,
 			);
-			path = "Registration & Login layer";
+			path = "Firebase layer";
 			sourceTree = "<group>";
 		};
 		96501F6EED8BA2CE67A7071B /* Pods */ = {

@@ -18,13 +18,13 @@ protocol AuthInteractorProtocol {
     func checkInternetConnection() -> Bool
     func downloadImage(urlString: String, completionBlock: @escaping (Result<Data, NetworkError>) -> Void)
     // Firebase methods
-    func tryToRegisterWithFirebase(registeringUser: RegisteringUser,
+    func signUpWithFirebase(registeringUser: RegisteringUser,
                                    completion: @escaping (Result<String, FirebaseError>) -> ())
-    func tryToLogInWithFirebase(registeringUser: RegisteringUser,
+    func signInWithFirebase(registeringUser: RegisteringUser,
                                 completion: @escaping (Result<String, FirebaseError>) -> ())
-    func tryToLoginWithFacebook(viewController: SignInViewProtocol,
+    func signInWithFacebook(viewController: SignInViewProtocol,
                                 completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ())
-    func tryToLoginWithGoogle(viewController: SignInViewProtocol,
+    func signInWithGoogle(viewController: SignInViewProtocol,
                               completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ())
     func restorePasswordWithFirebase(email: String,
                                      completion: @escaping (Result<Bool, FirebaseError>) -> ())
@@ -46,7 +46,7 @@ class AuthInteractor: AuthInteractorProtocol {
     }
     //MARK: -PROPERTIES
     let operationQueue = OperationQueue()
-    //MARK: -Network methods
+    //MARK: -NETWORK METHODS
     // AuthViewController
     internal func checkInternetConnection() -> Bool {
         networkService.checkInternetConnection()
@@ -54,41 +54,67 @@ class AuthInteractor: AuthInteractorProtocol {
     internal func downloadImage(urlString: String, completionBlock: @escaping (Result<Data, NetworkError>) -> Void) {
         networkService.downloadImage(urlString: urlString, completionBlock: completionBlock)
     }
-    //MARK: -Firebase calls
-    // PasswordModalView
-    internal func tryToLogInWithFirebase(registeringUser: RegisteringUser, completion: @escaping (Result<String, FirebaseError>) -> ()) {
-        firebaseService.signInWithFirebase(registeringUser: registeringUser, completion: completion)
+    //MARK: -SIGN UP WITH FIREBASE
+    internal func signUpWithFirebase(registeringUser: RegisteringUser, completion: @escaping (Result<String, FirebaseError>) -> ()) {
+        self.firebaseService.signUpWithFirebase(registeringUser: registeringUser) { result in
+            self.registrationCompletionHandler(result, completion: completion)
+        }
     }
-    internal func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ()) {
-        firebaseService.loginWithFacebook(viewController: viewController, completion: completion)
+    private func registrationCompletionHandler(_ result: Result<RegisteringUser, FirebaseError>, completion: @escaping (Result<String, FirebaseError>) -> ()) {
+        switch result {
+        case .success(let user):
+            self.database.saveNewFirebaseUserToTheDatabase(registeringUser: user) { result in
+                self.savingToDatabaseCompletionHandler(result, completion: completion)
+            }
+        case .failure(_):
+            completion(.failure(.databaseError))
+        }
     }
-    internal func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ()) {
-        firebaseService.loginWithGoogle(viewController: viewController, completion: completion)
+    private func savingToDatabaseCompletionHandler(_ result: Result<RegisteringUser, FirebaseError>, completion: @escaping (Result<String, FirebaseError>) -> ()) {
+        switch result {
+        case .success(let user):
+            self.addDemoEventToUserDatabase(user, completion: completion)
+        case .failure(_):
+            completion(.failure(.databaseError))
+        }
     }
-    internal func restorePasswordWithFirebase(email: String, completion: @escaping (Result<Bool, FirebaseError>) -> ()) {
-        firebaseService.resetPasswordWithFirebase(email: email, completion: completion)
-    }
-    // FirebaseRegistrationModalView
-    internal func tryToRegisterWithFirebase(registeringUser: RegisteringUser, completion: @escaping (Result<String, FirebaseError>) -> ()) {
-        //1. create user data in firebathe auth service
-        self.firebaseService.createUserProfileUsingFirebase(registeringUser: registeringUser) {_ in
-            // 2. create demo offline event
-            let demoEvent = EventEntity.createDemoOfflineEvent(userUID: "demo event", userName: registeringUser.name)
-            // 3. set offline demo event to user database
-            self.database.addOfflineEventToUserDatabase(event: demoEvent) { result in
-                switch result {
-                case .success(_):
-                    //3. set user data to database
-                    self.database.updateUserDataInTheApp {
-                        completion(.success("ok"))
-                    }
-                case .failure(_):
-                    completion(.failure(.databaseError))
-                }
+    private func addDemoEventToUserDatabase(_ user: RegisteringUser, completion: @escaping (Result<String, FirebaseError>) -> ()) {
+        let demoEvent = EventEntity.createDemoOfflineEvent(userUID: "demo event", userName: user.name)
+        self.database.addOfflineEventToUserDatabase(event: demoEvent) { result in
+            switch result {
+            case .success(_):
+                //3. set user data to database
+                self.updateUserDataInTheApp(completion: completion)
+            case .failure(_):
+                completion(.failure(.databaseError))
             }
         }
     }
-    // FinishFbGModalView
+    private func updateUserDataInTheApp(completion: @escaping (Result<String, FirebaseError>) -> ()) {
+        self.database.updateUserDataInTheApp {
+            completion(.success("ok"))
+        }
+    }
+    //MARK: -SIGN IN WITH FIREBASE
+    internal func signInWithFirebase(registeringUser: RegisteringUser, completion: @escaping (Result<String, FirebaseError>) -> ()) {
+        firebaseService.signInWithFirebase(registeringUser: registeringUser) { result in
+            self.singInWithFirebaseCompletion(result, completion: completion)
+        }
+    }
+    private func singInWithFirebaseCompletion(_ result: Result<RegisteringUser, FirebaseError>, completion: @escaping (Result<String, FirebaseError>) -> ()) {
+        switch result {
+        case .success(let user):
+            self.downloadUserDataToTheApp(user, completion: completion)
+        case .failure(let error):
+            completion(.failure(error))
+        }
+    }
+    private func downloadUserDataToTheApp(_ user: RegisteringUser, completion: @escaping (Result<String, FirebaseError>) -> ()) {
+        database.downloadUserDataToTheApp(userUID: user.uid) {
+            completion(.success("signInWithFirebase completed"))
+        }
+    }
+    //MARK: -SIGN UP WITH FACEBOOK / GOOGLE
     internal func finishFacebookGoogleRegistrationProcess(registeringUser: RegisteringUser, completion: @escaping (Result<String, FirebaseError>) -> ()) {
         let createNewUserInDatabaseBlock = BlockOperation {
             //1. create user data in database
@@ -117,7 +143,15 @@ class AuthInteractor: AuthInteractorProtocol {
         }
         operationQueue.addOperations([createNewUserInDatabaseBlock, updateUserDataFromDatabaseToTheApp], waitUntilFinished: false)
     }
-    
-    
-    
+    //MARK: -SIGN IN WITH FACEBOOK & GOOGLE
+    internal func signInWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ()) {
+        firebaseService.signInWithFacebook(viewController: viewController, completion: completion)
+    }
+    internal func signInWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ()) {
+        firebaseService.signInWithGoogle(viewController: viewController, completion: completion)
+    }
+    //MARK: -FIREBASE RESTORE PASSWORD
+    internal func restorePasswordWithFirebase(email: String, completion: @escaping (Result<Bool, FirebaseError>) -> ()) {
+        firebaseService.resetFirebasePassword(email: email, completion: completion)
+    }
 }

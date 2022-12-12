@@ -54,21 +54,21 @@ class OneGuestPresenter: OneGuestPresenterProtocol {
         interactor.oneGuestEntered(event: event, guest: self.guest, completion: completion)
     }
     func canselAllTheGuestCheckins(completion: @escaping (String) -> ()) {
-        interactor.canselAllTheGuestCheckins(eventID: event.eventID, guest: self.guest, completion: completion)
+        interactor.canselAllTheGuestCheckins(event: event, guest: self.guest, completion: completion)
     }
     //MARK: Gift methods
     func presentOneGift(completion: @escaping (String) -> ()) {
-        interactor.presentOneGift(eventID: event.eventID, guest: self.guest, completion: completion)
+        interactor.presentOneGift(event: event, guest: self.guest, completion: completion)
     }
     func ungiftAllTheGifts(completion: @escaping (String) -> ()) {
-        interactor.ungiftAllTheGifts(eventID: event.eventID, guest: self.guest, completion: completion)
+        interactor.ungiftAllTheGifts(event: event, guest: self.guest, completion: completion)
     }
     //MARK: Other methods
     func setGuestPhoto(stringURL: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         interactor.setGuestPhoto(stringURL: stringURL, completion: completion)
     }
     func updateGuestData(completion: @escaping (Result<GuestEntity, SheetsError>) -> ()) {
-        interactor.updateGuestData(eventID: event.eventID, guest: self.guest, completion: completion)
+        interactor.updateGuestData(event: event, guest: self.guest, completion: completion)
     }
     //MARK: Navigation methods
     func showGuestEditModule() {

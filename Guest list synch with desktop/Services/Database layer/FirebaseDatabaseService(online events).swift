@@ -25,7 +25,6 @@ extension FirebaseDatabase {
         else {
             return
         }
-
         var existingEvents = Array<String>()
         if let existingEventsInDatabase = userData.object(forKey: "onlineEventsIDList") as? Array<String> {
             existingEvents = existingEventsInDatabase

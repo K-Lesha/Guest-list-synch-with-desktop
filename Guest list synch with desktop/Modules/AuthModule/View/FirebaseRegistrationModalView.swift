@@ -399,6 +399,16 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
 }
 //MARK: -UITextFieldDelegate
 extension RegistrationModalViewController: UITextFieldDelegate {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == userTypeTextfield {
+            setDefaultUserTypeValue()
+        }
+        return true
+    }
+    func setDefaultUserTypeValue() {
+        self.userTypeTextfield.text = UserType(rawValue: 0)?.description
+        self.presenter.registeringUser.userTypeRawValue = 0
+    }
     //textFieldDidEndEditing
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.checkTextFields()
@@ -433,8 +443,6 @@ extension RegistrationModalViewController: UIPickerViewDataSource, UIPickerViewD
     }
     // UIPickerViewDelegate
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        self.userTypeTextfield.text = UserType(rawValue: 0)?.description
-        self.presenter.registeringUser.userTypeRawValue = 0
         return UserType(rawValue: row)?.description
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {

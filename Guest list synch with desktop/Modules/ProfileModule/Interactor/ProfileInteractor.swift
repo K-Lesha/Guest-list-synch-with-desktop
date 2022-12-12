@@ -29,7 +29,7 @@ class ProfileInteractor: ProfileInteractorProtocol {
     }
     
     func logOut() {
-        firebaseService.logOutWithFirebase() {_ in
+        firebaseService.signOut() {_ in
             
         }
     }

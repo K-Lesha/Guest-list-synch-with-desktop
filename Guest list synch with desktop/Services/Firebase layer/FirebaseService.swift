@@ -19,23 +19,25 @@ protocol FirebaseServiceProtocol: AnyObject {
     //init
     init(database: FirebaseDatabaseProtocol)
     //METHODS
-    //Firebase methods
-    func createUserProfileUsingFirebase(registeringUser: RegisteringUser,
-                                    completion: @escaping (Result<String, FirebaseError>) -> ())
+    //Registration methods
+    func signUpWithFirebase(registeringUser: RegisteringUser,
+                                    completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ())
+    // Sign In Methods
     func signInWithFirebase(registeringUser: RegisteringUser,
-                                completion: @escaping (Result<String, FirebaseError>) -> ())
-    func resetPasswordWithFirebase(email: String,
-                                     completion: @escaping (Result<Bool, FirebaseError>) -> ())
-    func logOutWithFirebase(completion: @escaping (Bool) -> ())
-    //Facebook methods
-    func loginWithFacebook(viewController: SignInViewProtocol,
                                 completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ())
-    //Google methods
-    func loginWithGoogle(viewController: SignInViewProtocol,
+    func signInWithFacebook(viewController: SignInViewProtocol,
+                                completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ())
+    func signInWithGoogle(viewController: SignInViewProtocol,
                          completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ())
-    func loginedWithGoogleCheck(completion: @escaping (Bool) -> ())
+    //Sign Out Methods
+    func signOut(completion: @escaping (Bool) -> ())
+    //Firebase methods
+    func resetFirebasePassword(email: String,
+                                     completion: @escaping (Result<Bool, FirebaseError>) -> ())
+    //Google Methods
+    func checkIsUserSignedInWithGoogle() -> Bool
     func requestGoogleScopes(viewController: UIViewController, googleUser: GIDGoogleUser, completionHandler: @escaping (Bool) -> Void)
-    //Common methods
+    //Other methods
     func finishRegistrationWithFacebookOrGoogle(registeringUser: RegisteringUser, completion: @escaping (Result<String, FirebaseError>) -> ())
 }
 //MARK: Firebase errors
@@ -43,6 +45,7 @@ enum FirebaseError: String, Error {
     //FirebseErrors
     case loginError
     case wrongEmail
+    case wrongPassword
     case registrationError
     case deletingError
     case noSuchUserFindet
@@ -73,13 +76,14 @@ class FirebaseService: FirebaseServiceProtocol {
     
     //MARK: METHODS
     //MARK: - FIREBASE
-    public func createUserProfileUsingFirebase(registeringUser: RegisteringUser,
-                                          completion: @escaping (Result<String, FirebaseError>) -> ()) {
+    public func signUpWithFirebase(registeringUser: RegisteringUser,
+                                          completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ()) {
+        //Check all the arguments
         guard let userPassword = registeringUser.password else {
-            completion(.failure(.registrationError))
+            completion(.failure(.wrongPassword))
             return
         }
-        // Firebse creating user
+        // Firebase creating user
         firebase.createUser(withEmail: registeringUser.email, password: userPassword) { result, error in
             guard error == nil, let result else {
                 completion(.failure(.registrationError))
@@ -89,23 +93,22 @@ class FirebaseService: FirebaseServiceProtocol {
             registeringFirebaseUser.isNew = true
             registeringFirebaseUser.uid = result.user.uid
             registeringFirebaseUser.signInProvider = "Firebase"
-            //saving user to the database
-            self.database.saveNewFirebaseUserToTheDatabase(registeringUser: registeringFirebaseUser, completion: completion)
+            completion(.success(registeringFirebaseUser))
         }
     }
     public func signInWithFirebase(registeringUser: RegisteringUser,
-                                       completion: @escaping (Result<String, FirebaseError>) -> ()) {
+                                       completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ()) {
         firebase.signIn(withEmail: registeringUser.email, password: registeringUser.password ?? " ") {result, error in
             guard error == nil, let user = result?.user else {
                 completion(.failure(.loginError))
                 return
             }
-            self.database.downloadUserDataToTheApp(userUID: user.uid) {
-                completion(.success(user.uid))
-            }
+            var registeringFirebaseUser = registeringUser
+            registeringFirebaseUser.uid = user.uid
+            completion(.success(registeringFirebaseUser))
         }
     }
-    public func resetPasswordWithFirebase(email: String, completion: @escaping (Result<Bool, FirebaseError>) -> ()) {
+    public func resetFirebasePassword(email: String, completion: @escaping (Result<Bool, FirebaseError>) -> ()) {
         firebase.sendPasswordReset(withEmail: email) { error in
             guard error == nil else {
                 completion(.failure(.restoringPasswordError))
@@ -114,7 +117,7 @@ class FirebaseService: FirebaseServiceProtocol {
             completion(.success(true))
         }
     }
-    public func logOutWithFirebase(completion: @escaping (Bool) -> ()) {
+    public func signOut(completion: @escaping (Bool) -> ()) {
         let cookies = HTTPCookieStorage.shared
         do {
             //google log out
@@ -140,7 +143,7 @@ class FirebaseService: FirebaseServiceProtocol {
     }
 
     //MARK: - FACEBOOK
-    public func loginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ()) {
+    public func signInWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ()) {
         //log in with facebook
         let login = LoginManager()
         login.logIn(permissions: ["email", "public_profile"], from: viewController as? UIViewController) { result, error in
@@ -165,7 +168,7 @@ class FirebaseService: FirebaseServiceProtocol {
         }
     }
     //MARK: - GOOGLE
-    internal func loginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ()) {
+    internal func signInWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ()) {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.signIn(with: config,
@@ -211,11 +214,11 @@ class FirebaseService: FirebaseServiceProtocol {
             completionHandler(true)
         }
     }
-    public func loginedWithGoogleCheck(completion: @escaping (Bool) -> ()) {
+    public func checkIsUserSignedInWithGoogle() -> Bool {
         if GIDSignIn.sharedInstance.currentUser != nil {
-            completion(true)
+            return true
         } else {
-            completion(false)
+            return false
         }
     }
     //MARK: -Common methods

@@ -15,7 +15,7 @@ protocol GuestlistInteractorProtocol {
     init(firebaseService: FirebaseServiceProtocol, database: FirebaseDatabaseProtocol)
     //Spreadsheet methods
     func readEventGuests(event: EventEntity, completion: @escaping (Result<[GuestEntity], GuestlistInteractorError>) -> Void)
-    func checkGoogleSignIn(completion: @escaping (Bool) -> ())
+    func checkGoogleSignIn() -> Bool
     func updateEventEntity(eventEntity: EventEntity, completion: @escaping (Result<EventEntity, GuestlistInteractorError>) -> ())
 }
 
@@ -98,8 +98,8 @@ class GuestListInteractor: GuestlistInteractorProtocol {
         }
     }
     //checkGoogleSignIn
-    func checkGoogleSignIn(completion: @escaping (Bool) -> ()) {
-        firebaseService.loginedWithGoogleCheck(completion: completion)
+    func checkGoogleSignIn() -> Bool {
+        return firebaseService.checkIsUserSignedInWithGoogle()
     }
     //Update event entity
     func updateEventEntity(eventEntity: EventEntity, completion: @escaping (Result<EventEntity, GuestlistInteractorError>) -> ()) {

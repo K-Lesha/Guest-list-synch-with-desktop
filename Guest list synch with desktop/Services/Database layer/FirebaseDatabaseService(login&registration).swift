@@ -13,7 +13,7 @@ import FirebaseCore
 protocol FirebaseDatabaseProtocol: OnlineEventsDatabaseProtocol, OfflineEventsDatabaseProtocol {
     
     func saveNewFirebaseUserToTheDatabase(registeringUser: RegisteringUser,
-                                          completion: @escaping (Result<String, FirebaseError>) -> ())
+                                          completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ())
     func firstStepSavingFacebookGoogleUserToTheDatabase(registeringUser: RegisteringUser,
                                                         completion: @escaping (Result<String, FirebaseDatabaseError>) -> ())
     func finishStepSavingFacebookGoogleUserToTheDatabase(registeringUser: RegisteringUser,
@@ -36,7 +36,7 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
     
     //MARK: -User registration methods
     public func saveNewFirebaseUserToTheDatabase(registeringUser: RegisteringUser,
-                                                 completion: @escaping (Result<String, FirebaseError>) -> ()) {
+                                                 completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ()) {
         self.database.child(registeringUser.uid).updateChildValues(["payedEvents": 0,
                                                         "userTypeRawValue": String(registeringUser.userTypeRawValue ?? 3),
                                                         "coorganizersUIDs": [""] as! NSArray,
@@ -56,7 +56,7 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
                 return
             }
             self.downloadUserDataToTheApp(userUID: registeringUser.uid) {
-                completion(.success("ok"))
+                completion(.success(registeringUser))
             }
         }
     }

@@ -32,11 +32,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController()
         let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
         
-        firebaseService.logOutWithFirebase() { _ in
-             
-        }
-        
-              
+//        firebaseService.signOut() { _ in
+//
+//        }
         
         // init correct screen by checking user condition
         if let user = Auth.auth().currentUser {
@@ -48,7 +46,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 } else {
                     print("googleUser != nil")
                 }
-                self.setupUserToDatabaseAndShowViewController(firebaseDatabase: firebaseDatabase, router: router, user: user)
+                self.setupUserToDatabaseAndShowEventlistModule(firebaseDatabase: firebaseDatabase, router: router, user: user)
             }
         } else {
             print("user == nil, auth module initialization")
@@ -57,7 +55,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
-    func setupUserToDatabaseAndShowViewController(firebaseDatabase: FirebaseDatabaseProtocol, router: RouterProtocol, user: User) {
+    private func setupUserToDatabaseAndShowEventlistModule(firebaseDatabase: FirebaseDatabaseProtocol, router: RouterProtocol, user: User) {
         firebaseDatabase.downloadUserDataToTheApp(userUID: user.uid) {
             print("userSettedUpToTheApp")
             DispatchQueue.main.async {

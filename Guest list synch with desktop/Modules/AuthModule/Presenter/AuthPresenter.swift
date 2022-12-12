@@ -62,21 +62,21 @@ class AuthPresenter: AuthPresenterProtocol {
     }
     // PasswordModalView
     internal func tryToLoginWithFirebase(completion: @escaping (Result<String, FirebaseError>) -> ()) {
-        self.interactor.tryToLogInWithFirebase(registeringUser: self.registeringUser, completion: completion)
+        self.interactor.signInWithFirebase(registeringUser: self.registeringUser, completion: completion)
     }
     internal func restorePasswordWithFirebase(completion: @escaping (Result<Bool, FirebaseError>) -> ()) {
         self.interactor.restorePasswordWithFirebase(email: self.registeringUser.email, completion: completion)
     }
     // SignInModalView
     internal func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ()) {
-        self.interactor.tryToLoginWithFacebook(viewController: viewController, completion: completion)
+        self.interactor.signInWithFacebook(viewController: viewController, completion: completion)
     }
     internal func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ()) {
-        interactor.tryToLoginWithGoogle(viewController: viewController, completion: completion)
+        interactor.signInWithGoogle(viewController: viewController, completion: completion)
     }
     // FirebaseRegistrationModalView
     internal func tryToRegisterWithFirebase(completion: @escaping (Result<String, FirebaseError>) -> ()) {
-        self.interactor.tryToRegisterWithFirebase(registeringUser: self.registeringUser, completion: completion)
+        self.interactor.signUpWithFirebase(registeringUser: self.registeringUser, completion: completion)
     }
     // FinishFbGModalView
     internal func finishFacebookGoogleRegistrationProcess(completion: @escaping (Result<String, FirebaseError>) -> ()) {

@@ -86,8 +86,6 @@ class GuestlistPresenter: GuestlistPresenterProtocol {
         }
     }
 
-    
-    
     //MARK: -NAVIGATION
     func showEventModifyModule() {
         router.showAddModifyEventModule(state: .modifyEvent, eventEntity: self.eventEntity)
