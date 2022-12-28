@@ -60,7 +60,7 @@ class OneGuestInteractor: OneGuestInteractorProtocol {
             return
         }
         let newEnteredGuestsValue = String(guest.guestsEntered + 1)
-        self.database.updateOneGuestData(eventID: eventID, guestID: guestID, key: "guestsEntered", value: newEnteredGuestsValue, completion: completion)
+        self.database.updateOnePropertyInGuestData(eventID: eventID, guestID: guestID, key: "guestsEntered", value: newEnteredGuestsValue, completion: completion)
     }
     // canselAllTheGuestCheckins
     func canselAllTheGuestCheckins(event: EventEntity, guest: GuestEntity, completion: @escaping (String) -> ()) {
@@ -70,7 +70,6 @@ class OneGuestInteractor: OneGuestInteractorProtocol {
         case false:
             self.canselAllTheGuestCheckinsInOfflineEvent(eventID: event.eventID, guest: guest, completion: completion)
         }
-
     }
     private func canselAllTheGuestCheckinsInOnlineEvent(eventID: String, guest: GuestEntity, completion: @escaping (String) -> ()) {
         guard let row = guest.guestRowInSpreadSheet else {
@@ -78,14 +77,13 @@ class OneGuestInteractor: OneGuestInteractorProtocol {
             return
         }
         self.spreadsheetsServise.sendDataToCell(spreadsheetID: eventID, range: "H\(row)", data: ["0"], completionHandler: completion)
-
     }
     private func canselAllTheGuestCheckinsInOfflineEvent(eventID: String, guest: GuestEntity, completion: @escaping (String) -> ()) {
         guard let guestID = guest.offlineUID else {
             return
         }
         let newEnteredGuestsValue = "0"
-        self.database.updateOneGuestData(eventID: eventID, guestID: guestID, key: "guestsEntered", value: newEnteredGuestsValue, completion: completion)
+        self.database.updateOnePropertyInGuestData(eventID: eventID, guestID: guestID, key: "guestsEntered", value: newEnteredGuestsValue, completion: completion)
     }
     //MARK: Gift methods
     func presentOneGift(event: EventEntity, guest: GuestEntity, completion: @escaping (String) -> ()) {
@@ -109,7 +107,7 @@ class OneGuestInteractor: OneGuestInteractorProtocol {
             return
         }
         let newGiftsValue = String(guest.giftsGifted + 1)
-        self.database.updateOneGuestData(eventID: eventID, guestID: guestID, key: "giftsGifted", value: newGiftsValue, completion: completion)
+        self.database.updateOnePropertyInGuestData(eventID: eventID, guestID: guestID, key: "giftsGifted", value: newGiftsValue, completion: completion)
         
     }
     func ungiftAllTheGifts(event: EventEntity, guest: GuestEntity, completion: @escaping (String) -> ()) {
@@ -132,7 +130,7 @@ class OneGuestInteractor: OneGuestInteractorProtocol {
             return
         }
         let newGiftsValue = "0"
-        self.database.updateOneGuestData(eventID: eventID, guestID: guestID, key: "giftsGifted", value: newGiftsValue, completion: completion)
+        self.database.updateOnePropertyInGuestData(eventID: eventID, guestID: guestID, key: "giftsGifted", value: newGiftsValue, completion: completion)
     }
     
     //MARK: -Other methods

@@ -111,7 +111,7 @@ struct GuestEntity {
         return oneGuest
     }
     //MARK: -OFFLINE EVENT METHODS
-    static func createGuestsArrayForDemo() -> [GuestEntity] {
+    static func createGuestsArrayForDemoEvent() -> [GuestEntity] {
         var tempGuestsArray = [GuestEntity]()
         //Data for demo guests
         let randomNames = ["John", "George", "Nathaly", "Megan", "Tom", "Jeniffer", "Leo"]
@@ -147,34 +147,25 @@ struct GuestEntity {
         //Return temp array
         return tempGuestsArray
     }
-//    static func createGuestsArrayFromDict() -> [GuestEntity] {
-//
-//        return [GuestEntity()]
-//    }
+    static func createGuestsArrayFrom(_ guestsDict: NSDictionary?) -> [GuestEntity] {
+        var guestlist = [GuestEntity]()
+        if let guestsDict {
+            for (key, value) in guestsDict {
+                let guest = GuestEntity.createOneGuestFrom(value as! NSDictionary)
+                guestlist.append(guest)
+            }
+            return guestlist
+        } else {
+            return [GuestEntity]()
+        }
+    }
     static func createGuestsDictFrom(_ guestsArray: [GuestEntity]?) -> Dictionary<String, NSDictionary> {
         if let guestsArray {
             var guestsDictionary = Dictionary<String, NSDictionary>()
-            
-            for guest in guestsArray {
-                let guestDictionary = [
-                    "name": guest.name,
-                    "surname": guest.surname ?? " ",
-                    "company": guest.company ?? " ",
-                    "position": guest.position ?? " ",
-                    "group": guest.group ?? " ",
-                    "guestsAmount": String(guest.guestsAmount),
-                    "guestsEntered": String(guest.guestsEntered),
-                    "giftsGifted": String(guest.giftsGifted),
-                    "photoURL": guest.photoURL ?? " ",
-                    "phoneNumber": guest.phoneNumber ?? " ",
-                    "email": guest.email ?? " ",
-                    "internalNotes": guest.internalNotes ?? " ",
-                    "additionDate": guest.additionDate,
-                    "offlineUID": guest.offlineUID ?? " "
-                ] as NSDictionary
-                guestsDictionary[(guest.offlineUID ?? " ")] = guestDictionary
+            for oneGuest in guestsArray {
+                let oneGuestDictionary = GuestEntity.createOneGuestDictFrom(oneGuest)
+                guestsDictionary[(oneGuest.offlineUID ?? " ")] = oneGuestDictionary
             }
-            
             return guestsDictionary
         } else {
             return Dictionary<String, NSDictionary>()
@@ -182,7 +173,7 @@ struct GuestEntity {
     }
     static func createOneGuestFrom(_ nsDictionary: NSDictionary) -> GuestEntity {
         var guest = GuestEntity()
-        guest.name = nsDictionary.object(forKey: "name") as! String
+        guest.name = nsDictionary.object(forKey: "name") as? String ?? "empty name"
         guest.surname = nsDictionary.object(forKey: "surname") as? String
         guest.company = nsDictionary.object(forKey: "company") as? String
         guest.position = nsDictionary.object(forKey: "position") as? String
@@ -197,5 +188,23 @@ struct GuestEntity {
         guest.additionDate = nsDictionary.object(forKey: "additionDate") as! String
         guest.offlineUID = nsDictionary.object(forKey: "offlineUID") as? String
         return guest
+    }
+    static func createOneGuestDictFrom(_ guestEntity: GuestEntity) -> NSDictionary {
+        return [
+            "name": guestEntity.name,
+            "surname": guestEntity.surname ?? " ",
+            "company": guestEntity.company ?? " ",
+            "position": guestEntity.position ?? " ",
+            "group": guestEntity.group ?? " ",
+            "guestsAmount": String(guestEntity.guestsAmount),
+            "guestsEntered": String(guestEntity.guestsEntered),
+            "giftsGifted": String(guestEntity.giftsGifted),
+            "photoURL": guestEntity.photoURL ?? " ",
+            "phoneNumber": guestEntity.phoneNumber ?? " ",
+            "email": guestEntity.email ?? " ",
+            "internalNotes": guestEntity.internalNotes ?? " ",
+            "additionDate": guestEntity.additionDate,
+            "offlineUID": guestEntity.offlineUID ?? " "
+        ] as NSDictionary
     }
 }

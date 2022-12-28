@@ -72,6 +72,6 @@ class OneGuestPresenter: OneGuestPresenterProtocol {
     }
     //MARK: Navigation methods
     func showGuestEditModule() {
-        router.showAddModifyGuestModule(state: .modifyGuest, guest: self.guest, eventID: event.eventID)
+        router.showAddModifyGuestModule(state: .modifyGuest, guest: self.guest, event: event)
     }
 }

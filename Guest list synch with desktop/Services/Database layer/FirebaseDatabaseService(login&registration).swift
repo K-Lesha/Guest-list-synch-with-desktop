@@ -189,7 +189,6 @@ class FirebaseDatabase: FirebaseDatabaseProtocol {
     }
 }
 
-
 extension String {
     var bool: Bool? {
         switch self.lowercased() {

@@ -11,12 +11,13 @@ protocol AddModifyGuestInteractorProtocol {
     //VIPER protocol
     var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol {get set}
     var networkService: NetworkServiceProtocol! {get set}
+    var database: FirebaseDatabaseProtocol! {get set}
     //init
-    init(networkService: NetworkServiceProtocol)
+    init(networkService: NetworkServiceProtocol, database: FirebaseDatabaseProtocol)
     //Spreadsheet methods
-    func modifyGuest(eventID: String, newGuestData: GuestEntity, completion: @escaping (String) -> ())
-    func deleteOneGuest(eventID: String, guest: GuestEntity, completion: @escaping (String) -> ())
-    func addNewGuest(eventID: String, guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ())
+    func modifyGuest(event: EventEntity, newGuestData: GuestEntity, completion: @escaping (String) -> ())
+    func deleteOneGuest(event: EventEntity, guest: GuestEntity, completion: @escaping (String) -> ())
+    func addNewGuest(event: EventEntity, guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ())
     //methods
     func downloadGuestImage(stringURL: String, completion: @escaping (Result<Data, NetworkError>) -> Void) 
 }
@@ -33,16 +34,25 @@ class AddModifyGuestInteractor: AddModifyGuestInteractorProtocol {
     //MARK: -VIPER protocol
     internal var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
     internal var networkService: NetworkServiceProtocol!
+    internal var database: FirebaseDatabaseProtocol!
     
     //MARK: INIT
-    required init(networkService: NetworkServiceProtocol) {
+    required init(networkService: NetworkServiceProtocol, database: FirebaseDatabaseProtocol) {
         self.networkService = networkService
+        self.database = database
     }
     
     
     //MARK: -Spreadsheets methods
-    
-    func modifyGuest(eventID: String, newGuestData: GuestEntity, completion: @escaping (String) -> ()) {
+    //MARK: Modify guest
+    func modifyGuest(event: EventEntity, newGuestData: GuestEntity, completion: @escaping (String) -> ()) {
+        if event.isOnline {
+            self.modifyGuestInOnlineEvent(eventID: event.eventID, newGuestData: newGuestData, completion: completion)
+        } else {
+            self.modifyGuestInOfflineEvent(eventID: event.eventID, newGuestData: newGuestData, completion: completion)
+        }
+    }
+    private func modifyGuestInOnlineEvent(eventID: String, newGuestData: GuestEntity, completion: @escaping (String) -> ()) {
         guard let row = newGuestData.guestRowInSpreadSheet else {
             //completion false
             return
@@ -61,19 +71,24 @@ class AddModifyGuestInteractor: AddModifyGuestInteractorProtocol {
                                             newGuestData.internalNotes ?? ""]
         spreadsheetsServise.sendDataToCell(spreadsheetID: eventID, range: "B\(row)", data: newGuestDataForRow, completionHandler: completion)
     }
-    
-    func deleteGuest(guest: GuestEntity) {
-        
+    private func modifyGuestInOfflineEvent(eventID: String, newGuestData: GuestEntity, completion: @escaping (String) -> ()) {
+        guard let offlineGuestID = newGuestData.offlineUID
+        else {
+            //completion false
+            return
+        }
+        let guestData: NSDictionary = GuestEntity.createOneGuestDictFrom(newGuestData)
+        self.database.updateOneGuestData(eventID: eventID, guestID: offlineGuestID, data: guestData, completion: completion)
     }
-    private func updateGuestImage() {
-        
+    //MARK: Add new guest
+    func addNewGuest(event: EventEntity, guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ()) {
+        if event.isOnline {
+            self.addNewGuestToOnlineEvent(eventID: event.eventID, guest: guest, completion: completion)
+        } else {
+            self.addNewGuestToOfflineEvent(eventID: event.eventID, guest: guest, completion: completion)
+        }
     }
-    
-    func downloadGuestImage(stringURL: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        
-    }
-    
-    func addNewGuest(eventID: String, guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ()) {
+    private func addNewGuestToOnlineEvent(eventID: String, guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ()) {
         self.spreadsheetsServise.appendData(spreadsheetID: eventID, range: .guestsDataForAdding, data: [" ",
                                                                                                         guest.name,
                                                                                                         guest.surname ?? " ",
@@ -91,7 +106,27 @@ class AddModifyGuestInteractor: AddModifyGuestInteractorProtocol {
             completion(.success(true))
         }
     }
-    func deleteOneGuest(eventID: String, guest: GuestEntity, completion: @escaping (String) -> ()) {
+    private func addNewGuestToOfflineEvent(eventID: String, guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ()) {
+        guard let offlineGuestID = guest.offlineUID
+        else {
+            //completion false
+            return
+        }
+
+        let guestData: NSDictionary = GuestEntity.createOneGuestDictFrom(guest)
+        self.database.updateOneGuestData(eventID: eventID, guestID: offlineGuestID, data: guestData) {_ in
+            completion(.success(true))
+        }
+    }
+    //MARK: Delete guest
+    func deleteOneGuest(event: EventEntity, guest: GuestEntity, completion: @escaping (String) -> ()) {
+        if event.isOnline {
+            self.deleteGuestInOnlineEvent(eventID: event.eventID, guest: guest, completion: completion)
+        } else {
+            self.deleteGuestInOfflineEvent(eventID: event.eventID, guest: guest, completion: completion)
+        }
+    }
+    private func deleteGuestInOnlineEvent(eventID: String, guest: GuestEntity, completion: @escaping (String) -> ()) {
         guard let row = guest.guestRowInSpreadSheet else {
             //completion false
             return
@@ -110,4 +145,21 @@ class AddModifyGuestInteractor: AddModifyGuestInteractorProtocol {
                                                 guest.internalNotes ?? ""]
         spreadsheetsServise.sendDataToCell(spreadsheetID: eventID, range: "B\(row)", data: deletedGuestDataForRow, completionHandler: completion)
     }
+    private func deleteGuestInOfflineEvent(eventID: String, guest: GuestEntity, completion: @escaping (String) -> ()) {
+        guard let offlineGuestID = guest.offlineUID
+        else {
+            //completion false
+            return
+        }
+        self.database.removeOneGuestFromDatabase(eventID: eventID, guestID: offlineGuestID, completion: completion)
+    }
+    //MARK: Other methods
+    private func updateGuestImage() {
+        
+    }
+    
+    func downloadGuestImage(stringURL: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+        networkService.downloadImage(urlString: stringURL, completionBlock: completion)
+    }
+
 }

@@ -130,7 +130,7 @@ struct EventEntity {
         offlineDemoEntity.eventID = UUID().uuidString
         offlineDemoEntity.initedByUserUID = userUID
         offlineDemoEntity.initedByUserName = userName
-        offlineDemoEntity.guestsEntites = GuestEntity.createGuestsArrayForDemo()
+        offlineDemoEntity.guestsEntites = GuestEntity.createGuestsArrayForDemoEvent()
         offlineDemoEntity.isOnline = false
         return offlineDemoEntity
     }
@@ -163,7 +163,6 @@ struct EventEntity {
             let eventEntity = createOneOfflineEventFrom(value)
             eventsArray.append(eventEntity)
         }
-        
         return eventsArray
     }
     static func createOneOfflineEventFrom(_ dictionary: NSDictionary) -> EventEntity {
@@ -177,16 +176,9 @@ struct EventEntity {
         eventEntity.initedByUserUID = dictionary.object(forKey: "initedByUserUID") as! String
         eventEntity.initedByUserName = dictionary.object(forKey: "initedByUserName") as! String
         eventEntity.isOnline = dictionary.object(forKey: "isOnline") as! Bool
-        
-        var guestlist = [GuestEntity]()
-        if let dictGuestlist = dictionary.object(forKey: "guestEntities") as? NSDictionary {
-            for (key, value) in dictGuestlist {
-                let guest = GuestEntity.createOneGuestFrom(value as! NSDictionary)
-                guestlist.append(guest)
-            }
-        }
+        let dictGuestlist = dictionary.object(forKey: "guestEntities") as? NSDictionary
+        let guestlist = GuestEntity.createGuestsArrayFrom(dictGuestlist)
         eventEntity.guestsEntites = guestlist
-        
         return eventEntity
     }
 }

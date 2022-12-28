@@ -17,10 +17,10 @@ protocol AddModifyGuestPresenterProtocol {
          router: RouterProtocol,
          state: AddModifyOneGuestPresenterState,
          guest: GuestEntity?,
-         eventID: String)
+         event: EventEntity)
     // properties
     var state: AddModifyOneGuestPresenterState! {get set}
-    var eventID: String {get set}
+    var event: EventEntity {get set}
     var guest: GuestEntity? {get set}
     var modifiedGuestData: GuestEntity? {get set}
     //Methods
@@ -37,8 +37,6 @@ enum AddModifyOneGuestPresenterState {
 }
 
 class AddModifyGuestPresenter: AddModifyGuestPresenterProtocol {
-
-    
     //MARK: -VIPER protocol
     weak var view: AddModifyGuestViewProtocol!
     var interactor: AddModifyGuestInteractorProtocol!
@@ -50,7 +48,7 @@ class AddModifyGuestPresenter: AddModifyGuestPresenterProtocol {
                   router: RouterProtocol,
                   state: AddModifyOneGuestPresenterState,
                   guest: GuestEntity?,
-                  eventID: String) {
+                  event: EventEntity) {
         self.view = view
         self.interactor = interactor
         self.router = router
@@ -58,30 +56,30 @@ class AddModifyGuestPresenter: AddModifyGuestPresenterProtocol {
         if state == .modifyGuest {
             self.guest = guest
         }
-        self.eventID = eventID
+        self.event = event
     }
     //MARK: -PROPERTIES
     var state: AddModifyOneGuestPresenterState!
     var guest: GuestEntity?
     var modifiedGuestData: GuestEntity?
-    var eventID: String
+    var event: EventEntity
     
     //MARK: -METHODS
     func modifyGuest(completion: @escaping (String) -> ()) {
         if let modifiedGuestData {
-            interactor.modifyGuest(eventID: self.eventID, newGuestData: modifiedGuestData, completion: completion)
+            interactor.modifyGuest(event: self.event, newGuestData: modifiedGuestData, completion: completion)
         }
     }
     func deleteGuest(completion: @escaping (String) -> ()) {
         guard let guest, state == .modifyGuest else {
             return
         }
-        interactor.deleteOneGuest(eventID: self.eventID, guest: guest, completion: completion)
+        interactor.deleteOneGuest(event: self.event, guest: guest, completion: completion)
     }
-    
+
     func addNewGuest(guest: GuestEntity, completion: @escaping (Result<Bool, GuestlistInteractorError>) -> ()) {
         if state == .addGuest {
-            interactor.addNewGuest(eventID: self.eventID, guest: guest, completion: completion)
+            interactor.addNewGuest(event: self.event, guest: guest, completion: completion)
         }
     }
     func popViewController() {

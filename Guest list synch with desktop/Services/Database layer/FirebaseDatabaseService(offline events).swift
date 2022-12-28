@@ -16,7 +16,9 @@ protocol OfflineEventsDatabaseProtocol {
     func readOneGuestDataFromDatabase(eventID: String,
                                       guestID: String,
                                       completion: @escaping (Result<GuestEntity, SheetsError>) -> ())
-    func updateOneGuestData(eventID: String, guestID: String, key: String, value: String, completion: @escaping (String) -> ())
+    func updateOneGuestData(eventID: String, guestID: String, data: NSDictionary, completion: @escaping (String) -> ())
+    func updateOnePropertyInGuestData(eventID: String, guestID: String, key: String, value: String, completion: @escaping (String) -> ())
+    func removeOneGuestFromDatabase(eventID: String, guestID: String, completion: @escaping (String) -> ())
 }
 
 extension FirebaseDatabase {
@@ -29,11 +31,7 @@ extension FirebaseDatabase {
             completion(.failure(.databaseError))
             return
         }
-        
-        //TODO: HERE
-        let guestEntitiesArray = event.guestsEntites
-        let guestsDict = GuestEntity.createGuestsDictFrom(guestEntitiesArray)
-        
+        let guestsDict = GuestEntity.createGuestsDictFrom(event.guestsEntites)
         let newDictionaryEvent: Dictionary<String, Any> = [event.eventID: ["name": event.name,
                                                                            "client": event.client,
                                                                            "venue": event.venue,
@@ -131,8 +129,18 @@ extension FirebaseDatabase {
         }
         operationQueue.addOperation(operation)
     }
-    
-    public func updateOneGuestData(eventID: String, guestID: String, key: String, value: String, completion: @escaping (String) -> ()) {
+    public func updateOneGuestData(eventID: String, guestID: String, data: NSDictionary, completion: @escaping (String) -> ()) {
+        guard let userUID = FirebaseService.logginnedUser?.uid
+        else {
+            return
+        }
+        self.database.child(userUID).child("offlineEvents").child(eventID).child("guestEntities").updateChildValues([guestID: data]) {error, databaseReference in
+            guard error == nil else { return }
+            completion("ok")
+        }
+    }
+
+    public func updateOnePropertyInGuestData(eventID: String, guestID: String, key: String, value: String, completion: @escaping (String) -> ()) {
         guard let userUID = FirebaseService.logginnedUser?.uid
         else {
             return
@@ -142,4 +150,15 @@ extension FirebaseDatabase {
             completion("ok")
         }
     }
+    public func removeOneGuestFromDatabase(eventID: String, guestID: String, completion: @escaping (String) -> ()) {
+        guard let userUID = FirebaseService.logginnedUser?.uid
+        else {
+            return
+        }
+        self.database.child(userUID).child("offlineEvents").child(eventID).child("guestEntities").child(guestID).removeValue() {error, databaseReference in
+            guard error == nil else { return }
+            completion("ok")
+        }
+    }
+
 }
