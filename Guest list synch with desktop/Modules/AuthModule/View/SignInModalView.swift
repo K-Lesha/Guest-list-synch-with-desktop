@@ -10,11 +10,7 @@ import BottomSheet
 
 protocol SignInViewProtocol: AnyObject {
     //VIPER protocol
-    var presenter: AuthPresenterProtocol! {get set}
     init(initialHeight: CGFloat, presenter: AuthPresenterProtocol)
-    // View propertis
-    var currentViewHeight: CGFloat! {get set}
-    var keyboardHeight: CGFloat! {get set}
     //Methods
     func dismissThisView()
 }
@@ -22,11 +18,11 @@ protocol SignInViewProtocol: AnyObject {
 class SignInModalViewController: UIViewController, SignInViewProtocol {
 
     //MARK: -VIPER protocol
-    internal var presenter: AuthPresenterProtocol!
+    private var presenter: AuthPresenterProtocol!
 
     //MARK: -View properties
-    internal var currentViewHeight: CGFloat!
-    internal var keyboardHeight: CGFloat! = 0
+    private var currentViewHeight: CGFloat!
+    private var keyboardHeight: CGFloat! = 0
     
     //MARK: -INIT
     required init(initialHeight: CGFloat, presenter: AuthPresenterProtocol) {

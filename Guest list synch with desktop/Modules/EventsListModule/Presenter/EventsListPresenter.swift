@@ -9,13 +9,9 @@ import Foundation
 
 //MARK: Protocol
 protocol EventsListPresenterProtocol: AnyObject {
-    // VIPER protocol
-    var view: EventsListViewControllerProtocol! {get set}
-    var interactor: EventsListInteractorProtocol! {get set}
-    var router: RouterProtocol! {get set}
-    init(view: EventsListViewControllerProtocol, interactor: EventsListInteractorProtocol, router: RouterProtocol)
-    //Properties
+    //Propertis
     var eventsList: [EventEntity] {get set}
+    init(view: EventsListViewControllerProtocol, interactor: EventsListInteractorProtocol, router: RouterProtocol)
     // METHODS
     func setDataToTheView()
     func showProfile()
@@ -26,10 +22,10 @@ protocol EventsListPresenterProtocol: AnyObject {
 //MARK: Presenter
 class EventsListPresenter: EventsListPresenterProtocol {
     //MARK: VIPER protocol
-    internal weak var view: EventsListViewControllerProtocol!
-    internal var router: RouterProtocol!
-    internal var interactor: EventsListInteractorProtocol!
-    internal var userUID: String!
+    private weak var view: EventsListViewControllerProtocol!
+    private var router: RouterProtocol!
+    private var interactor: EventsListInteractorProtocol!
+    private var userUID: String!
     required init(view: EventsListViewControllerProtocol, interactor: EventsListInteractorProtocol, router: RouterProtocol) {
         self.view = view
         self.interactor = interactor
@@ -37,7 +33,7 @@ class EventsListPresenter: EventsListPresenterProtocol {
     }
     
     //MARK: Properties
-    var eventsList: [EventEntity] = [EventEntity]()
+    internal var eventsList: [EventEntity] = [EventEntity]()
     
     //MARK: METHODS
     func setDataToTheView() {

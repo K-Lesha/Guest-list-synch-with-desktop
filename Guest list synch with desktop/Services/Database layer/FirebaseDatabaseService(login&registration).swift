@@ -11,7 +11,6 @@ import FirebaseAuth
 import FirebaseCore
 
 protocol FirebaseDatabaseProtocol: OnlineEventsDatabaseProtocol, OfflineEventsDatabaseProtocol {
-    
     func saveNewFirebaseUserToTheDatabase(registeringUser: RegisteringUser,
                                           completion: @escaping (Result<RegisteringUser, FirebaseError>) -> ())
     func firstStepSavingFacebookGoogleUserToTheDatabase(registeringUser: RegisteringUser,

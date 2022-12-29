@@ -10,9 +10,6 @@ import UIKit
 
 
 protocol RouterProtocol: AnyObject {
-    // Properties
-    var navigationController: UINavigationController! { get set }
-    var assemblyBuilder: AssemblyBuilderProtocol! { get set }
     // INIT
     init (navigationController: UINavigationController, assemblyBuilder: AssemblyBuilderProtocol)
     // METHODS
@@ -31,8 +28,8 @@ protocol RouterProtocol: AnyObject {
 
 class Router: RouterProtocol {
     //MARK: -Properties
-    internal var navigationController: UINavigationController!
-    internal var assemblyBuilder: AssemblyBuilderProtocol!
+    private var navigationController: UINavigationController!
+    private var assemblyBuilder: AssemblyBuilderProtocol!
     
     //MARK: -INIT
     required init (navigationController: UINavigationController, assemblyBuilder: AssemblyBuilderProtocol) {

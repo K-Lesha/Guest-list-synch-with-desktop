@@ -8,13 +8,9 @@
 import Foundation
 
 protocol OneGuestPresenterProtocol {
-    // VIPER protocol
-    var view: OneGuestViewPortocol! {get set}
-    var interactor: OneGuestInteractorProtocol! {get set}
-    var router: RouterProtocol! {get set}
     // Init
     init(view: OneGuestViewPortocol, interactor: OneGuestInteractorProtocol, router: RouterProtocol, guest: GuestEntity, event: EventEntity)
-    // Properties
+    // Data
     var guest: GuestEntity! {get set}
     var event: EventEntity!  {get set}
     // Guest check-in/out methods
@@ -31,12 +27,11 @@ protocol OneGuestPresenterProtocol {
 }
 
 class OneGuestPresenter: OneGuestPresenterProtocol {
-    //MARK: -VIPER PROTOCOL
-    weak var view: OneGuestViewPortocol!
-    var interactor: OneGuestInteractorProtocol!
-    var router: RouterProtocol!
+    //MARK: -Properties
+    weak private var view: OneGuestViewPortocol!
+    private var interactor: OneGuestInteractorProtocol!
+    private var router: RouterProtocol!
     //MARK: -INIT
-
     required init(view: OneGuestViewPortocol, interactor: OneGuestInteractorProtocol, router: RouterProtocol, guest: GuestEntity, event: EventEntity) {
         self.view = view
         self.interactor = interactor
@@ -44,7 +39,7 @@ class OneGuestPresenter: OneGuestPresenterProtocol {
         self.guest = guest
         self.event = event
     }
-    //MARK: -Properties
+    //MARK: -Data
     var guest: GuestEntity!
     var event: EventEntity!
     

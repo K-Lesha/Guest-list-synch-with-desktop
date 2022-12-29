@@ -8,25 +8,18 @@
 import UIKit
 
 protocol FinishRegistrationModalViewProtocol {
-    //VIPER protocol
-    var presenter: AuthPresenterProtocol! {get set}
-    var superView: SignInViewProtocol! {get set}
     //init
     init(initialHeight: CGFloat, presenter: AuthPresenterProtocol, superView: SignInViewProtocol)
-    // View properties
-    var currentViewHeight: CGFloat! {get set}
-    var keyboardHeight: CGFloat! {get set}
-
 }
 
 class FinishRegistrationModalView: UIViewController, FinishRegistrationModalViewProtocol {
     //MARK: -VIPER protocol
-    var presenter: AuthPresenterProtocol!
-    var superView: SignInViewProtocol!
+    private var presenter: AuthPresenterProtocol!
+    private var superView: SignInViewProtocol!
     
     //MARK: -View properties
-    var currentViewHeight: CGFloat!
-    var keyboardHeight: CGFloat!
+    private var currentViewHeight: CGFloat!
+    private var keyboardHeight: CGFloat!
 
     //MARK: -INIT
     required init(initialHeight: CGFloat, presenter: AuthPresenterProtocol, superView: SignInViewProtocol) {

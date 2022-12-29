@@ -43,29 +43,28 @@ enum SheetsError: Error {
 }
 //MARK: -GoogleSpreadsheetsService
 class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
-    //Service properties
+    //Service properties & data
     private let sheetService = GTLRSheetsService()
     let apiKey = "AIzaSyDmUVpnjFI_cKazeKORNk37o-MV_prH970"
     static let grantedScopes = "https://www.googleapis.com/auth/spreadsheets"
     static let additionalScopes = ["https://www.googleapis.com/auth/spreadsheets",
                                    "https://www.googleapis.com/auth/drive.file"]
     
-    
     //Service init
     init() {
         sheetService.apiKey = self.apiKey
-        updateAuthrizer()
+        updateServiceAuthorizer()
     }
     
     //MARK: -Methods
     //service methods
-    func updateAuthrizer() {
+    func updateServiceAuthorizer() {
         sheetService.authorizer = GIDSignIn.sharedInstance.currentUser?.authentication.fetcherAuthorizer()
     }
     //Spreadsheets methods
     func readSpreadsheetsData(range: SheetsRange, eventID: String, oneGuestRow: String?, completionHandler: @escaping (Result<[[String]], SheetsError>) -> Void) {
         print("Getting sheet data...")
-        updateAuthrizer()
+        updateServiceAuthorizer()
         var rangeRawValue = range.rawValue
         if range == .oneGuestData {
             rangeRawValue += oneGuestRow! + ":N" + oneGuestRow!
@@ -96,7 +95,7 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
     
     
     func appendData(spreadsheetID: String, range: SheetsRange, data: [String], completion: @escaping (String) -> Void) {
-        updateAuthrizer()
+        updateServiceAuthorizer()
         let rangeToAppend = GTLRSheets_ValueRange.init();
         rangeToAppend.values = [data]
         
@@ -157,7 +156,7 @@ class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
     
     //MARK: -ADD NEW SPREADSHEET WITH (DEMO/EMPTY)EVENT
     public func createDefaultSpreadsheet(named name: String, sheetType: DefaultSheetsIds, completion: @escaping (String) -> ()) {
-        updateAuthrizer()
+        updateServiceAuthorizer()
         let newSheet = GTLRSheets_Spreadsheet.init()
         let properties = GTLRSheets_SpreadsheetProperties.init()
         properties.title = name

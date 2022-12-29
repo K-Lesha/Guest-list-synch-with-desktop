@@ -8,10 +8,6 @@
 import Foundation
 
 protocol AuthInteractorProtocol {
-    //VIPER protocol
-    var networkService: NetworkServiceProtocol! {get set}
-    var firebaseService: FirebaseServiceProtocol! {get set}
-    var database: FirebaseDatabaseProtocol! {get set}
     // Init
     init (networkService: NetworkServiceProtocol, firebaseService: FirebaseServiceProtocol, database: FirebaseDatabaseProtocol)
     //Network methods
@@ -34,9 +30,9 @@ protocol AuthInteractorProtocol {
 
 class AuthInteractor: AuthInteractorProtocol {
     //MARK: -VIPER protocol
-    internal var networkService: NetworkServiceProtocol!
-    internal var firebaseService: FirebaseServiceProtocol!
-    var database: FirebaseDatabaseProtocol!
+    private var networkService: NetworkServiceProtocol!
+    private var firebaseService: FirebaseServiceProtocol!
+    private var database: FirebaseDatabaseProtocol!
     private let spreadsheetService: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
     //MARK: -INIT
     internal required init (networkService: NetworkServiceProtocol, firebaseService: FirebaseServiceProtocol, database: FirebaseDatabaseProtocol) {

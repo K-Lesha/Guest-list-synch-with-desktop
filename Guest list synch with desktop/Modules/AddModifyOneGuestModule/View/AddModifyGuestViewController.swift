@@ -36,7 +36,6 @@ class AddModifyGuestViewController: UIViewController, AddModifyGuestViewProtocol
     @IBOutlet weak var saveGuestAndAddOneMoreButton: UIButton!
     @IBOutlet weak var saveChangesButton: UIButton!
     
-    
     //MARK: -viewDidLoad, -viewWillAppear
     override func viewDidLoad() {
         super.viewDidLoad()

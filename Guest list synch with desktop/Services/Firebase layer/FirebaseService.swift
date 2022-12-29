@@ -15,7 +15,6 @@ import GoogleAPIClientForREST
 
 
 protocol FirebaseServiceProtocol: AnyObject {
-    var database: FirebaseDatabaseProtocol! {get set}
     //init
     init(database: FirebaseDatabaseProtocol)
     //METHODS
@@ -67,7 +66,7 @@ class FirebaseService: FirebaseServiceProtocol {
     //MARK: Firebase properties
     static var logginnedUser: UserEntity? = nil
     private let firebase = Auth.auth()
-    internal var database: FirebaseDatabaseProtocol!
+    private var database: FirebaseDatabaseProtocol!
     
     //MARK: INIT
     required init(database: FirebaseDatabaseProtocol) {

@@ -23,7 +23,7 @@ struct EventEntity {
         if isOnline {
             return totalGuestsOnline ?? "0"
         } else {
-           return totalGuestsOffline ?? "0"
+            return totalGuestsOffline ?? "0"
         }
     }
     var totalGuestsOnline: String?
@@ -69,7 +69,9 @@ struct EventEntity {
         }
     }
     
-    
+}
+
+extension EventEntity {
     //MARK: -INIT
     init() {
         name = "empty data"

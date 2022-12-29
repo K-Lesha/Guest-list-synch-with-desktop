@@ -8,17 +8,14 @@
 import Foundation
 
 protocol AddModifyGuestPresenterProtocol {
-    // VIPER protocol
-    var view: AddModifyGuestViewProtocol! {get set}
-    var interactor: AddModifyGuestInteractorProtocol! {get set}
-    var router: RouterProtocol! {get set}
+    // Init
     init(view: AddModifyGuestViewProtocol,
          interactor: AddModifyGuestInteractorProtocol,
          router: RouterProtocol,
          state: AddModifyOneGuestPresenterState,
          guest: GuestEntity?,
          event: EventEntity)
-    // properties
+    // Data
     var state: AddModifyOneGuestPresenterState! {get set}
     var event: EventEntity {get set}
     var guest: GuestEntity? {get set}
@@ -37,10 +34,10 @@ enum AddModifyOneGuestPresenterState {
 }
 
 class AddModifyGuestPresenter: AddModifyGuestPresenterProtocol {
-    //MARK: -VIPER protocol
-    weak var view: AddModifyGuestViewProtocol!
-    var interactor: AddModifyGuestInteractorProtocol!
-    var router: RouterProtocol!
+    //MARK: -Properties
+    weak private var view: AddModifyGuestViewProtocol!
+    private var interactor: AddModifyGuestInteractorProtocol!
+    private var router: RouterProtocol!
     
     //MARK: -INIT
     required init(view: AddModifyGuestViewProtocol,
@@ -58,7 +55,7 @@ class AddModifyGuestPresenter: AddModifyGuestPresenterProtocol {
         }
         self.event = event
     }
-    //MARK: -PROPERTIES
+    //MARK: -Data
     var state: AddModifyOneGuestPresenterState!
     var guest: GuestEntity?
     var modifiedGuestData: GuestEntity?

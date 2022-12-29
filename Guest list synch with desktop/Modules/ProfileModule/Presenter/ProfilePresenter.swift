@@ -8,10 +8,7 @@
 import Foundation
 
 protocol ProfilePresenterProtocol {
-    // VIPER protocol
-    var view: ProfileViewControllerProtocol! {get set}
-    var interactor: ProfileInteractorProtocol! {get set}
-    var router: RouterProtocol! {get set}
+    // Init
     init(view: ProfileViewControllerProtocol, interactor: ProfileInteractorProtocol, router: RouterProtocol)
     
     // METHODS
@@ -20,10 +17,11 @@ protocol ProfilePresenterProtocol {
 
 
 class ProfilePresenter: ProfilePresenterProtocol {
-    weak var view: ProfileViewControllerProtocol!
-    var interactor: ProfileInteractorProtocol!
-    var router: RouterProtocol!
+    weak private var view: ProfileViewControllerProtocol!
+    private var interactor: ProfileInteractorProtocol!
+    private var router: RouterProtocol!
     
+    //INIT
     required init(view: ProfileViewControllerProtocol, interactor: ProfileInteractorProtocol, router: RouterProtocol) {
         self.view = view
         self.interactor = interactor

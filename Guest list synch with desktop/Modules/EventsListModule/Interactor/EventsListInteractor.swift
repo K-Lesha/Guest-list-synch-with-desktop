@@ -9,9 +9,6 @@ import Foundation
 import UIKit
 
 protocol EventsListInteractorProtocol {
-    //VIPER protocol
-    var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol {get set}
-    var firebaseDatabase: FirebaseDatabaseProtocol! {get set}
     //INIT
     init(firebaseDatabase: FirebaseDatabaseProtocol)
     //Spreadsheet methods
@@ -27,10 +24,10 @@ enum EventListInteractorError: Error {
 class EventsListInteractor: EventsListInteractorProtocol {
     
     //MARK: -VIPER protocol
-    internal var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
-    var firebaseDatabase: FirebaseDatabaseProtocol!
-    let operationQueue = OperationQueue()
-    let dispatchGroup = DispatchGroup()
+    private var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
+    private var firebaseDatabase: FirebaseDatabaseProtocol!
+    private let operationQueue = OperationQueue()
+    private let dispatchGroup = DispatchGroup()
     
     //MARK: INIT
     required init(firebaseDatabase: FirebaseDatabaseProtocol) {

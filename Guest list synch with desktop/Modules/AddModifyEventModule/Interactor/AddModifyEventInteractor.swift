@@ -8,10 +8,6 @@
 import Foundation
 
 protocol AddModifyEventInteractorProtocol {
-    //VIPER protocol
-    var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol {get set}
-    var networkService: NetworkServiceProtocol! {get set}
-    var firebaseDatabase: FirebaseDatabaseProtocol! {get set}
     //init
     init(networkService: NetworkServiceProtocol, firebaseDatabase: FirebaseDatabaseProtocol)
     //Methods
@@ -33,10 +29,10 @@ enum AddModifyEventEnteractorError: Error {
 class AddModifyEventInteractor: AddModifyEventInteractorProtocol {
     
     //MARK: -PROTOCOL & PROPERTIES
-    var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
-    var networkService: NetworkServiceProtocol!
-    var firebaseDatabase: FirebaseDatabaseProtocol!
-    let operationQueue = OperationQueue()
+    private var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
+    private var networkService: NetworkServiceProtocol!
+    private var firebaseDatabase: FirebaseDatabaseProtocol!
+    private let operationQueue = OperationQueue()
     
     //MARK: - INIT
     required init(networkService: NetworkServiceProtocol, firebaseDatabase: FirebaseDatabaseProtocol) {

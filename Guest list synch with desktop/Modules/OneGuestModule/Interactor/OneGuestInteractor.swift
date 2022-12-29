@@ -8,9 +8,6 @@
 import Foundation
 
 protocol OneGuestInteractorProtocol {
-    // VIPER PROTOCOL
-    var networkService: NetworkServiceProtocol! {get set}
-    var database: FirebaseDatabaseProtocol! {get set}
     // Init
     init(networkService: NetworkServiceProtocol, database: FirebaseDatabaseProtocol)
     // Methods
@@ -26,9 +23,9 @@ protocol OneGuestInteractorProtocol {
 }
 
 class OneGuestInteractor: OneGuestInteractorProtocol {
-    //MARK: -VIPER PROTOCOL
-    var networkService: NetworkServiceProtocol!
-    var database: FirebaseDatabaseProtocol!
+    //MARK: -Properties
+    private var networkService: NetworkServiceProtocol!
+    private var database: FirebaseDatabaseProtocol!
     private var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
 
     //MARK: -INIT

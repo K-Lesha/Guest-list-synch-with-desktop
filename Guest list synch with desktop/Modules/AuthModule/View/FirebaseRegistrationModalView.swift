@@ -8,25 +8,19 @@
 import UIKit
 
 protocol RegistrationViewProtocol: AnyObject {
-    //VIPER protocol
-    var presenter: AuthPresenterProtocol! {get set}
-    var superView: PasswordViewProtocol! {get set}
     // init
     init(initialHeight: CGFloat, presenter: AuthPresenterProtocol, superView: PasswordViewProtocol)
-    // View properties
-    var currentViewHeight: CGFloat! {get set}
-    var keyboardHeight: CGFloat! {get set}
 }
 
 
 class RegistrationModalViewController: UIViewController, RegistrationViewProtocol {
     //MARK: -VIPER protocol
-    weak internal var rootViewContoroller: PasswordViewProtocol!
-    weak internal var presenter: AuthPresenterProtocol!
-    weak var superView: PasswordViewProtocol!
+    weak private var rootViewContoroller: PasswordViewProtocol!
+    weak private var presenter: AuthPresenterProtocol!
+    weak private var superView: PasswordViewProtocol!
     //MARK: -View properties
-    internal var currentViewHeight: CGFloat!
-    internal var keyboardHeight: CGFloat!
+    private var currentViewHeight: CGFloat!
+    private var keyboardHeight: CGFloat!
     
     //MARK: -INIT
     required init(initialHeight: CGFloat, presenter: AuthPresenterProtocol, superView: PasswordViewProtocol) {

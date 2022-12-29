@@ -9,10 +9,6 @@ import Foundation
 import UIKit
 
 protocol AssemblyBuilderProtocol {
-    // Properties
-    var networkService: NetworkServiceProtocol! {get set}
-    var firebaseService: FirebaseServiceProtocol! {get set}
-    var firebaseDatabase: FirebaseDatabaseProtocol! {get set}
     // INIT
     init(networkService: NetworkServiceProtocol, firebaseService: FirebaseServiceProtocol, firebaseDatabase: FirebaseDatabaseProtocol)
     // METHODS
@@ -35,9 +31,9 @@ protocol AssemblyBuilderProtocol {
 
 class AssemblyModuleBuilder: AssemblyBuilderProtocol {
     //MARK: -Properties
-    internal var networkService: NetworkServiceProtocol!
-    internal var firebaseService: FirebaseServiceProtocol!
-    internal var firebaseDatabase: FirebaseDatabaseProtocol!
+    private var networkService: NetworkServiceProtocol!
+    private var firebaseService: FirebaseServiceProtocol!
+    private var firebaseDatabase: FirebaseDatabaseProtocol!
     //MARK: -INIT
     required init(networkService: NetworkServiceProtocol, firebaseService: FirebaseServiceProtocol, firebaseDatabase: FirebaseDatabaseProtocol) {
         self.networkService = networkService

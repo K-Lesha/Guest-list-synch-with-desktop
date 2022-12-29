@@ -43,7 +43,9 @@ struct UserEntity {
     var avatarLinkString: String?
     var registrationDate: String
     var signInProvider: String
-    
+}
+
+extension UserEntity {
     static func createUserEntityWithData(usersDictionary: NSDictionary?, userUID: String) -> UserEntity {
         let userData = usersDictionary?.object(forKey: userUID) as? NSDictionary
         // find all the userData in Snapshot
@@ -104,7 +106,4 @@ struct UserEntity {
     static func initDelegatedEvents(users: [[SupportingUserEntity]?]) -> [String]? {
         return nil
     }
-
-    
-    
 }

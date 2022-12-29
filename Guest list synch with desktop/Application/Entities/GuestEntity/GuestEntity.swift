@@ -31,7 +31,9 @@ struct GuestEntity {
             return false
         }
     }
-    
+}
+
+extension GuestEntity {
     //MARK: - INIT
     init() {
         self.name = "empty_name"

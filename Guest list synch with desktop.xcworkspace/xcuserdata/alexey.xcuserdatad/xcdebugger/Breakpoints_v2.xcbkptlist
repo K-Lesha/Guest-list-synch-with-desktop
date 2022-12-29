@@ -1626,8 +1626,8 @@
             filePath = "Guest list synch with desktop/Modules/GuestsListModule/Presenter/GuestlistPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "setGuestsToTheTable()"
             landmarkType = "7">
             <Locations>
@@ -1674,8 +1674,8 @@
             filePath = "Guest list synch with desktop/Modules/GuestsListModule/Presenter/GuestlistPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "setGuestsToTheTable()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1690,8 +1690,8 @@
             filePath = "Guest list synch with desktop/Modules/GuestsListModule/Presenter/GuestlistPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "setGuestsToTheTable()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1766,8 +1766,8 @@
             filePath = "Guest list synch with desktop/Modules/EventsListModule/Presenter/EventsListPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
             landmarkName = "setDataToTheView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1798,8 +1798,8 @@
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
             landmarkName = "createDefaultSpreadsheet(named:sheetType:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1814,8 +1814,8 @@
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
             landmarkName = "createDefaultSpreadsheet(named:sheetType:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1830,8 +1830,8 @@
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
             landmarkName = "createDefaultSpreadsheet(named:sheetType:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1846,8 +1846,8 @@
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "copyDefaultSheetTo(spreadsheet:sheetType:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1862,8 +1862,8 @@
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
             landmarkName = "copyDefaultSheetTo(spreadsheet:sheetType:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1878,8 +1878,8 @@
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "deleteFirstEmtySheetIn(spreadsheet:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1894,8 +1894,8 @@
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
             landmarkName = "deleteFirstEmtySheetIn(spreadsheet:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1910,8 +1910,8 @@
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "253"
-            endingLineNumber = "253"
+            startingLineNumber = "252"
+            endingLineNumber = "252"
             landmarkName = "GoogleSpreadsheetsService"
             landmarkType = "3">
          </BreakpointContent>
@@ -1926,8 +1926,8 @@
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
             landmarkName = "GoogleSpreadsheetsService"
             landmarkType = "3">
          </BreakpointContent>
@@ -1942,8 +1942,8 @@
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
             landmarkName = "GoogleSpreadsheetsService"
             landmarkType = "3">
          </BreakpointContent>
@@ -1958,8 +1958,8 @@
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
             landmarkName = "GoogleSpreadsheetsService"
             landmarkType = "3">
          </BreakpointContent>
@@ -2038,8 +2038,8 @@
             filePath = "Guest list synch with desktop/Modules/AuthModule/View/SignInModalView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "247"
-            endingLineNumber = "247"
+            startingLineNumber = "243"
+            endingLineNumber = "243"
             landmarkName = "googleButtonTapped()"
             landmarkType = "7">
             <Locations>
@@ -2086,8 +2086,8 @@
             filePath = "Guest list synch with desktop/Modules/AuthModule/View/FinishFBGRegistrationModalView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "316"
-            endingLineNumber = "316"
+            startingLineNumber = "309"
+            endingLineNumber = "309"
             landmarkName = "finishRegistration()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2102,8 +2102,8 @@
             filePath = "Guest list synch with desktop/Modules/AuthModule/View/SignInModalView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "266"
-            endingLineNumber = "266"
+            startingLineNumber = "262"
+            endingLineNumber = "262"
             landmarkName = "finishRegistrationWithFirebase()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2118,8 +2118,8 @@
             filePath = "Guest list synch with desktop/Modules/AuthModule/View/SignInModalView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "273"
-            endingLineNumber = "273"
+            startingLineNumber = "269"
+            endingLineNumber = "269"
             landmarkName = "finishRegistrationAfterGoogleFacebookLogin()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2134,8 +2134,8 @@
             filePath = "Guest list synch with desktop/Modules/AuthModule/View/SignInModalView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "246"
-            endingLineNumber = "246"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
             landmarkName = "googleButtonTapped()"
             landmarkType = "7">
             <Locations>
@@ -2224,8 +2224,8 @@
             filePath = "Guest list synch with desktop/Modules/AuthModule/View/FinishFBGRegistrationModalView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "313"
-            endingLineNumber = "313"
+            startingLineNumber = "306"
+            endingLineNumber = "306"
             landmarkName = "finishRegistration()"
             landmarkType = "7">
             <Locations>
@@ -2272,8 +2272,8 @@
             filePath = "Guest list synch with desktop/Modules/AuthModule/View/FinishFBGRegistrationModalView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "314"
-            endingLineNumber = "314"
+            startingLineNumber = "307"
+            endingLineNumber = "307"
             landmarkName = "finishRegistration()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2288,8 +2288,8 @@
             filePath = "Guest list synch with desktop/Modules/AuthModule/Interactor/AuthInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "AuthInteractor"
             landmarkType = "3">
          </BreakpointContent>
@@ -2304,9 +2304,9 @@
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "updateAuthrizer()"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "updateServiceAuthorizer()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2320,10 +2320,10 @@
             filePath = "Guest list synch with desktop/Modules/AuthModule/Presenter/AuthPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
-            landmarkName = "AuthPresenter"
-            landmarkType = "3">
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "tryToRegisterWithFirebase(completion:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2336,10 +2336,10 @@
             filePath = "Guest list synch with desktop/Modules/AuthModule/Presenter/AuthPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
-            landmarkName = "AuthPresenter"
-            landmarkType = "3">
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "tryToLoginWithFacebook(viewController:completion:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2352,8 +2352,8 @@
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "readSpreadsheetsData(range:eventID:oneGuestRow:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2368,8 +2368,8 @@
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
             landmarkName = "readSpreadsheetsData(range:eventID:oneGuestRow:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2384,8 +2384,8 @@
             filePath = "Guest list synch with desktop/Modules/EventsListModule/Interactor/EventsListInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
             landmarkName = "EventsListInteractor"
             landmarkType = "3">
          </BreakpointContent>
@@ -2400,8 +2400,8 @@
             filePath = "Guest list synch with desktop/Modules/EventsListModule/Presenter/EventsListPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
             landmarkName = "EventsListPresenter"
             landmarkType = "3">
          </BreakpointContent>
@@ -2524,8 +2524,8 @@
             filePath = "Guest list synch with desktop/Modules/EventsListModule/Presenter/EventsListPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
             landmarkName = "setDataToTheView()"
             landmarkType = "7">
             <Locations>
@@ -2572,9 +2572,9 @@
             filePath = "Guest list synch with desktop/Application/Router.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "showEventsListModule()"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "showAuthModule()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -2620,9 +2620,9 @@
             filePath = "Guest list synch with desktop/Application/AssemblyModuleBuilder.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "createEventsListModule(router:)"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "createAuthModule(router:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2636,9 +2636,9 @@
             filePath = "Guest list synch with desktop/Application/AssemblyModuleBuilder.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "createEventsListModule(router:)"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "createAuthModule(router:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3052,8 +3052,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
             landmarkName = "saveNewGuestAddOneMoreButtonPushed(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3068,8 +3068,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "170"
+            endingLineNumber = "170"
             landmarkName = "saveNewGuestButtonPushed(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3084,8 +3084,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "saveChangesButtonPushed(_:)"
             landmarkType = "7">
             <Locations>
@@ -3132,8 +3132,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
             landmarkName = "deleteGuestButtonPushed(_:)"
             landmarkType = "7">
             <Locations>
@@ -3180,8 +3180,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
             landmarkName = "setGuestDataToView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -3196,8 +3196,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -3212,8 +3212,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "saveButtonCompletion(result:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3228,8 +3228,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "230"
-            endingLineNumber = "230"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
             landmarkName = "saveAndAddOneMoreGuestCompletion(result:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3244,8 +3244,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "261"
-            endingLineNumber = "261"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
             landmarkName = "handleGuestNameTextfieldError()"
             landmarkType = "7">
          </BreakpointContent>
@@ -3260,8 +3260,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "266"
-            endingLineNumber = "266"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
             landmarkName = "handleGuestAmountTextfieldError()"
             landmarkType = "7">
          </BreakpointContent>
@@ -3276,9 +3276,9 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/Interactor/AddModifyOneGuestInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
-            landmarkName = "updateGuestImage()"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "addNewGuest(event:guest:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3340,8 +3340,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/View/AddModifyGuestViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
             landmarkName = "setGuestDataToView()"
             landmarkType = "7">
             <Locations>
@@ -3388,8 +3388,8 @@
             filePath = "Guest list synch with desktop/Modules/OneGuestModule/Presenter/OneGuestPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "updateGuestData(completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3404,8 +3404,8 @@
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
             landmarkName = "readSpreadsheetsData(range:eventID:oneGuestRow:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3468,8 +3468,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyEventModule/Presenter/AddModifyEventPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "popThisModule()"
             landmarkType = "7">
          </BreakpointContent>
@@ -3484,8 +3484,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyEventModule/Presenter/AddModifyEventPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "addNewEvent(eventName:eventVenue:eventDate:eventTime:eventClient:isOnline:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3564,9 +3564,9 @@
             filePath = "Guest list synch with desktop/Application/Router.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "showGuestslistModule(eventEntity:)"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "showProfileModule()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -3612,8 +3612,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyEventModule/Presenter/AddModifyEventPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
             landmarkName = "deleteEvent(completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3836,8 +3836,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyEventModule/Interactor/AddModifyEventInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
             landmarkName = "addNewEvent(eventName:eventVenue:eventDate:eventTime:eventClient:isOnline:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3852,8 +3852,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyEventModule/Interactor/AddModifyEventInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
             landmarkName = "addNewOfflineEvent(eventName:eventVenue:eventDate:eventTime:eventClient:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3868,8 +3868,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyEventModule/Interactor/AddModifyEventInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "addNewOfflineEvent(eventName:eventVenue:eventDate:eventTime:eventClient:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3884,8 +3884,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyEventModule/Interactor/AddModifyEventInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "addNewOfflineEvent(eventName:eventVenue:eventDate:eventTime:eventClient:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3900,8 +3900,8 @@
             filePath = "Guest list synch with desktop/Application/Entities/EventEntity/EventEntity.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "createDemoOfflineEvent(userUID:userName:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3916,8 +3916,8 @@
             filePath = "Guest list synch with desktop/Application/Entities/EventEntity/EventEntity.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
             landmarkName = "createEmptyOfflineEvent(eventName:eventClient:eventVenue:eventDate:eventTime:userUID:userName:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3932,8 +3932,8 @@
             filePath = "Guest list synch with desktop/Application/Entities/GuestEntity/GuestEntity.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
             landmarkName = "createGuestsArrayForDemoEvent()"
             landmarkType = "7">
          </BreakpointContent>
@@ -3948,9 +3948,9 @@
             filePath = "Guest list synch with desktop/Modules/EventsListModule/Interactor/EventsListInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
-            landmarkName = "readOnlineEvents(completionHandler:)"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "readAllTheEvents(completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3964,8 +3964,8 @@
             filePath = "Guest list synch with desktop/Application/Entities/EventEntity/EventEntity.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
             landmarkName = "createEventsArrayFrom(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3980,8 +3980,8 @@
             filePath = "Guest list synch with desktop/Application/Entities/GuestEntity/GuestEntity.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
             landmarkName = "createGuestsDictFrom(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3996,8 +3996,8 @@
             filePath = "Guest list synch with desktop/Application/Entities/EventEntity/EventEntity.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
             landmarkName = "createOneOfflineEventFrom(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4012,8 +4012,8 @@
             filePath = "Guest list synch with desktop/Application/Entities/GuestEntity/GuestEntity.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
             landmarkName = "createOneGuestFrom(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4028,8 +4028,8 @@
             filePath = "Guest list synch with desktop/Modules/GuestsListModule/Interactor/GuestlistInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
             landmarkName = "readEventGuests(event:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4044,8 +4044,8 @@
             filePath = "Guest list synch with desktop/Modules/GuestsListModule/Interactor/GuestlistInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
             landmarkName = "readOfflineEvent(event:completion:)"
             landmarkType = "7">
             <Locations>
@@ -4092,8 +4092,8 @@
             filePath = "Guest list synch with desktop/Services/GoogleSpreadsheets layer/GoogleSpreadsheetsService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "readSpreadsheetsData(range:eventID:oneGuestRow:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4108,8 +4108,8 @@
             filePath = "Guest list synch with desktop/Modules/EventsListModule/Interactor/EventsListInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
             landmarkName = "readAllTheEvents(completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4124,8 +4124,8 @@
             filePath = "Guest list synch with desktop/Modules/EventsListModule/Interactor/EventsListInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
             landmarkName = "readAllTheEvents(completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4140,8 +4140,8 @@
             filePath = "Guest list synch with desktop/Modules/EventsListModule/Interactor/EventsListInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
             landmarkName = "readOnlineEvents(completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4156,8 +4156,8 @@
             filePath = "Guest list synch with desktop/Modules/EventsListModule/Interactor/EventsListInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
             landmarkName = "readOnlineEvents(completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4172,8 +4172,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyEventModule/Interactor/AddModifyEventInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "addNewOnlineEvent(eventName:eventVenue:eventDate:eventTime:eventClient:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4204,8 +4204,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyEventModule/Interactor/AddModifyEventInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
             landmarkName = "deleteOfflineEvent(eventID:completion:)"
             landmarkType = "7">
             <Locations>
@@ -4252,8 +4252,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyEventModule/Interactor/AddModifyEventInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
             landmarkName = "deleteOfflineEvent(eventID:completion:)"
             landmarkType = "7">
             <Locations>
@@ -4300,8 +4300,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyEventModule/Interactor/AddModifyEventInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
             landmarkName = "deleteEvent(eventEntity:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4316,8 +4316,8 @@
             filePath = "Guest list synch with desktop/Application/Entities/EventEntity/EventEntity.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
             landmarkName = "createOneOfflineEventFrom(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4332,8 +4332,8 @@
             filePath = "Guest list synch with desktop/Modules/AuthModule/View/FirebaseRegistrationModalView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "449"
-            endingLineNumber = "449"
+            startingLineNumber = "443"
+            endingLineNumber = "443"
             landmarkName = "pickerView(_:didSelectRow:inComponent:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4348,8 +4348,8 @@
             filePath = "Guest list synch with desktop/Modules/AuthModule/View/FirebaseRegistrationModalView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "383"
-            endingLineNumber = "383"
+            startingLineNumber = "377"
+            endingLineNumber = "377"
             landmarkName = "continueToRegistration()"
             landmarkType = "7">
             <Locations>
@@ -4396,8 +4396,8 @@
             filePath = "Guest list synch with desktop/Modules/AuthModule/View/FirebaseRegistrationModalView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "385"
-            endingLineNumber = "385"
+            startingLineNumber = "379"
+            endingLineNumber = "379"
             landmarkName = "continueToRegistration()"
             landmarkType = "7">
          </BreakpointContent>
@@ -4412,10 +4412,10 @@
             filePath = "Guest list synch with desktop/Modules/AuthModule/Presenter/AuthPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "AuthPresenter"
-            landmarkType = "3">
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "tryToLoginWithGoogle(viewController:completion:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -4428,8 +4428,8 @@
             filePath = "Guest list synch with desktop/Services/Database layer/FirebaseDatabaseService(login&amp;registration).swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
             landmarkName = "saveNewFirebaseUserToTheDatabase(registeringUser:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4524,8 +4524,8 @@
             filePath = "Guest list synch with desktop/Services/Database layer/FirebaseDatabaseService(login&amp;registration).swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "saveNewFirebaseUserToTheDatabase(registeringUser:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4540,8 +4540,8 @@
             filePath = "Guest list synch with desktop/Modules/AuthModule/View/PasswordModalView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "tryToLoginWithFirebase()"
             landmarkType = "7">
          </BreakpointContent>
@@ -4556,8 +4556,8 @@
             filePath = "Guest list synch with desktop/Modules/EventsListModule/Interactor/EventsListInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "readAllTheEvents(completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4572,8 +4572,8 @@
             filePath = "Guest list synch with desktop/Modules/EventsListModule/Interactor/EventsListInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
             landmarkName = "readAllTheEvents(completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4588,8 +4588,8 @@
             filePath = "Guest list synch with desktop/Modules/EventsListModule/Interactor/EventsListInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
             landmarkName = "readAllTheEvents(completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4604,8 +4604,8 @@
             filePath = "Guest list synch with desktop/Modules/EventsListModule/Interactor/EventsListInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "readAllTheEvents(completionHandler:)"
             landmarkType = "7">
             <Locations>
@@ -4652,8 +4652,8 @@
             filePath = "Guest list synch with desktop/Services/Database layer/FirebaseDatabaseService(login&amp;registration).swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "saveNewFirebaseUserToTheDatabase(registeringUser:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4668,8 +4668,8 @@
             filePath = "Guest list synch with desktop/Services/Database layer/FirebaseDatabaseService(login&amp;registration).swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "downloadUserDataToTheApp(userUID:completion:)"
             landmarkType = "7">
             <Locations>
@@ -4716,8 +4716,8 @@
             filePath = "Guest list synch with desktop/Services/Database layer/FirebaseDatabaseService(login&amp;registration).swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
             landmarkName = "downloadUserDataToTheApp(userUID:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4732,8 +4732,8 @@
             filePath = "Guest list synch with desktop/Services/Database layer/FirebaseDatabaseService(login&amp;registration).swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
             landmarkName = "downloadUserDataToTheApp(userUID:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4748,8 +4748,8 @@
             filePath = "Guest list synch with desktop/Services/Database layer/FirebaseDatabaseService(login&amp;registration).swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
             landmarkName = "downloadUserDataToTheApp(userUID:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4812,8 +4812,8 @@
             filePath = "Guest list synch with desktop/Modules/GuestsListModule/Presenter/GuestlistPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
             landmarkName = "showOneGuest(guest:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4860,8 +4860,8 @@
             filePath = "Guest list synch with desktop/Modules/OneGuestModule/Presenter/OneGuestPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "init(view:interactor:router:guest:event:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5004,8 +5004,8 @@
             filePath = "Guest list synch with desktop/Modules/OneGuestModule/Interactor/OneGuestInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
             landmarkName = "updateOfflineGuestData(eventID:guestID:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5020,8 +5020,8 @@
             filePath = "Guest list synch with desktop/Modules/OneGuestModule/Interactor/OneGuestInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "updateGuestData(event:guest:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5036,8 +5036,8 @@
             filePath = "Guest list synch with desktop/Modules/AddModifyOneGuestModule/Interactor/AddModifyOneGuestInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
             landmarkName = "addNewGuestToOfflineEvent(eventID:guest:completion:)"
             landmarkType = "7">
          </BreakpointContent>

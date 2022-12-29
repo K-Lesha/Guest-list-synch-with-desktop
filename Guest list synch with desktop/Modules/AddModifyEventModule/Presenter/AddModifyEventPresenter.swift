@@ -8,10 +8,7 @@
 import Foundation
 
 protocol AddModifyEventPresenterProtocol {
-    // VIPER protocol
-    var view: AddModifyEventViewProtocol! {get set}
-    var interactor: AddModifyEventInteractorProtocol! {get set}
-    var router: RouterProtocol! {get set}
+    
     init(view: AddModifyEventViewProtocol,
          interactor: AddModifyEventInteractorProtocol,
          router: RouterProtocol,
@@ -32,6 +29,7 @@ protocol AddModifyEventPresenterProtocol {
     func modifyEvent(completion: @escaping (String) -> ())
     func deleteEvent(completion: @escaping (String) -> ())
     //Navigation
+    func showEventlistModule() 
     func popThisModule()
 }
 
@@ -42,9 +40,9 @@ enum AddModifyEventPresenterState {
 
 class AddModifyEventPresenter: AddModifyEventPresenterProtocol {
     //MARK: -VIPER PROTOCOL
-    weak var view: AddModifyEventViewProtocol!
-    var interactor: AddModifyEventInteractorProtocol!
-    var router: RouterProtocol!
+    weak  private var view: AddModifyEventViewProtocol!
+    private var interactor: AddModifyEventInteractorProtocol!
+    private var router: RouterProtocol!
     //MARK: -INIT
     required init(view: AddModifyEventViewProtocol,
                   interactor: AddModifyEventInteractorProtocol,
@@ -58,9 +56,9 @@ class AddModifyEventPresenter: AddModifyEventPresenterProtocol {
         self.state = state
     }
     //MARK: -PROPERTIES
-    var eventEntity: EventEntity?
-    var state: AddModifyEventPresenterState
-    var newEventData: EventEntity?
+    internal var eventEntity: EventEntity?
+    internal var state: AddModifyEventPresenterState
+    internal var newEventData: EventEntity?
     
     //MARK: METHODS
     func addNewEvent(eventName: String,
@@ -100,5 +98,8 @@ class AddModifyEventPresenter: AddModifyEventPresenterProtocol {
     //MARK: Navigation
     func popThisModule() {
         router.popOneController()
+    }
+    func showEventlistModule() {
+        self.router.showEventsListModule()
     }
 }

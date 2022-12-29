@@ -9,10 +9,6 @@ import Foundation
 
 //MARK: Protocol
 protocol GuestlistPresenterProtocol: AnyObject {
-    // VIPER protocol
-    var guestlistView: GuestlistViewProtocol! {get set}
-    var interactor: GuestlistInteractorProtocol! {get set}
-    var router: RouterProtocol! {get set}
     init(guestlistView: GuestlistViewProtocol, interactor: GuestlistInteractorProtocol, router: RouterProtocol, eventEntity: EventEntity)
     // Properties
     var eventEntity: EventEntity! {get set}
@@ -31,10 +27,10 @@ protocol GuestlistPresenterProtocol: AnyObject {
 //MARK: Presenter
 class GuestlistPresenter: GuestlistPresenterProtocol {
     
-    //MARK: VIPER protocol
-    internal weak var guestlistView: GuestlistViewProtocol!
-    internal var router: RouterProtocol!
-    internal var interactor: GuestlistInteractorProtocol!
+    //MARK: Properties
+    private weak var guestlistView: GuestlistViewProtocol!
+    private var router: RouterProtocol!
+    private var interactor: GuestlistInteractorProtocol!
     
     //MARK: -INIT
     required init(guestlistView: GuestlistViewProtocol, interactor: GuestlistInteractorProtocol, router: RouterProtocol, eventEntity: EventEntity) {
@@ -43,7 +39,7 @@ class GuestlistPresenter: GuestlistPresenterProtocol {
         self.router = router
         self.eventEntity = eventEntity
     }
-    //MARK: Properties
+    //MARK: Data
     var eventEntity: EventEntity!
     var guestlist: [GuestEntity] = [GuestEntity]() {
         didSet {

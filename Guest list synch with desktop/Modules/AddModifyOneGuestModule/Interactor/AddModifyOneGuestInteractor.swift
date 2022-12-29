@@ -8,10 +8,6 @@
 import Foundation
 
 protocol AddModifyGuestInteractorProtocol {
-    //VIPER protocol
-    var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol {get set}
-    var networkService: NetworkServiceProtocol! {get set}
-    var database: FirebaseDatabaseProtocol! {get set}
     //init
     init(networkService: NetworkServiceProtocol, database: FirebaseDatabaseProtocol)
     //Spreadsheet methods
@@ -32,9 +28,9 @@ enum AddModifyOneGuestInteractorError: Error {
 class AddModifyGuestInteractor: AddModifyGuestInteractorProtocol {
     
     //MARK: -VIPER protocol
-    internal var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
-    internal var networkService: NetworkServiceProtocol!
-    internal var database: FirebaseDatabaseProtocol!
+    private var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
+    private var networkService: NetworkServiceProtocol!
+    private var database: FirebaseDatabaseProtocol!
     
     //MARK: INIT
     required init(networkService: NetworkServiceProtocol, database: FirebaseDatabaseProtocol) {

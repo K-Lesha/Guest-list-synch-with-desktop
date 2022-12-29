@@ -17,7 +17,9 @@ struct RegisteringUser {
     var userTypeRawValue: Int?
     var agency: String?
     var password: String?
-    
+}
+
+extension RegisteringUser { 
     static func createEmptyRegisteringUser() -> RegisteringUser {
         return RegisteringUser(uid: "", name: "", email: "", signInProvider: "", isNew: true, surname: nil, userTypeRawValue: nil, agency: nil, password: nil)
     }

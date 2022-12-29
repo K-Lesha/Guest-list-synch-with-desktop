@@ -10,12 +10,7 @@ import BottomSheet
 
 protocol PasswordViewProtocol: AnyObject {
     //VIPER protocol
-    var presenter: AuthPresenterProtocol! {get set}
     init(initialHeight: CGFloat, presenter: AuthPresenterProtocol, superView: SignInViewProtocol)
-    // View properties
-    var currentViewHeight: CGFloat! {get set}
-    var keyboardHeight: CGFloat! {get set}
-    var superView: SignInViewProtocol! {get set}
     //Methods
     func dismissPasswordAndSignInViews()
 }
@@ -23,10 +18,10 @@ protocol PasswordViewProtocol: AnyObject {
 
 class PasswordModalViewController: UIViewController, PasswordViewProtocol {
     //MARK: -VIPER protocol
-    weak internal var presenter: AuthPresenterProtocol!
+    weak private var presenter: AuthPresenterProtocol!
     //MARK: -View properties
-    var currentViewHeight: CGFloat!
-    var keyboardHeight: CGFloat!
+    private var currentViewHeight: CGFloat!
+    private var keyboardHeight: CGFloat!
     weak var superView: SignInViewProtocol!
     //MARK: -INIT
     required init(initialHeight: CGFloat, presenter: AuthPresenterProtocol, superView: SignInViewProtocol) {

@@ -8,9 +8,7 @@
 import Foundation
 
 protocol ProfileInteractorProtocol {
-    //VIPER protocol
-    var firebaseDatabase: FirebaseDatabaseProtocol! {get set}
-    var firebaseService: FirebaseServiceProtocol! {get set}
+    //Init
     init (firebaseService: FirebaseServiceProtocol, firebaseDatabase: FirebaseDatabaseProtocol)
     //Spreadsheet methods
     func logOut()
@@ -19,15 +17,15 @@ protocol ProfileInteractorProtocol {
 }
 
 class ProfileInteractor: ProfileInteractorProtocol {
-    
-    var firebaseDatabase: FirebaseDatabaseProtocol!
-    var firebaseService: FirebaseServiceProtocol!
-    
+    //MARK: Properties
+    private var firebaseDatabase: FirebaseDatabaseProtocol!
+    private var firebaseService: FirebaseServiceProtocol!
+    //MARK: INIT
     required init(firebaseService: FirebaseServiceProtocol, firebaseDatabase: FirebaseDatabaseProtocol) {
         self.firebaseService = firebaseService
         self.firebaseDatabase = firebaseDatabase
     }
-    
+    //MARK: Methods
     func logOut() {
         firebaseService.signOut() {_ in
             

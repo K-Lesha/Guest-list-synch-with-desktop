@@ -8,9 +8,6 @@
 import Foundation
 
 protocol GuestlistInteractorProtocol {
-    //VIPER protocol
-    var firebaseService: FirebaseServiceProtocol! {get set}
-    var database: FirebaseDatabaseProtocol! {get set}
     //init
     init(firebaseService: FirebaseServiceProtocol, database: FirebaseDatabaseProtocol)
     //Spreadsheet methods
@@ -30,8 +27,8 @@ class GuestListInteractor: GuestlistInteractorProtocol {
 
     //MARK: -VIPER protocol
     private var spreadsheetsServise: GoogleSpreadsheetsServiceProtocol = GoogleSpreadsheetsService()
-    internal var firebaseService: FirebaseServiceProtocol!
-    internal var database: FirebaseDatabaseProtocol!
+    private var firebaseService: FirebaseServiceProtocol!
+    private var database: FirebaseDatabaseProtocol!
     
     //MARK: INIT
     required init(firebaseService: FirebaseServiceProtocol, database: FirebaseDatabaseProtocol) {

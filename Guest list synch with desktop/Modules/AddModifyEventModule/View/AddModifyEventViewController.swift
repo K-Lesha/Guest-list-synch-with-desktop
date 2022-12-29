@@ -76,7 +76,7 @@ class AddModifyEventViewController: UIViewController, AddModifyEventViewProtocol
     @IBAction func deleteEventButtonPushed(_ sender: Any) {
         presenter.deleteEvent { string in
             print(string)
-            self.presenter.router.showEventsListModule()
+            self.presenter.showEventlistModule()
         }
     }
     
