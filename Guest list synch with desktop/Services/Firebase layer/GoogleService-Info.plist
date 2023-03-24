@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>156310070100-rhl014gn4n9pl68781218h532iv4ead9.apps.googleusercontent.com</string>
+	<string>CONFIDENTIAL</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.156310070100-rhl014gn4n9pl68781218h532iv4ead9</string>
+	<string>CONFIDENTIAL</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDmUVpnjFI_cKazeKORNk37o-MV_prH970</string>
+	<string>CONFIDENTIAL</string>
 	<key>GCM_SENDER_ID</key>
-	<string>156310070100</string>
+	<string>CONFIDENTIAL</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>lesha.Guest-list-synch-with-desktop</string>
+	<string>CONFIDENTIAL</string>
 	<key>PROJECT_ID</key>
-	<string>guest-list-295cc</string>
+	<string>CONFIDENTIAL</string>
 	<key>STORAGE_BUCKET</key>
-	<string>guest-list-295cc.appspot.com</string>
+	<string>CONFIDENTIAL</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:156310070100:ios:58cbdad17b322f50e39ec1</string>
+	<string>CONFIDENTIAL</string>
 </dict>
 </plist>
