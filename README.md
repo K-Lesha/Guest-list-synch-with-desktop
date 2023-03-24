@@ -1,5 +1,4 @@
 
-Hi Rene
 This is my pet-project. I've sent it to you to demonstrate a bit more of my skills. 
 This is an app for event managers. With this app they could read and write guestlist synchronized with Google Spreadsheets. 
 I shared it via Google Drive, because I'll publish it on the App Store. Don't want to spread it around github.
