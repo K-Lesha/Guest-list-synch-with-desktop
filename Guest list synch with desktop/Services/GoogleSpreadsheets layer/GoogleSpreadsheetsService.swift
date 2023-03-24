@@ -32,8 +32,8 @@ enum SheetsRange: String {
 }
 //MARK: -DefaultSheetsIds
 enum DefaultSheetsIds: String {
-    case demoEvent = "1OlZ7J45qI3zE9ViWcpgc5ZCmhPWdpgh8rlABjTy3dWk"
-    case emptyEvent = "1RRZ6QRAguHYu1rmOwcdAKJUZbWi14RASlUv1_Rbd42I"
+    case demoEvent = "CONFIDENTIAL"
+    case emptyEvent = "CONFIDENTIAL"
 }
 
 //MARK: -SheetsError
@@ -45,7 +45,7 @@ enum SheetsError: Error {
 class GoogleSpreadsheetsService: GoogleSpreadsheetsServiceProtocol {
     //Service properties & data
     private let sheetService = GTLRSheetsService()
-    let apiKey = "AIzaSyDmUVpnjFI_cKazeKORNk37o-MV_prH970"
+    let apiKey = "CONFIDENTIAL"
     static let grantedScopes = "https://www.googleapis.com/auth/spreadsheets"
     static let additionalScopes = ["https://www.googleapis.com/auth/spreadsheets",
                                    "https://www.googleapis.com/auth/drive.file"]
