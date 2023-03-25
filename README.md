@@ -6,5 +6,3 @@ From a developer's perspective, the app allows for reading and writing data in a
 Although there is still much to be done, I hope that this project demonstrates my coding and programming skills.
 
 Check out the link for the app workflow: https://drive.google.com/file/d/1f1poI1l-DoeXgTcCXSelrSQcTI1GyUaM/view?usp=share_lin. Thank you for reading.
-
-
